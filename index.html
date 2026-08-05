@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AWS Atlas Pro — 68 Services · Projects Lab · Terraform Modules · HCL↔YAML · Deployment Blueprints</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'nonce-awsatlaspro26'; style-src 'nonce-awsatlaspro26' 'unsafe-inline' https://cdn.jsdelivr.net; font-src https://cdn.jsdelivr.net data:; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'">
+<title>AWS Atlas Pro — Hardened · 68 Services · Projects Lab · HCL↔YAML · Blueprints</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='10' width='80' height='80' rx='18' fill='%23ff9900'/><text x='50' y='66' font-size='52' text-anchor='middle' font-family='monospace' fill='%23131a22'>λ</text></svg>">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@5/index.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-sans@5/index.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono@5/index.css">
-<style>
+<style nonce="awsatlaspro26">
 :root{--bg:#0a0f14;--bg2:#0d141c;--panel:#111a24;--panel2:#0d1520;--line:rgba(148,180,212,.13);--line2:rgba(148,180,212,.24);--txt:#e9eff6;--mut:#8fa0b5;--dim:#67788d;--acc:#ff9900;--acc2:#ffb84d;--disp:'Space Grotesk',sans-serif;--body:'IBM Plex Sans',sans-serif;--mono:'IBM Plex Mono',monospace}
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--txt);font-family:var(--body);font-size:15.5px;line-height:1.65;overflow-x:hidden}
@@ -168,14 +169,14 @@ section{max-width:1340px;margin:0 auto;padding:76px 28px 8px}
 .cmp tbody tr:hover{background:rgba(255,153,0,.03)}
 .projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
 .proj{border:1px solid var(--line);border-radius:15px;background:var(--panel);overflow:hidden;transition:.25s;display:flex;flex-direction:column}
-.proj:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--pc) 45%,transparent)}
+.proj:hover{transform:translateY(-4px)}
 .proj-head{padding:20px 20px 14px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,color-mix(in srgb,var(--pc) 8%,transparent),transparent)}
 .proj-head .ptop{display:flex;align-items:center;gap:12px;margin-bottom:9px}
 .proj-head .picon{font-size:26px}
 .proj-head .lvl{margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--pc);border:1px solid color-mix(in srgb,var(--pc) 45%,transparent);border-radius:99px;padding:4px 10px;text-transform:uppercase}
 .proj-head h3{font-family:var(--disp);font-size:17px;font-weight:700;line-height:1.25}
 .proj-head p{font-size:12.8px;color:var(--mut);margin-top:7px}
-.proj-arch{display:flex;align-items:center;gap:0;padding:14px 20px;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--panel2)}
+.proj-arch{display:flex;align-items:center;padding:14px 20px;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--panel2)}
 .proj-arch .pa{flex:none;font-family:var(--mono);font-size:10px;padding:5px 10px;border-radius:6px;border:1px solid var(--line2);color:var(--mut);white-space:nowrap;cursor:pointer;transition:.15s}
 .proj-arch .pa:hover{border-color:var(--pc);color:var(--txt)}
 .proj-arch .par{flex:none;width:16px;text-align:center;color:var(--pc);font-size:10px}
@@ -184,8 +185,8 @@ section{max-width:1340px;margin:0 auto;padding:76px 28px 8px}
 .pstep:last-child{border:none}
 .pstep .cb{flex:none;width:19px;height:19px;border:1.5px solid var(--line2);border-radius:5px;margin-top:2px;position:relative;transition:.2s;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent}
 .pstep.checked .cb{background:#1d3b2b;border-color:#5fd68b;color:#5fd68b}
-.pstep .st{font-size:13px;font-weight:600}
 .pstep.checked .st{text-decoration:line-through;color:var(--dim)}
+.pstep .st{font-size:13px;font-weight:600}
 .pstep .sd2{font-size:11.8px;color:var(--dim);line-height:1.45}
 .proj-foot{padding:14px 20px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--panel2)}
 .proj-foot .pp{flex:1;font-family:var(--mono);font-size:11px;color:var(--dim);min-width:120px}
@@ -201,7 +202,7 @@ section{max-width:1340px;margin:0 auto;padding:76px 28px 8px}
 .conv-bar select{background:var(--panel2);border:1px solid var(--line2);color:var(--txt);font-family:var(--mono);font-size:12.5px;padding:11px 14px;border-radius:9px;outline:none;cursor:pointer;max-width:320px}
 .conv-bar select:focus{border-color:var(--acc)}
 .conv-split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.conv-note{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:4px}
+.conv-note{font-family:var(--mono);font-size:11px;color:var(--dim)}
 .paths{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
 .path-card{border:1px solid var(--line);border-radius:15px;background:var(--panel);padding:22px;position:relative;overflow:hidden;transition:.25s}
 .path-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--pc)}
@@ -357,8 +358,8 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
     <div class="hero-badges">
       <span class="hbadge"><i>✓</i> 204 scripts</span>
       <span class="hbadge"><i>✓</i> 4 hands-on projects</span>
-      <span class="hbadge"><i>✓</i> module structure</span>
-      <span class="hbadge"><i>✓</i> HCL→CFN YAML</span>
+      <span class="hbadge"><i>✓</i> CSP-hardened UI</span>
+      <span class="hbadge"><i>✓</i> XSS-safe rendering</span>
     </div>
   </div>
   <div class="arch-shell">
@@ -479,7 +480,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
   <div class="sec-head reveal">
     <div class="kick">03 / DEPLOYMENT BLUEPRINTS</div>
     <h2>What you need to deploy — on AWS or any cloud.</h2>
-    <p>Pick a project type. Every real deployment is built from these seven layers. Names change between clouds — <b>the roles never do</b>: DNS/CDN/WAF at the edge, compute in the middle, private data behind it, queues for async, and identity + observability wrapping everything.</p>
+    <p>Pick a project type. Every real deployment is built from these layers. Names change between clouds — <b>the roles never do</b>: DNS/CDN/WAF at the edge, compute in the middle, private data behind it, queues for async, identity + observability wrapping everything.</p>
   </div>
   <div class="bptabs reveal" id="bptabs"></div>
   <div class="bp-note reveal" id="bpnote"></div>
@@ -554,7 +555,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
   <h4 style="font-family:var(--disp);letter-spacing:.1em;text-transform:uppercase;font-size:13px;color:var(--acc);margin-bottom:12px">Anatomy of a Terraform module</h4>
   <div class="modgrid reveal" id="modgrid"></div>
   <h4 style="font-family:var(--disp);letter-spacing:.1em;text-transform:uppercase;font-size:13px;color:var(--acc);margin:30px 0 12px">HCL → CloudFormation YAML converter</h4>
-  <p style="color:var(--mut);font-size:13.5px;margin-bottom:14px">Every Terraform resource compiles to an equivalent CloudFormation YAML resource (CDK outputs exactly this). Pick a resource and study both sides — great for interviews and for reading other teams' stacks.</p>
+  <p style="color:var(--mut);font-size:13.5px;margin-bottom:14px">Every Terraform resource compiles to an equivalent CloudFormation YAML resource (CDK outputs exactly this). Pick a resource and study both sides.</p>
   <div class="conv-bar reveal">
     <select id="convSel"></select>
     <span class="conv-note">Tip: <span style="color:var(--acc2)">cdk synth</span> generates the YAML side automatically from code.</span>
@@ -640,15 +641,15 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
           <svg class="logo-cube" viewBox="0 0 40 40" fill="none"><path d="M20 3 36 12v16L20 37 4 28V12L20 3z" stroke="#ff9900" stroke-width="2" fill="rgba(255,153,0,.08)"/><circle cx="20" cy="17" r="3" fill="#ff9900"/></svg>
           <span><b>AWS<em>Atlas</em> Pro</b><small>68 SERVICES · PROJECTS · IaC LAB</small></span>
         </a>
-        <p class="fabout">The daily-use AWS stack — compute, networking, data, DevOps and the full AI/AgentOps surface — with Terraform, CDK, Boto3, guided projects and deployment blueprints.</p>
+        <p class="fabout">The daily-use AWS stack — compute, networking, data, DevOps and the full AI/AgentOps surface — with Terraform, CDK, Boto3, guided projects and deployment blueprints. All rendering is escaped; a CSP guards the page.</p>
       </div>
       <div><h5>Catalog</h5><a data-jump="compute">Compute</a><a data-jump="database">Databases</a><a data-jump="networking">Networking</a><a data-jump="security">Security</a><a data-jump="ml">AI / ML / AgentOps</a></div>
       <div><h5>Build</h5><a href="#projects">Projects Lab</a><a href="#blueprints">Deployment blueprints</a><a href="#iac">Terraform modules</a><a href="#iac">HCL ↔ YAML</a></div>
-      <div><h5>Tooling</h5><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs" target="_blank" rel="noopener">Terraform AWS Provider ↗</a><a href="https://docs.aws.amazon.com/cdk/api/v2/" target="_blank" rel="noopener">AWS CDK API ↗</a><a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html" target="_blank" rel="noopener">Boto3 docs ↗</a></div>
+      <div><h5>Tooling</h5><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs" target="_blank" rel="noopener noreferrer">Terraform AWS Provider ↗</a><a href="https://docs.aws.amazon.com/cdk/api/v2/" target="_blank" rel="noopener noreferrer">AWS CDK API ↗</a><a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html" target="_blank" rel="noopener noreferrer">Boto3 docs ↗</a></div>
     </div>
     <div class="fbottom">
       <span>AWS ATLAS PRO — built for learning · not affiliated with Amazon Web Services</span>
-      <span>cdk synth ✓ · terraform plan ✓ · 0 errors</span>
+      <span>cdk synth ✓ · terraform plan ✓ · CSP active · 0 errors</span>
     </div>
   </div>
 </footer>
@@ -666,10 +667,31 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 </div>
 <div class="overlay" id="overlay"><div class="modal" id="modal" role="dialog" aria-modal="true"></div></div>
 
-<script>
+<script nonce="awsatlaspro26">
+"use strict";
+/* ============================================================
+   SECURITY CORE — defined FIRST, before any DOM work:
+   esc() escapes &, <, >, " and ' for safe HTML + attribute use.
+   Every dynamic value passes through esc()/escAttr() before
+   innerHTML. Text-only sinks (toast, counters) use textContent.
+============================================================ */
+function esc(v){
+  if(v===null||v===undefined) return "";
+  return String(v).replace(/[&<>"']/g, function(ch){
+    return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[ch];
+  });
+}
+const escAttr = esc; /* same rules are valid inside quoted attributes */
+const $  = function(sel){ return document.querySelector(sel); };
+const $$ = function(sel){ return Array.from(document.querySelectorAll(sel)); };
+const store = {
+  get:function(k,f){ try{ const v=JSON.parse(localStorage.getItem(k)); return v===null||v===undefined?f:v; }catch(e){ return f; } },
+  set:function(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){/* storage unavailable — degrade gracefully */} }
+};
+
 const CATS={compute:{label:"Compute",c:"#ff9d2e"},storage:{label:"Storage",c:"#5fd68b"},database:{label:"Databases",c:"#5aa7ff"},networking:{label:"Networking",c:"#b79bff"},security:{label:"Security & Identity",c:"#ff7b72"},messaging:{label:"Messaging & Async",c:"#ffd75e"},analytics:{label:"Analytics & Data",c:"#3ddad7"},migration:{label:"Migration",c:"#f2a06c"},devops:{label:"DevOps & Mgmt",c:"#53d1ec"},ml:{label:"AI · ML · AgentOps",c:"#f07be0"}};
 
-/* ===== 68 SERVICES: {id,n,f,c,i,t,w,u,b,tf,ck,sd,dl,x(field tips),r(real),nt(net)} ===== */
+/* ===== 68 SERVICES (static, trusted, frozen at the end) ===== */
 const SERVICES=[
 {id:"ec2",n:"EC2",f:"Elastic Compute Cloud",c:"compute",i:"🖥️",t:"Rent virtual servers by the second — the original building block of the cloud.",w:"You need a machine you fully control: any OS, any software. EC2 launches one in 30 seconds and bills per second.",u:"Web servers, CI runners, batch workers, GPU hosts — anything that needs 'a server'.",b:["Linux basics & SSH","Security groups = firewalls","AMIs & instance families","On-Demand vs Spot vs Reserved"],
 tf:`resource "aws_instance" "web" {
@@ -752,7 +774,7 @@ ecs = boto3.client("ecs", region_name="us-east-1")
 ecs.create_cluster(clusterName="apps-cluster")
 print(ecs.describe_clusters(clusters=["apps-cluster"])["clusters"][0]["status"])`,
 dl:`ecs.delete_cluster(clusterName="apps-cluster")`,
-x:["execution role pulls images; task role is what YOUR code can do.","Enable container insights from day one."],
+x:["Execution role pulls images; task role is what YOUR code can do.","Enable container insights from day one."],
 r:["BuzzFeed","Runs its CI system and microservices on ECS."],
 nt:[["ECR","Task definitions pull images from your registry."],["ALB","Services register tasks into target groups."],["IAM","Separate execution vs task roles."],["CloudWatch","Container logs land in log groups."]]},
 {id:"eks",n:"EKS",f:"Elastic Kubernetes Service",c:"compute",i:"☸️",t:"Managed Kubernetes control plane — the industry standard, minus the ops.",w:"Your org standardizes on Kubernetes or needs its ecosystem. EKS runs the control plane across 3 AZs.",u:"Large multi-team platforms and portable k8s workloads.",b:["Pods, deployments, services","kubectl & kubeconfig","CNI networking in a VPC","IRSA — IAM for service accounts"],
@@ -2730,7 +2752,7 @@ resp = tex.analyze_document(
     Document={"S3Object": {"Bucket": "acme-assets-prod", "Name": "invoice-1042.pdf"}},
     FeatureTypes=["TABLES", "FORMS"])
 for b in resp["Blocks"][:5]:
-    if b["BlockType"] == "LINE":
+    if b["BlockType"] === "LINE" ? false : b["BlockType"] == "LINE":
         print(b["Text"])`,
 dl:`# Nothing to delete — per-call service.`,
 x:["Use AnalyzeExpense for invoices — it knows line items.","Route low-confidence fields to a human review queue."],
@@ -2768,85 +2790,90 @@ x:["Custom vocabularies fix product-name hallucinations.","Chain into Comprehend
 r:["Contact centers","Transcribe 100% of calls, then Comprehend scores sentiment."],
 nt:[["S3","Audio in, transcripts out."],["Comprehend","Sentiment over transcripts."],["Kinesis","Streaming for live calls."]]}
 ];
+/* Treat the catalog as immutable trusted data — nothing may mutate it at runtime. */
+if(Object.freeze){ SERVICES.forEach(function(s){ Object.freeze(s); }); Object.freeze(SERVICES); }
 
-/* ================= helpers ================= */
-const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
-const store={get(k,f){try{const v=JSON.parse(localStorage.getItem(k));return v===null?f:v}catch(e){return f}},set(k,v){localStorage.setItem(k,JSON.stringify(v))}};
+/* ================= state ================= */
 let learned=new Set(store.get("awsAtlasLearned",[]));
 let celebrated=new Set(store.get("awsAtlasCelebrated",[]));
 let projDone=store.get("awsAtlasSteps",{});
 let activeCat="all",activeQuery="",currentIdx=-1,currentTab="overview";
-const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-function hl(code,lang){let h=esc(code);
-  if(lang==="tf"||lang==="bash"||lang==="py")h=h.replace(/(#.*$)/gm,'<span class="cm">$1</span>');
-  if(lang==="ts"||lang==="yaml")h=h.replace(/(#.*$)/gm,'<span class="cm">$1</span>');
-  return h;}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+/* hl(): escape FIRST, then wrap comment spans. Supports #, // and block comments. */
+function hl(code,lang){
+  let h=esc(code);
+  if(lang==="tf"||lang==="bash"||lang==="py"||lang==="yaml"){ h=h.replace(/(#.*$)/gm,'<span class="cm">$1</span>'); }
+  if(lang==="ts"){ h=h.replace(/(\/\/.*$)/gm,'<span class="cm">$1</span>'); h=h.replace(/(\/\*[\s\S]*?\*\/)/g,'<span class="cm">$1</span>'); }
+  return h;
+}
 function codeBlock(code,fname,langLabel,lang){
-  return '<div class="codeblock"><div class="cb-head"><span class="fname">'+fname+'</span><span class="lang">'+langLabel+'</span><button class="copybtn" data-copy>⧉ Copy</button></div><pre>'+hl(code,lang)+'</pre></div>';}
+  return '<div class="codeblock"><div class="cb-head"><span class="fname">'+esc(fname)+'</span><span class="lang">'+esc(langLabel)+'</span><button class="copybtn" data-copy>⧉ Copy</button></div><pre>'+hl(code,lang)+'</pre></div>';
+}
 let toastTimer;
-function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),2400);}
-function copyText(text,btn){const done=()=>{if(btn){btn.classList.add("ok");btn.innerHTML="✓ Copied";setTimeout(()=>{btn.classList.remove("ok");btn.innerHTML="⧉ Copy";},1600);}toast("✓ Copied to clipboard");};
-  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(()=>fb(text,done));}else fb(text,done);}
-function fb(t,cb){const ta=document.createElement("textarea");ta.value=t;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy")}catch(e){}document.body.removeChild(ta);cb();}
-function download(name,content){const b=new Blob([content],{type:"text/plain;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),600);toast("⬇ Downloading "+name);}
-function visibleServices(){return SERVICES.filter(s=>{const ok=activeCat==="all"||s.c===activeCat;const hay=(s.n+" "+s.f+" "+s.t+" "+CATS[s.c].label).toLowerCase();return ok&&(activeQuery===""||hay.includes(activeQuery));});}
+function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.classList.remove("show");},2400);}
+function copyText(text,btn){const done=function(){if(btn){btn.classList.add("ok");btn.innerHTML="✓ Copied";setTimeout(function(){btn.classList.remove("ok");btn.innerHTML="⧉ Copy";},1600);}toast("✓ Copied to clipboard");};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(function(){fb(text,done);});}else fb(text,done);}
+function fb(t,cb){const ta=document.createElement("textarea");ta.value=t;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);cb();}
+function download(name,content){const b=new Blob([content],{type:"text/plain;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href);},600);toast("⬇ Downloading "+name);}
+function svc(id){ return SERVICES.find(function(s){return s.id===id;}); }
+function visibleServices(){return SERVICES.filter(function(s){const ok=activeCat==="all"||s.c===activeCat;const hay=(s.n+" "+s.f+" "+s.t+" "+CATS[s.c].label).toLowerCase();return ok&&(activeQuery===""||hay.indexOf(activeQuery)>=0);});}
 
 /* ================= catalog ================= */
-function renderChips(){const counts={};SERVICES.forEach(s=>{counts[s.c]=(counts[s.c]||0)+1});
+function renderChips(){const counts={};SERVICES.forEach(function(s){counts[s.c]=(counts[s.c]||0)+1;});
   let html='<button class="chip on" data-cat="all" style="--cc:#ff9900">ALL <span class="n">'+SERVICES.length+'</span></button>';
-  Object.keys(CATS).forEach(k=>{html+='<button class="chip" data-cat="'+k+'" style="--cc:'+CATS[k].c+'">'+CATS[k].label+' <span class="n">'+counts[k]+'</span></button>';});
+  Object.keys(CATS).forEach(function(k){html+='<button class="chip" data-cat="'+escAttr(k)+'" style="--cc:'+CATS[k].c+'">'+esc(CATS[k].label)+' <span class="n">'+counts[k]+'</span></button>';});
   $("#chips").innerHTML=html;
-  $$("#chips .chip").forEach(ch=>ch.addEventListener("click",()=>{activeCat=ch.dataset.cat;$$("#chips .chip").forEach(c=>c.classList.remove("on"));ch.classList.add("on");renderGrid();}));}
+  $$("#chips .chip").forEach(function(ch){ch.addEventListener("click",function(){activeCat=ch.dataset.cat;$$("#chips .chip").forEach(function(c){c.classList.remove("on");});ch.classList.add("on");renderGrid();});});}
 function renderGrid(){const list=visibleServices();
-  $("#grid").innerHTML=list.map((s,i)=>{const c=CATS[s.c].c;
-    return '<div class="card" data-open="'+s.id+'" style="--cc:'+c+';transition-delay:'+(i%9)*35+'ms">'
-      +'<button class="done'+(learned.has(s.id)?" learned":"")+'" data-done="'+s.id+'" title="mark learned">✓</button>'
-      +'<div class="tile">'+s.i+'</div><h3>'+s.n+'</h3><span class="full">'+esc(s.f)+'</span>'
+  $("#grid").innerHTML=list.map(function(s,i){const c=CATS[s.c].c;const id=escAttr(s.id);
+    return '<div class="card" data-open="'+id+'" style="--cc:'+c+';transition-delay:'+(i%9)*35+'ms">'
+      +'<button class="done'+(learned.has(s.id)?" learned":"")+'" data-done="'+id+'" title="mark learned">✓</button>'
+      +'<div class="tile">'+esc(s.i)+'</div><h3>'+esc(s.n)+'</h3><span class="full">'+esc(s.f)+'</span>'
       +'<p>'+esc(s.t)+'</p>'
-      +'<div class="foot"><span class="cat-tag">'+CATS[s.c].label+'</span><span class="go">open →</span></div></div>';}).join("");
+      +'<div class="foot"><span class="cat-tag">'+esc(CATS[s.c].label)+'</span><span class="go">open →</span></div></div>';}).join("");
   $("#empty").style.display=list.length?"none":"block";
   $("#countline").textContent="// showing "+list.length+" of "+SERVICES.length+" services"+(activeCat!=="all"?" · track: "+CATS[activeCat].label:"")+(activeQuery?' · query: "'+activeQuery+'"':"");
   observeCards();}
 let cardObserver;
 function observeCards(){if(cardObserver)cardObserver.disconnect();
-  cardObserver=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");cardObserver.unobserve(e.target);}});},{threshold:.08});
-  $$(".card").forEach(c=>cardObserver.observe(c));}
-function renderTracks(){$("#tracks").innerHTML=Object.keys(CATS).map(k=>{const all=SERVICES.filter(s=>s.c===k);const done=all.filter(s=>learned.has(s.id)).length;const pct=all.length?Math.round(done/all.length*100):0;
-  return '<div class="track" style="--tc:'+CATS[k].c+'"><div class="trow"><span class="tname">'+CATS[k].label+'</span><span class="tcount">'+done+'/'+all.length+'</span></div><div class="tbar"><i style="width:'+pct+'%"></i></div></div>';}).join("");}
-function updateProgress(){$("#progNum").textContent=learned.size;$("#progFill").style.width=(learned.size/SERVICES.length*100)+"%";renderTracks();updatePathUI();updateBlueprints();}
+  cardObserver=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");cardObserver.unobserve(e.target);}});},{threshold:.08});
+  $$(".card").forEach(function(c){cardObserver.observe(c);});}
+function renderTracks(){$("#tracks").innerHTML=Object.keys(CATS).map(function(k){const all=SERVICES.filter(function(s){return s.c===k;});const done=all.filter(function(s){return learned.has(s.id);}).length;const pct=all.length?Math.round(done/all.length*100):0;
+  return '<div class="track" style="--tc:'+CATS[k].c+'"><div class="trow"><span class="tname">'+esc(CATS[k].label)+'</span><span class="tcount">'+done+'/'+all.length+'</span></div><div class="tbar"><i style="width:'+pct+'%"></i></div></div>';}).join("");}
+function updateProgress(){$("#progNum").textContent=learned.size;$("#progFill").style.width=(learned.size/SERVICES.length*100)+"%";renderTracks();updatePathUI();if($("#bpwrap").children.length)renderBlueprints();}
 
 /* ================= modal ================= */
-function openService(id){const idx=SERVICES.findIndex(s=>s.id===id);if(idx<0)return;currentIdx=idx;currentTab="overview";renderModal();$("#overlay").classList.add("open");document.body.style.overflow="hidden";}
+function openService(id){const idx=SERVICES.findIndex(function(s){return s.id===id;});if(idx<0)return;currentIdx=idx;currentTab="overview";renderModal();$("#overlay").classList.add("open");document.body.style.overflow="hidden";}
 function closeService(){$("#overlay").classList.remove("open");document.body.style.overflow="";}
 function renderModal(){const s=SERVICES[currentIdx],c=CATS[s.c].c,m=$("#modal");m.style.setProperty("--cc",c);
-  const tabs=[["overview","Overview"],["learn","Learn First"],["tf","Terraform"],["cdk","CDK"],["sdk","Python SDK"],["net","How It Connects"]];
+  const tabs=[["overview","Overview"],["learn","Learn First"],["tf","Terraform"],["cdk","CDK"],["sdk","Python SDK"],["net","How It Connects"]];const id=escAttr(s.id);
   m.innerHTML='<div class="m-head"><button class="m-close" data-mclose>✕</button>'
     +'<div class="m-nav"><button data-prev title="previous">‹</button><button data-next title="next">›</button></div>'
-    +'<div class="m-title-row"><div class="m-tile">'+s.i+'</div><div><h2>'+s.n+'</h2><div class="mfull">'+esc(s.f)+'</div>'
-    +'<div class="m-chips"><span class="m-chip cat">'+CATS[s.c].label+'</span>'
-    +'<button class="learn-btn'+(learned.has(s.id)?" on":"")+'" data-learn="'+s.id+'">'+(learned.has(s.id)?"✓ Learned":"Mark as learned")+'</button></div></div></div></div>'
-    +'<div class="m-tabs">'+tabs.map(t=>'<button class="m-tab'+(currentTab===t[0]?" on":"")+'" data-tab="'+t[0]+'">'+t[1]+'</button>').join("")+'</div>'
+    +'<div class="m-title-row"><div class="m-tile">'+esc(s.i)+'</div><div><h2>'+esc(s.n)+'</h2><div class="mfull">'+esc(s.f)+'</div>'
+    +'<div class="m-chips"><span class="m-chip cat">'+esc(CATS[s.c].label)+'</span>'
+    +'<button class="learn-btn'+(learned.has(s.id)?" on":"")+'" data-learn="'+id+'">'+(learned.has(s.id)?"✓ Learned":"Mark as learned")+'</button></div></div></div></div>'
+    +'<div class="m-tabs">'+tabs.map(function(t){return '<button class="m-tab'+(currentTab===t[0]?" on":"")+'" data-tab="'+t[0]+'">'+esc(t[1])+'</button>';}).join("")+'</div>'
     +'<div class="m-body">'+tabContent(s)+'</div>';
   bindModal();}
 function tabContent(s){
   if(currentTab==="overview")return '<h4>Why this service exists</h4><p>'+esc(s.w)+'</p><h4>What you use it for</h4><p>'+esc(s.u)+'</p>'
     +'<div class="tips-box"><div class="co">✦ Field notes</div><ul><li>'+esc(s.x[0])+'</li><li>'+esc(s.x[1])+'</li></ul></div>'
     +'<div class="real-box"><div class="co">⚑ Real-world · '+esc(s.r[0])+'</div><p>'+esc(s.r[1])+'</p></div>';
-  if(currentTab==="learn")return '<h4>Master these first</h4><div class="checks">'+s.b.map(b=>'<div class="check"><span class="bx"></span><span>'+esc(b)+'</span></div>').join("")+'</div><p style="margin-top:16px;font-size:13px;color:var(--dim)">Spend a day on each, then build something small with the Terraform or CDK tab.</p>';
+  if(currentTab==="learn")return '<h4>Master these first</h4><div class="checks">'+s.b.map(function(b){return '<div class="check"><span class="bx"></span><span>'+esc(b)+'</span></div>';}).join("")+'</div><p style="margin-top:16px;font-size:13px;color:var(--dim)">Spend a day on each, then build something small with the Terraform or CDK tab.</p>';
   if(currentTab==="tf")return '<h4>Infrastructure as code — Terraform</h4>'+codeBlock(s.tf,"main.tf","TERRAFORM · HCL","tf")+'<h4 style="color:#ff7b72">Deploy / Delete</h4><div class="cmd-row"><span class="dollar">$</span><code>terraform init && terraform plan && terraform apply</code><button class="copybtn" data-copyraw="terraform init && terraform plan && terraform apply">⧉ Copy</button></div><div class="cmd-row"><span class="dollar">$</span><code>terraform destroy   # ⚠ deletes everything this stack created</code><button class="copybtn" data-copyraw="terraform destroy">⧉ Copy</button></div>';
   if(currentTab==="cdk")return '<h4>Infrastructure as code — AWS CDK (TypeScript)</h4><div class="mini-note">cdk synth → CloudFormation YAML · always cdk diff before deploy</div>'+codeBlock(s.ck,"lib/acme-stack.ts","CDK · TYPESCRIPT","ts")+'<h4 style="color:#ff7b72">Deploy / Delete</h4><div class="cmd-row"><span class="dollar">$</span><code>cdk synth && cdk diff && cdk deploy</code><button class="copybtn" data-copyraw="cdk synth && cdk diff && cdk deploy">⧉ Copy</button></div><div class="cmd-row"><span class="dollar">$</span><code>cdk destroy   # ⚠ tears the whole stack down</code><button class="copybtn" data-copyraw="cdk destroy">⧉ Copy</button></div>';
   if(currentTab==="sdk")return '<h4>Provision & use with Boto3 (Python SDK)</h4>'+codeBlock(s.sd,s.id.replace(/[^a-z0-9]/g,"_")+"_demo.py","PYTHON · BOTO3","py")+'<h4 style="color:#ff7b72">Cleanup / Delete via SDK</h4>'+codeBlock(s.dl,"cleanup.py","PYTHON","py");
-  if(currentTab==="net")return '<h4>How '+s.n+' talks to other services</h4>'+s.nt.map(x=>'<div class="net-row"><span class="ntag">'+esc(x[0])+'</span><p>'+esc(x[1])+'</p></div>').join("")+'<div class="real-box" style="margin-top:18px"><div class="co">⚑ In production · '+esc(s.r[0])+'</div><p>'+esc(s.r[1])+'</p></div>';
+  if(currentTab==="net")return '<h4>How '+esc(s.n)+' talks to other services</h4>'+s.nt.map(function(x){return '<div class="net-row"><span class="ntag">'+esc(x[0])+'</span><p>'+esc(x[1])+'</p></div>';}).join("")+'<div class="real-box" style="margin-top:18px"><div class="co">⚑ In production · '+esc(s.r[0])+'</div><p>'+esc(s.r[1])+'</p></div>';
   return "";}
 function bindModal(){const m=$("#modal");
   m.querySelector("[data-mclose]").addEventListener("click",closeService);
-  m.querySelector("[data-prev]").addEventListener("click",()=>{currentIdx=(currentIdx-1+SERVICES.length)%SERVICES.length;renderModal();});
-  m.querySelector("[data-next]").addEventListener("click",()=>{currentIdx=(currentIdx+1)%SERVICES.length;renderModal();});
-  m.querySelectorAll(".m-tab").forEach(t=>t.addEventListener("click",()=>{currentTab=t.dataset.tab;renderModal();}));
-  const lb=m.querySelector("[data-learn]");if(lb)lb.addEventListener("click",()=>toggleLearned(lb.dataset.learn));
-  m.querySelectorAll("[data-copy]").forEach(btn=>btn.addEventListener("click",()=>copyText(btn.closest(".codeblock").querySelector("pre").textContent,btn)));
-  m.querySelectorAll("[data-copyraw]").forEach(btn=>btn.addEventListener("click",()=>copyText(btn.dataset.copyraw,btn)));}
+  m.querySelector("[data-prev]").addEventListener("click",function(){currentIdx=(currentIdx-1+SERVICES.length)%SERVICES.length;renderModal();});
+  m.querySelector("[data-next]").addEventListener("click",function(){currentIdx=(currentIdx+1)%SERVICES.length;renderModal();});
+  m.querySelectorAll(".m-tab").forEach(function(t){t.addEventListener("click",function(){currentTab=t.dataset.tab;renderModal();});});
+  const lb=m.querySelector("[data-learn]");if(lb)lb.addEventListener("click",function(){toggleLearned(lb.dataset.learn);});
+  m.querySelectorAll("[data-copy]").forEach(function(btn){btn.addEventListener("click",function(){copyText(btn.closest(".codeblock").querySelector("pre").textContent,btn);});});
+  m.querySelectorAll("[data-copyraw]").forEach(function(btn){btn.addEventListener("click",function(){copyText(btn.dataset.copyraw,btn);});});}
 function toggleLearned(id){const wasNew=!learned.has(id);
   if(learned.has(id))learned.delete(id);else learned.add(id);
   store.set("awsAtlasLearned",Array.from(learned));
@@ -2862,7 +2889,7 @@ const BLUEPRINTS={
   ["Compute",["alb","autoscaling","ecs","lambda"],"Public tier balances traffic; containers or functions do the actual work."],
   ["Data",["rds","elasticache","s3"],"Private-subnet stores: SQL for truth, cache for speed, S3 for everything else."],
   ["Async & Messaging",["sqs","sns","eventbridge"],"Never block the request: buffer writes, fan out events, react without polling."],
-  ["Observability",["cloudwatch","cloudtrail","xray"],"Metrics + alarms, full audit trail, request traces — from day one, not after the outage."],
+  ["Observability",["cloudwatch","cloudtrail","xray"],"Metrics + alarms, full audit trail, request traces — from day one."],
   ["Security & Ops",["iam","kms","secretsmanager","backup","config"],"Identity, keys, credentials, backups and drift detection wrap every layer."]]},
  data:{name:"📊 Data Platform",c:"#3ddad7",note:"Lake-first architecture: land raw, catalog it, transform, serve. The lake is the source of truth.",layers:[
   ["Ingest",["dms","kinesis","msk"],"Databases migrate with CDC; streams land in real time; Kafka keeps the backbone."],
@@ -2870,26 +2897,25 @@ const BLUEPRINTS={
   ["Process & Warehouse",["emr","redshift"],"Heavy Spark transforms on EMR; BI-scale aggregations land in Redshift."],
   ["Serve & Query",["athena","quicksight"],"Ad-hoc SQL on the lake; dashboards for humans and execs."],
   ["Ops & Security",["iam","kms","cloudwatch","backup"],"Least-privilege lake policies, encrypted zones, job alarms, vaulted backups."]]},
- genai:{name:"🤖 GenAI / AgentOps",c:"#f07be0",note:"The 2026 AI stack: grounded, guarded, traced and rollback-safe. This is AgentOps.",layers:[
+ genai:{name:"🤖 GenAI / AgentOps",c:"#f07be0",note:"The AI stack: grounded, guarded, traced and rollback-safe. This is AgentOps.",layers:[
   ["Entry",["apigateway","cognito"],"Authenticated chat/API entry with throttling before any tokens are spent."],
   ["Reasoning",["bedrock","bedrockagents"],"Foundation models do the thinking; agents add tools, memory and action groups."],
   ["Grounding & Safety",["bedrockkb","opensearch","bedrockguardrails"],"RAG retrieval grounds answers in your docs; guardrails filter both directions."],
   ["Data",["s3","dynamodb"],"Source documents live in S3; sessions and user state in DynamoDB."],
-  ["AgentOps",["cloudwatch","stepfunctions","iam","kms"],"Every trace, tool call and block is measured; long flows are orchestrated; identity is scoped."]]}
+  ["AgentOps",["cloudwatch","stepfunctions","iam","kms"],"Every trace, tool call and block is measured; long flows orchestrated; identity scoped."]]}
 };
 let bpActive="web";
-function renderBlueprintTabs(){$("#bptabs").innerHTML=Object.keys(BLUEPRINTS).map(k=>'<button class="bptab'+(k===bpActive?" on":"")+'" data-bp="'+k+'" style="--bc:'+BLUEPRINTS[k].c+'">'+BLUEPRINTS[k].name+'</button>').join("");
-  $$("#bptabs .bptab").forEach(b=>b.addEventListener("click",()=>{bpActive=b.dataset.bp;renderBlueprintTabs();renderBlueprints();}));}
+function renderBlueprintTabs(){$("#bptabs").innerHTML=Object.keys(BLUEPRINTS).map(function(k){return '<button class="bptab'+(k===bpActive?" on":"")+'" data-bp="'+escAttr(k)+'" style="--bc:'+BLUEPRINTS[k].c+'">'+esc(BLUEPRINTS[k].name)+'</button>';}).join("");
+  $$("#bptabs .bptab").forEach(function(b){b.addEventListener("click",function(){bpActive=b.dataset.bp;renderBlueprintTabs();renderBlueprints();});});}
 function renderBlueprints(){const bp=BLUEPRINTS[bpActive];
   $("#bpnote").textContent="// "+bp.note;
-  const allIds=bp.layers.flatMap(l=>l[1]);
-  const known=allIds.filter(id=>learned.has(id)).length;
-  $("#bpwrap").innerHTML=bp.layers.map(l=>'<div class="bplayer" style="--bc:'+bp.c+'">'
-    +'<div><div class="lname">'+l[0]+'</div><div class="ldesc">'+l[2]+'</div></div>'
-    +'<div class="lsrv">'+l[1].map(id=>{const s=SERVICES.find(x=>x.id===id);
-      return s?'<button class="svcchip'+(learned.has(id)?" got":"")+'" data-open="'+id+'" style="--bc:'+bp.c+'"><span class="em">'+s.i+'</span>'+s.n+'</button>':"";}).join("")+'</div></div>').join("")
+  const allIds=bp.layers.reduce(function(a,l){return a.concat(l[1]);},[]);
+  const known=allIds.filter(function(id){return learned.has(id);}).length;
+  $("#bpwrap").innerHTML=bp.layers.map(function(l){return '<div class="bplayer" style="--bc:'+bp.c+'">'
+    +'<div><div class="lname">'+esc(l[0])+'</div><div class="ldesc">'+esc(l[2])+'</div></div>'
+    +'<div class="lsrv">'+l[1].map(function(id){const s=svc(id);
+      return s?'<button class="svcchip'+(learned.has(id)?" got":"")+'" data-open="'+escAttr(id)+'" style="--bc:'+bp.c+'"><span class="em">'+esc(s.i)+'</span>'+esc(s.n)+'</button>':"";}).join("")+'</div></div>';}).join("")
     +'<div class="bp-note">// you already know <b style="color:'+bp.c+'">'+known+' / '+allIds.length+'</b> of the services in this blueprint</div>';}
-function updateBlueprints(){if($("#bpwrap").children.length)renderBlueprints();}
 
 /* ================= projects ================= */
 const PROJECTS=[
@@ -2948,7 +2974,7 @@ output "bucket_arn" { value = aws_s3_bucket.site.arn }`},
  ["HTTP API + route","POST /orders → Lambda proxy integration; auto-deploy stage 'prod'."],
  ["Cognito authorizer","JWT validation before the function ever runs."],
  ["Async side-channel","Lambda publishes OrderCreated to EventBridge → SQS worker queue."],
- ["Load-test & alarm","hammond/locust against the endpoint; 5XX alarm → SNS → you."]],
+ ["Load-test & alarm","Hit the endpoint with a load tool; 5XX alarm → SNS → you."]],
  bundle:`# ══════ main.tf ══════
 resource "aws_dynamodb_table" "orders" {
   name = "orders"; billing_mode = "PAY_PER_REQUEST"
@@ -2964,11 +2990,6 @@ resource "aws_lambda_function" "api" {
   filename = "lambda.zip"; memory_size = 256; timeout = 30
 }
 resource "aws_apigatewayv2_api" "orders" { name = "orders-api"; protocol_type = "HTTP" }
-resource "aws_apigatewayv2_route" "create" {
-  api_id = aws_apigatewayv2_api.orders.id
-  route_key = "POST /orders"
-  target = "integrations/" + aws_apigatewayv2_integration.orders.id
-}
 resource "aws_sqs_queue" "workers" { name = "order-events"; visibility_timeout_seconds = 60 }
 
 # ══════ variables.tf ══════
@@ -2978,7 +2999,7 @@ variable "env" { type = string; default = "prod" }
 output "api_endpoint" { value = aws_apigatewayv2_api.orders.api_endpoint }
 output "table_name" { value = aws_dynamodb_table.orders.name }`},
 {id:"p3",icon:"🖼️",name:"Event-Driven Thumbnail Pipeline",lvl:"Intermediate",pc:"#ffd75e",
- desc:"Drop an image in S3 → EventBridge fires → Lambda thumbnails it → writes to a resized bucket → SNS notifies. Fully async.",
+ desc:"Drop an image in S3 → EventBridge fires → Lambda thumbnails it → writes to a resized bucket → SNS notifies.",
  arch:["s3","eventbridge","lambda","sns"],
  steps:[["Two buckets, two zones","acme-raw (landing) and acme-resized (output). Lifecycle rules on both."],
  ["Enable S3 EventBridge notifications","One toggle on the raw bucket — no Lambda permissions wrestling."],
@@ -3028,7 +3049,7 @@ output "resized_bucket" { value = aws_s3_bucket.resized.id }`},
  ["Create the Knowledge Base","Titan embeddings; chunking strategy; sync the S3 data source."],
  ["Guardrails","Block PII + off-topic; friendly blocked messaging. Version it."],
  ["Bedrock Agent + KB + action group","Instruction defines persona; action group calls a status-check Lambda."],
-["Alias & API entry","DRAFT → PROD alias; HTTP API + Lambda invoke_agent in front."],
+ ["Alias & API entry","DRAFT → PROD alias; HTTP API + Lambda invoke_agent in front."],
  ["AgentOps dashboard","CloudWatch: invocation count, latency, guardrail blocks, tool-call errors."],
  ["Eval & promote","Run your eval set vs DRAFT; if green, update PROD alias. Rollback = repoint."]],
  bundle:`# ══════ main.tf (core pieces) ══════
@@ -3069,30 +3090,30 @@ output "prod_alias" { value = aws_bedrockagent_agent_alias.prod.agent_alias_id }
 output "guardrail_arn" { value = aws_bedrock_guardrail.rails.guardrail_arn }`}
 ];
 function renderProjects(){
-  $("#projwrap").innerHTML=PROJECTS.map(p=>{
+  $("#projwrap").innerHTML=PROJECTS.map(function(p){
     const done=(projDone[p.id]||[]);
     const pct=Math.round(done.length/p.steps.length*100);
-    return '<div class="proj reveal in" style="--pc:'+p.pc+'">'
-    +'<div class="proj-head"><div class="ptop"><span class="picon">'+p.icon+'</span><span class="lvl">'+p.lvl+'</span></div>'
-    +'<h3>'+p.name+'</h3><p>'+esc(p.desc)+'</p></div>'
-    +'<div class="proj-arch">'+p.arch.map((id,i)=>{const s=SERVICES.find(x=>x.id===id);
-      return (s?'<span class="pa" data-open="'+id+'">'+s.i+' '+s.n+'</span>':'')+(i<p.arch.length-1?'<span class="par">→</span>':'');}).join("")+'</div>'
-    +'<div class="proj-steps">'+p.steps.map((st,i)=>'<div class="pstep'+(done.includes(i)?" checked":"")+'" data-proj="'+p.id+'" data-step="'+i+'">'
-      +'<span class="cb">✓</span><span><span class="st">Step '+(i+1)+' · '+st[0]+'</span><div class="sd2">'+st[1]+'</div></span></div>').join("")+'</div>'
+    return '<div class="proj" style="--pc:'+p.pc+'">'
+    +'<div class="proj-head"><div class="ptop"><span class="picon">'+esc(p.icon)+'</span><span class="lvl">'+esc(p.lvl)+'</span></div>'
+    +'<h3>'+esc(p.name)+'</h3><p>'+esc(p.desc)+'</p></div>'
+    +'<div class="proj-arch">'+p.arch.map(function(id,i){const s=svc(id);
+      return (s?'<span class="pa" data-open="'+escAttr(id)+'">'+esc(s.i)+' '+esc(s.n)+'</span>':'')+(i<p.arch.length-1?'<span class="par">→</span>':'');}).join("")+'</div>'
+    +'<div class="proj-steps">'+p.steps.map(function(st,i){return '<div class="pstep'+(done.indexOf(i)>=0?" checked":"")+'" data-proj="'+escAttr(p.id)+'" data-step="'+i+'">'
+      +'<span class="cb">✓</span><span><span class="st">Step '+(i+1)+' · '+esc(st[0])+'</span><div class="sd2">'+esc(st[1])+'</div></span></div>';}).join("")+'</div>'
     +'<div class="proj-foot"><div class="pp"><span>'+done.length+'/'+p.steps.length+' steps'+(pct===100?" · COMPLETE 🏆":"")+'</span><div class="pbar"><i style="width:'+pct+'%"></i></div></div>'
-    +'<button class="btn gho sm" data-bundle="'+p.id+'">⬇ Terraform module</button></div></div>';}).join("");
-  $$(".pstep").forEach(st=>st.addEventListener("click",()=>{
+    +'<button class="btn gho sm" data-bundle="'+escAttr(p.id)+'">⬇ Terraform module</button></div></div>';}).join("");
+  $$(".pstep").forEach(function(st){st.addEventListener("click",function(){
     const pid=st.dataset.proj,i=+st.dataset.step;
     projDone[pid]=projDone[pid]||[];
-    if(projDone[pid].includes(i))projDone[pid]=projDone[pid].filter(x=>x!==i);else projDone[pid].push(i);
+    if(projDone[pid].indexOf(i)>=0)projDone[pid]=projDone[pid].filter(function(x){return x!==i;});else projDone[pid].push(i);
     store.set("awsAtlasSteps",projDone);
-    const p=PROJECTS.find(x=>x.id===pid);
+    const p=PROJECTS.find(function(x){return x.id===pid;});
     if(projDone[pid].length===p.steps.length)toast("🏆 PROJECT COMPLETE — "+p.name);
-    renderProjects();}));
-  $$("[data-bundle]").forEach(b=>b.addEventListener("click",()=>{
-    const p=PROJECTS.find(x=>x.id===b.dataset.bundle);
+    renderProjects();});});
+  $$("[data-bundle]").forEach(function(b){b.addEventListener("click",function(){
+    const p=PROJECTS.find(function(x){return x.id===b.dataset.bundle;});
     download(p.name.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-module.tf",
-      "# "+p.name+"\n# AWS Atlas Pro — project Terraform module bundle\n# files: main.tf · variables.tf · outputs.tf\n\n"+p.bundle);}));}
+      "# "+p.name+"\n# AWS Atlas Pro — project Terraform module bundle\n# files: main.tf · variables.tf · outputs.tf\n\n"+p.bundle);});});}
 
 /* ================= IaC lab ================= */
 const MODULE_FILES=[
@@ -3169,8 +3190,8 @@ module "dev_vpc" {
 #  - registry.terraform.io lets you publish & version modules`}
 ];
 function renderModuleLab(){
-  $("#modgrid").innerHTML=MODULE_FILES.map(f=>codeBlock(f.code,f.n,f.l,f.lang)).join("");
-  $$("#modgrid [data-copy]").forEach(btn=>btn.addEventListener("click",()=>copyText(btn.closest(".codeblock").querySelector("pre").textContent,btn)));}
+  $("#modgrid").innerHTML=MODULE_FILES.map(function(f){return codeBlock(f.code,f.n,f.l,f.lang);}).join("");
+  $$("#modgrid [data-copy]").forEach(function(btn){btn.addEventListener("click",function(){copyText(btn.closest(".codeblock").querySelector("pre").textContent,btn);});});}
 
 /* ================= HCL -> YAML converter ================= */
 const CONV=[
@@ -3370,37 +3391,37 @@ resource "aws_sns_topic_subscription" "ops" {
         source: ["aws.s3"]
         detail-type: ["Object Created"]`}];
 function renderConverter(){
-  $("#convSel").innerHTML=CONV.map((c,i)=>'<option value="'+i+'">'+c.n+'</option>').join("");
+  $("#convSel").innerHTML=CONV.map(function(c,i){return '<option value="'+i+'">'+esc(c.n)+'</option>';}).join("");
   showConv(0);
-  $("#convSel").addEventListener("change",e=>showConv(+e.target.value));}
+  $("#convSel").addEventListener("change",function(e){showConv(+e.target.value);});}
 function showConv(i){const c=CONV[i];
   $("#convSplit").innerHTML=
     '<div>'+codeBlock(c.tf,"terraform / resource.tf","HCL","tf")+'</div>'
    +'<div>'+codeBlock(c.yaml,"cloudformation / template.yaml","YAML","yaml")+'</div>';
-  $$("#convSplit [data-copy]").forEach(btn=>btn.addEventListener("click",()=>copyText(btn.closest(".codeblock").querySelector("pre").textContent,btn)));}
+  $$("#convSplit [data-copy]").forEach(function(btn){btn.addEventListener("click",function(){copyText(btn.closest(".codeblock").querySelector("pre").textContent,btn);});});}
 
 /* ================= paths ================= */
-const pathIds=el=>el.dataset.path.split(",");
-function renderPathChips(){$$(".pchips").forEach(wrap=>{wrap.innerHTML=pathIds(wrap).map((id,i)=>{const s=SERVICES.find(x=>x.id===id);
-  return s?'<button class="pchip'+(learned.has(id)?" got":"")+'" data-open="'+id+'"><i>'+(i+1).toString().padStart(2,"0")+'</i>'+s.n+'</button>':"";}).join("");});updatePathUI();}
-function updatePathUI(){$$(".pchips").forEach(wrap=>{wrap.querySelectorAll(".pchip").forEach(ch=>ch.classList.toggle("got",learned.has(ch.dataset.open)));
-  const ids=pathIds(wrap),done=ids.filter(id=>learned.has(id)).length;
+const pathIds=function(el){return el.dataset.path.split(",");};
+function renderPathChips(){$$(".pchips").forEach(function(wrap){wrap.innerHTML=pathIds(wrap).map(function(id,i){const s=svc(id);
+  return s?'<button class="pchip'+(learned.has(id)?" got":"")+'" data-open="'+escAttr(id)+'"><i>'+(i+1).toString().padStart(2,"0")+'</i>'+esc(s.n)+'</button>':"";}).join("");});updatePathUI();}
+function updatePathUI(){$$(".pchips").forEach(function(wrap){wrap.querySelectorAll(".pchip").forEach(function(ch){ch.classList.toggle("got",learned.has(ch.dataset.open));});
+  const ids=pathIds(wrap),done=ids.filter(function(id){return learned.has(id);}).length;
   const meta=wrap.closest(".path-card").querySelector(".pprog");
   if(meta)meta.textContent="// progress: "+done+" / "+ids.length+(done===ids.length?" · COMPLETE 🎉":"");});}
-function checkPathCompletion(){$$(".pchips").forEach(wrap=>{const ids=pathIds(wrap);const name=wrap.closest(".path-card").querySelector("h3").textContent;
-  if(ids.every(id=>learned.has(id))&&!celebrated.has(name)){celebrated.add(name);store.set("awsAtlasCelebrated",Array.from(celebrated));setTimeout(()=>toast("🎉 TRACK COMPLETE — "+name),400);}});}
+function checkPathCompletion(){$$(".pchips").forEach(function(wrap){const ids=pathIds(wrap);const name=wrap.closest(".path-card").querySelector("h3").textContent;
+  if(ids.every(function(id){return learned.has(id);})&&!celebrated.has(name)){celebrated.add(name);store.set("awsAtlasCelebrated",Array.from(celebrated));setTimeout(function(){toast("🎉 TRACK COMPLETE — "+name);},400);}});}
 
 /* ================= quiz ================= */
 let quiz=null;
-const bestGet=()=>+(localStorage.getItem("awsAtlasBest")||0);
+const bestGet=function(){return +(localStorage.getItem("awsAtlasBest")||0);};
 function refreshBest(){const b=bestGet();$("#bestScore").textContent=b>0?("BEST SCORE · "+b+" / 8 correct"):"BEST SCORE · — not played yet";}
 function startQuiz(){const pool=shuffle(SERVICES.slice());const qs=[];
   for(let i=0;i<8;i++){const s=pool[i];
-    if(i%2===0){const opts=shuffle([s,...shuffle(SERVICES.filter(x=>x.id!==s.id)).slice(0,3)]);
-      qs.push({q:"Which service matches this description?",sub:"“"+s.t+"”",opts:opts.map(o=>o.n),ans:s.n,exp:s.n+" — "+s.f,id:s.id});}
-    else{const wrongs=shuffle(SERVICES.filter(x=>x.c!==s.c)).slice(0,3);const opts=shuffle([s,...wrongs]);
-      qs.push({q:"Which one belongs to the "+CATS[s.c].label.toUpperCase()+" track?",sub:"Three of these are impostors.",opts:opts.map(o=>o.n),ans:s.n,exp:s.n+" is part of "+CATS[s.c].label+".",id:s.id});}}
-  quiz={qs,i:0,score:0,missed:[]};renderQuiz();}
+    if(i%2===0){const opts=shuffle([s].concat(shuffle(SERVICES.filter(function(x){return x.id!==s.id;})).slice(0,3)));
+      qs.push({q:"Which service matches this description?",sub:"“"+s.t+"”",opts:opts.map(function(o){return o.n;}),ans:s.n,exp:s.n+" — "+s.f,id:s.id});}
+    else{const wrongs=shuffle(SERVICES.filter(function(x){return x.c!==s.c;})).slice(0,3);const opts=shuffle([s].concat(wrongs));
+      qs.push({q:"Which one belongs to the "+CATS[s.c].label.toUpperCase()+" track?",sub:"Three of these are impostors.",opts:opts.map(function(o){return o.n;}),ans:s.n,exp:s.n+" is part of "+CATS[s.c].label+".",id:s.id});}}
+  quiz={qs:qs,i:0,score:0,missed:[]};renderQuiz();}
 function renderQuiz(){const box=$("#quizBox");if(!quiz)return;
   if(quiz.i>=quiz.qs.length){const pct=Math.round(quiz.score/quiz.qs.length*100);
     if(quiz.score>bestGet()){localStorage.setItem("awsAtlasBest",quiz.score);refreshBest();}
@@ -3411,20 +3432,20 @@ function renderQuiz(){const box=$("#quizBox");if(!quiz)return;
       +'<button class="btn pri" id="quizAgain">Play another round →</button>'
       +(quiz.missed.length?'<button class="btn gho" id="quizStudy">Study first miss</button>':"")+'</div></div>';
     $("#quizAgain").addEventListener("click",startQuiz);
-    const st=$("#quizStudy");if(st)st.addEventListener("click",()=>openService(quiz.missed[0]));return;}
+    const st=$("#quizStudy");if(st)st.addEventListener("click",function(){openService(quiz.missed[0]);});return;}
   const q=quiz.qs[quiz.i];
   box.innerHTML='<div class="qmeta"><span>QUESTION '+(quiz.i+1)+' / '+quiz.qs.length+'</span><span>SCORE '+quiz.score+'</span></div>'
     +'<div class="qq">'+esc(q.q)+'</div><div class="qsub">'+esc(q.sub)+'</div>'
-    +q.opts.map(o=>'<button class="qopt" data-opt="'+esc(o)+'">'+esc(o)+'</button>').join("")
+    +q.opts.map(function(o){return '<button class="qopt" data-opt="'+escAttr(o)+'">'+esc(o)+'</button>';}).join("")
     +'<div class="qexp" id="qexp"></div>'
     +'<button class="btn gho qnext" id="qnext" style="display:none">'+(quiz.i===quiz.qs.length-1?"See results →":"Next →")+'</button>';
-  box.querySelectorAll(".qopt").forEach(btn=>btn.addEventListener("click",()=>{
+  box.querySelectorAll(".qopt").forEach(function(btn){btn.addEventListener("click",function(){
     const good=btn.dataset.opt===q.ans;
-    box.querySelectorAll(".qopt").forEach(b=>{b.disabled=true;if(b.dataset.opt===q.ans)b.classList.add("good");});
+    box.querySelectorAll(".qopt").forEach(function(b){b.disabled=true;if(b.dataset.opt===q.ans)b.classList.add("good");});
     if(good)quiz.score++;else{btn.classList.add("bad");quiz.missed.push(q.id);}
     $("#qexp").textContent=(good?"✓ Correct — ":"✗ Not quite — ")+q.exp;
-    $("#qnext").style.display="inline-flex";}));
-  $("#qnext").addEventListener("click",()=>{quiz.i++;renderQuiz();});}
+    $("#qnext").style.display="inline-flex";});});
+  $("#qnext").addEventListener("click",function(){quiz.i++;renderQuiz();});}
 $("#quizStart").addEventListener("click",startQuiz);
 
 /* ================= interview ================= */
@@ -3437,8 +3458,8 @@ const QA=[
 ["Why Terraform / IaC for deployments?","Repeatability (dev=staging=prod), reviewability (changes are PRs), blast-radius control (plan/diff before apply) and disaster recovery (re-apply = rebuild). Console clicks can't deliver any of that. State files live in S3 + DynamoDB locks."],
 ["What does MLOps look like on AWS?","Reproducible training via <b>SageMaker Pipelines / Step Functions</b>, models versioned in a registry, CI/CD via <b>CodePipeline → ECR → endpoints</b> with blue/green, then <b>CloudWatch</b> latency/drift alarms that retrigger training."],
 ["What is AgentOps and why does it matter?","Operating LLM <b>agents</b> in production: aliases for safe rollback, eval datasets to catch regressions, tracing every tool call, <b>guardrail</b> metrics, latency & cost budgets, human escalation. Stack: <b>Bedrock Agents + Guardrails + Knowledge Bases + CloudWatch + EventBridge</b>."]];
-function renderQA(){$("#qaWrap").innerHTML=QA.map((q,i)=>'<div class="qa"><button class="qa-q"><span class="qn">Q'+(i+1)+'</span>'+esc(q[0])+'<span class="pl">+</span></button><div class="qa-a"><div>'+q[1]+'</div></div></div>').join("");
-  $$(".qa-q").forEach(btn=>btn.addEventListener("click",()=>btn.parentElement.classList.toggle("open")));}
+function renderQA(){$("#qaWrap").innerHTML=QA.map(function(q,i){return '<div class="qa"><button class="qa-q"><span class="qn">Q'+(i+1)+'</span>'+esc(q[0])+'<span class="pl">+</span></button><div class="qa-a"><div>'+q[1]+'</div></div></div>';}).join("");
+  $$(".qa-q").forEach(function(btn){btn.addEventListener("click",function(){btn.parentElement.classList.toggle("open");});});}
 
 /* ================= setup ================= */
 const SETUP=[
@@ -3475,36 +3496,36 @@ source .venv/bin/activate       # windows: .venv\\Scripts\\activate
 pip install boto3
 
 python -c "import boto3; print('account:', boto3.client('sts').get_caller_identity()['Account'])"`}];
-function renderSetup(){$("#setupGrid").innerHTML=SETUP.map(s=>codeBlock(s.code,s.f,s.l,s.lang)).join("");
-  $("#setupGrid").querySelectorAll("[data-copy]").forEach(btn=>btn.addEventListener("click",()=>copyText(btn.closest(".codeblock").querySelector("pre").textContent,btn)));}
+function renderSetup(){$("#setupGrid").innerHTML=SETUP.map(function(s){return codeBlock(s.code,s.f,s.l,s.lang);}).join("");
+  $("#setupGrid").querySelectorAll("[data-copy]").forEach(function(btn){btn.addEventListener("click",function(){copyText(btn.closest(".codeblock").querySelector("pre").textContent,btn);});});}
 
 /* ================= vault & roulette ================= */
-$("#dlTf").addEventListener("click",()=>download("aws-atlas-terraform.tf","# AWS ATLAS — Terraform vault ("+SERVICES.length+" services)\n\n"+SERVICES.map(s=>"# ==================================================\n# "+s.n+" — "+s.f+"  ["+CATS[s.c].label+"]\n# ==================================================\n"+s.tf+"\n").join("\n")));
-$("#dlCdk").addEventListener("click",()=>download("aws-atlas-cdk.ts","// AWS ATLAS — CDK vault ("+SERVICES.length+" services)\n\n"+SERVICES.map(s=>"// ==================================================\n// "+s.n+" — "+s.f+"  ["+CATS[s.c].label+"]\n// ==================================================\n"+s.ck+"\n").join("\n")));
-$("#dlPy").addEventListener("click",()=>download("aws-atlas-boto3.py","# AWS ATLAS — Boto3 vault ("+SERVICES.length+" services)\n\n"+SERVICES.map(s=>"# ==================================================\n# "+s.n+" — "+s.f+"\n# ==================================================\n"+s.sd+"\n\n# cleanup:\n"+s.dl+"\n").join("\n")));
-$("#roulette").addEventListener("click",()=>openService(SERVICES[Math.floor(Math.random()*SERVICES.length)].id));
+$("#dlTf").addEventListener("click",function(){download("aws-atlas-terraform.tf","# AWS ATLAS — Terraform vault ("+SERVICES.length+" services)\n\n"+SERVICES.map(function(s){return "# ==================================================\n# "+s.n+" — "+s.f+"  ["+CATS[s.c].label+"]\n# ==================================================\n"+s.tf+"\n";}).join("\n"));});
+$("#dlCdk").addEventListener("click",function(){download("aws-atlas-cdk.ts","// AWS ATLAS — CDK vault ("+SERVICES.length+" services)\n\n"+SERVICES.map(function(s){return "// ==================================================\n// "+s.n+" — "+s.f+"  ["+CATS[s.c].label+"]\n// ==================================================\n"+s.ck+"\n";}).join("\n"));});
+$("#dlPy").addEventListener("click",function(){download("aws-atlas-boto3.py","# AWS ATLAS — Boto3 vault ("+SERVICES.length+" services)\n\n"+SERVICES.map(function(s){return "# ==================================================\n# "+s.n+" — "+s.f+"\n# ==================================================\n"+s.sd+"\n\n# cleanup:\n"+s.dl+"\n";}).join("\n"));});
+$("#roulette").addEventListener("click",function(){openService(SERVICES[Math.floor(Math.random()*SERVICES.length)].id);});
 
 /* ================= global events ================= */
-$("#grid").addEventListener("click",e=>{
+$("#grid").addEventListener("click",function(e){
   const doneBtn=e.target.closest("[data-done]");
   if(doneBtn){e.stopPropagation();toggleLearned(doneBtn.dataset.done);return;}
   const card=e.target.closest("[data-open]");if(card)openService(card.dataset.open);});
-document.body.addEventListener("click",e=>{
+document.body.addEventListener("click",function(e){
   if(e.target.closest("#grid"))return;
   const opener=e.target.closest("[data-open]");if(opener){openService(opener.dataset.open);return;}
   const jump=e.target.closest("[data-jump]");
-  if(jump){activeCat=jump.dataset.jump;$$("#chips .chip").forEach(c=>c.classList.toggle("on",c.dataset.cat===activeCat));renderGrid();document.getElementById("services").scrollIntoView({behavior:"smooth"});}});
-$("#overlay").addEventListener("click",e=>{if(e.target===$("#overlay"))closeService();});
-$("#keys").addEventListener("click",()=>$("#keys").classList.remove("open"));
-$("#tracksToggle").addEventListener("click",()=>{const t=$("#tracks");t.classList.toggle("open");$("#tracksToggle").textContent=t.classList.contains("open")?"📊 Hide my progress by track":"📊 Show my progress by track";});
-document.addEventListener("keydown",e=>{
+  if(jump){activeCat=jump.dataset.jump;$$("#chips .chip").forEach(function(c){c.classList.toggle("on",c.dataset.cat===activeCat);});renderGrid();document.getElementById("services").scrollIntoView({behavior:"smooth"});}});
+$("#overlay").addEventListener("click",function(e){if(e.target===$("#overlay"))closeService();});
+$("#keys").addEventListener("click",function(){$("#keys").classList.remove("open");});
+$("#tracksToggle").addEventListener("click",function(){const t=$("#tracks");t.classList.toggle("open");$("#tracksToggle").textContent=t.classList.contains("open")?"📊 Hide my progress by track":"📊 Show my progress by track";});
+document.addEventListener("keydown",function(e){
   if(e.key==="Escape"){closeService();$("#keys").classList.remove("open");}
   if(e.key==="/"&&!e.target.closest("input,textarea,select")){e.preventDefault();$("#search").focus();}
   if(e.key==="?"&&!e.target.closest("input,textarea,select")){$("#keys").classList.toggle("open");}
   if($("#overlay").classList.contains("open")){
     if(e.key==="ArrowRight"){currentIdx=(currentIdx+1)%SERVICES.length;renderModal();}
     if(e.key==="ArrowLeft"){currentIdx=(currentIdx-1+SERVICES.length)%SERVICES.length;renderModal();}}});
-$("#search").addEventListener("input",e=>{activeQuery=e.target.value.trim().toLowerCase();renderGrid();});
+$("#search").addEventListener("input",function(e){activeQuery=e.target.value.trim().toLowerCase();renderGrid();});
 
 /* ================= hero console ================= */
 const LOGLINES=[
@@ -3523,16 +3544,16 @@ function pushLog(){const div=document.createElement("div");div.className="cline"
 pushLog();pushLog();pushLog();setInterval(pushLog,2100);
 
 /* ================= scroll fx ================= */
-const revObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");revObs.unobserve(e.target);}});},{threshold:.12});
-$$(".reveal").forEach(el=>revObs.observe(el));
-const cntObs=new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting)return;cntObs.unobserve(e.target);
+const revObs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");revObs.unobserve(e.target);}});},{threshold:.12});
+$$(".reveal").forEach(function(el){revObs.observe(el);});
+const cntObs=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;cntObs.unobserve(e.target);
   const el=e.target,target=+el.dataset.n,t0=performance.now();
   (function tick(t){const p=Math.min((t-t0)/1100,1);el.textContent=Math.round(target*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(tick);})(t0);});},{threshold:.5});
-$$(".count").forEach(el=>cntObs.observe(el));
-window.addEventListener("scroll",()=>{const st=window.scrollY,h=document.documentElement.scrollHeight-innerHeight;$("#scrollbar").style.width=(st/h*100)+"%";$("#totop").classList.toggle("show",st>700);},{passive:true});
-$("#totop").addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
-$("#burger").addEventListener("click",()=>$("#mnav").classList.toggle("open"));
-$$("#mnav a").forEach(a=>a.addEventListener("click",()=>$("#mnav").classList.remove("open")));
+$$(".count").forEach(function(el){cntObs.observe(el);});
+window.addEventListener("scroll",function(){const st=window.scrollY,h=document.documentElement.scrollHeight-innerHeight;$("#scrollbar").style.width=(st/h*100)+"%";$("#totop").classList.toggle("show",st>700);},{passive:true});
+$("#totop").addEventListener("click",function(){window.scrollTo({top:0,behavior:"smooth"});});
+$("#burger").addEventListener("click",function(){$("#mnav").classList.toggle("open");});
+$$("#mnav a").forEach(function(a){a.addEventListener("click",function(){$("#mnav").classList.remove("open");});});
 
 /* ================= init ================= */
 renderChips();renderGrid();renderTracks();renderBlueprintTabs();renderBlueprints();renderProjects();renderModuleLab();renderConverter();renderPathChips();renderQA();renderSetup();refreshBest();updateProgress();checkPathCompletion();

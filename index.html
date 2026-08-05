@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'nonce-awsatlaspro26'; style-src 'nonce-awsatlaspro26' 'unsafe-inline' https://cdn.jsdelivr.net; font-src https://cdn.jsdelivr.net data:; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'">
-<title>AWS Atlas Pro — Hardened · 68 Services · Projects Lab · HCL↔YAML · Blueprints</title>
+<title>AWS Atlas Enterprise — 80 Services · Enterprise Architectures · Production Playbooks · AI Radar</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='10' width='80' height='80' rx='18' fill='%23ff9900'/><text x='50' y='66' font-size='52' text-anchor='middle' font-family='monospace' fill='%23131a22'>λ</text></svg>">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@5/index.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-sans@5/index.css">
@@ -22,13 +22,13 @@ body{background:var(--bg);color:var(--txt);font-family:var(--body);font-size:15.
 @keyframes drift{to{transform:translate(60px,40px) scale(1.08)}}
 header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,15,20,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 #scrollbar{position:absolute;bottom:-2px;left:0;height:2px;background:linear-gradient(90deg,var(--acc),var(--acc2));width:0%}
-.hwrap{max-width:1340px;margin:0 auto;padding:0 28px;height:64px;display:flex;align-items:center;gap:20px}
+.hwrap{max-width:1340px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;gap:16px}
 .logo{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--txt)}
 .logo-cube{width:34px;height:34px;flex:none}
-.logo b{font-family:var(--disp);font-size:19px}.logo b em{color:var(--acc);font-style:normal}
-.logo small{display:block;font-family:var(--mono);font-size:9.5px;color:var(--dim);letter-spacing:.14em;margin-top:-2px}
-nav.mainnav{display:flex;gap:2px;margin-left:6px}
-nav.mainnav a{color:var(--mut);text-decoration:none;font-size:12.5px;font-weight:500;padding:7px 9px;border-radius:7px;transition:.2s;white-space:nowrap}
+.logo b{font-family:var(--disp);font-size:18px}.logo b em{color:var(--acc);font-style:normal}
+.logo small{display:block;font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.12em;margin-top:-2px}
+nav.mainnav{display:flex;gap:1px;margin-left:4px}
+nav.mainnav a{color:var(--mut);text-decoration:none;font-size:11.8px;font-weight:500;padding:7px 8px;border-radius:7px;transition:.2s;white-space:nowrap}
 nav.mainnav a:hover{color:var(--txt);background:rgba(255,153,0,.09)}
 .hright{margin-left:auto;display:flex;align-items:center;gap:12px}
 .prog-pill{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11.5px;color:var(--mut);border:1px solid var(--line);padding:6px 12px;border-radius:99px;background:var(--panel2)}
@@ -36,15 +36,15 @@ nav.mainnav a:hover{color:var(--txt);background:rgba(255,153,0,.09)}
 .prog-bar{width:56px;height:5px;background:#1b2836;border-radius:99px;overflow:hidden}
 .prog-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));width:0%;transition:width .5s}
 .burger{display:none;background:none;border:1px solid var(--line);color:var(--txt);width:38px;height:38px;border-radius:8px;cursor:pointer;font-size:16px}
-#mnav{display:none;position:fixed;top:64px;left:0;right:0;z-index:99;background:var(--bg2);border-bottom:1px solid var(--line);padding:14px 28px;flex-direction:column}
-#mnav a{color:var(--mut);text-decoration:none;padding:10px 8px;border-radius:8px;font-weight:500}
+#mnav{display:none;position:fixed;top:64px;left:0;right:0;z-index:99;background:var(--bg2);border-bottom:1px solid var(--line);padding:14px 28px;flex-direction:column;max-height:70vh;overflow-y:auto}
+#mnav a{color:var(--mut);text-decoration:none;padding:9px 8px;border-radius:8px;font-weight:500}
 #mnav.open{display:flex}
-.hero{max-width:1340px;margin:0 auto;padding:126px 28px 42px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:48px;align-items:center}
+.hero{max-width:1340px;margin:0 auto;padding:122px 28px 40px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:48px;align-items:center}
 .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.22em;color:var(--acc);display:flex;align-items:center;gap:10px;margin-bottom:20px}
 .eyebrow::before{content:"";width:26px;height:1px;background:var(--acc)}
 .live-dot{width:7px;height:7px;border-radius:50%;background:#5fd68b;animation:pulse 2s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(95,214,139,.6)}70%{box-shadow:0 0 0 9px rgba(95,214,139,0)}100%{box-shadow:0 0 0 0 rgba(95,214,139,0)}}
-h1{font-family:var(--disp);font-size:clamp(2.2rem,4.4vw,3.5rem);line-height:1.05;font-weight:700;letter-spacing:-.02em}
+h1{font-family:var(--disp);font-size:clamp(2.1rem,4.2vw,3.3rem);line-height:1.05;font-weight:700;letter-spacing:-.02em}
 h1 .mark{color:var(--acc);position:relative;white-space:nowrap}
 h1 .mark svg{position:absolute;left:0;bottom:-9px;width:100%;height:12px}
 h1 .mark path{stroke:var(--acc);stroke-width:3;fill:none;stroke-linecap:round;stroke-dasharray:340;stroke-dashoffset:340;animation:draw 1.4s .6s ease forwards}
@@ -80,9 +80,9 @@ svg.diagram{width:100%;height:auto;display:block}
 .stat:hover{border-color:var(--line2);transform:translateY(-3px)}
 .stat::after{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--sc,#ff9900),transparent)}
 .stat b{font-family:var(--disp);font-size:32px;font-weight:700;display:block;line-height:1}
-.stat span{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase;display:block;margin-top:8px}
-section{max-width:1340px;margin:0 auto;padding:76px 28px 8px}
-.sec-head{margin-bottom:30px;max-width:800px}
+.stat span{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;display:block;margin-top:8px}
+section{max-width:1340px;margin:0 auto;padding:72px 28px 8px}
+.sec-head{margin-bottom:28px;max-width:820px}
 .kick{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--acc);margin-bottom:11px}
 .sec-head h2{font-family:var(--disp);font-size:clamp(1.6rem,3vw,2.3rem);font-weight:700;letter-spacing:-.015em;line-height:1.12}
 .sec-head p{color:var(--mut);margin-top:11px;font-size:15px}
@@ -145,7 +145,7 @@ section{max-width:1340px;margin:0 auto;padding:76px 28px 8px}
 .flow-why div{font-size:12.5px;color:var(--mut);border-left:2px solid var(--fc,var(--acc));padding:2px 0 2px 12px}
 .flow-why div b{color:var(--txt)}
 .bptabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
-.bptab{font-family:var(--disp);font-weight:600;font-size:13.5px;padding:11px 18px;border-radius:10px;border:1px solid var(--line2);background:var(--panel2);color:var(--mut);cursor:pointer;transition:.2s}
+.bptab{font-family:var(--disp);font-weight:600;font-size:13px;padding:11px 16px;border-radius:10px;border:1px solid var(--line2);background:var(--panel2);color:var(--mut);cursor:pointer;transition:.2s}
 .bptab:hover{color:var(--txt);transform:translateY(-2px)}
 .bptab.on{background:var(--bc);border-color:var(--bc);color:#0d1218}
 .bp-note{font-family:var(--mono);font-size:11.5px;color:var(--dim);margin-bottom:16px}
@@ -183,7 +183,7 @@ section{max-width:1340px;margin:0 auto;padding:76px 28px 8px}
 .proj-steps{padding:14px 20px;flex:1}
 .pstep{display:flex;gap:11px;align-items:flex-start;padding:8px 0;border-bottom:1px dashed var(--line);cursor:pointer}
 .pstep:last-child{border:none}
-.pstep .cb{flex:none;width:19px;height:19px;border:1.5px solid var(--line2);border-radius:5px;margin-top:2px;position:relative;transition:.2s;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent}
+.pstep .cb{flex:none;width:19px;height:19px;border:1.5px solid var(--line2);border-radius:5px;margin-top:2px;transition:.2s;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent}
 .pstep.checked .cb{background:#1d3b2b;border-color:#5fd68b;color:#5fd68b}
 .pstep.checked .st{text-decoration:line-through;color:var(--dim)}
 .pstep .st{font-size:13px;font-weight:600}
@@ -192,6 +192,19 @@ section{max-width:1340px;margin:0 auto;padding:76px 28px 8px}
 .proj-foot .pp{flex:1;font-family:var(--mono);font-size:11px;color:var(--dim);min-width:120px}
 .proj-foot .pbar{height:5px;background:#1b2836;border-radius:99px;overflow:hidden;margin-top:5px}
 .proj-foot .pbar i{display:block;height:100%;background:var(--pc);width:0%;transition:width .4s}
+.ent{border:1px solid var(--line);border-radius:16px;background:var(--panel);margin-bottom:20px;overflow:hidden}
+.ent-head{padding:22px 24px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,color-mix(in srgb,var(--ec) 8%,transparent),transparent)}
+.ent-head .etop{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ent-head .eicon{font-size:28px}
+.ent-head h3{font-family:var(--disp);font-size:19px;font-weight:700}
+.ent-head .esub{margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:var(--ec);border:1px solid color-mix(in srgb,var(--ec) 45%,transparent);border-radius:99px;padding:5px 12px;text-transform:uppercase}
+.ent-head p{font-size:13.5px;color:var(--mut);margin-top:10px;max-width:900px}
+.ent-body{padding:20px 24px}
+.ent-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px}
+.ent-block h4{font-family:var(--disp);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ec);margin-bottom:10px}
+.ent-block li{font-size:13px;color:var(--mut);margin-left:17px;margin-bottom:6px}
+.ent-block li b{color:var(--txt)}
+.ent-tf{margin-top:16px}
 .modgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .why-iac{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:22px}
 .why-card{border:1px solid var(--line);border-radius:12px;background:var(--panel2);padding:16px 18px;transition:.2s}
@@ -203,6 +216,26 @@ section{max-width:1340px;margin:0 auto;padding:76px 28px 8px}
 .conv-bar select:focus{border-color:var(--acc)}
 .conv-split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .conv-note{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.qa{border:1px solid var(--line);border-radius:12px;background:var(--panel2);margin-bottom:10px;overflow:hidden}
+.qa-q{width:100%;display:flex;align-items:center;gap:12px;background:none;border:none;color:var(--txt);font-family:var(--disp);font-weight:600;font-size:14.5px;padding:15px 18px;cursor:pointer;text-align:left}
+.qa-q .qn{font-family:var(--mono);font-size:10px;color:var(--acc);border:1px solid rgba(255,153,0,.4);border-radius:5px;padding:2px 7px;flex:none}
+.qa-q .pl{margin-left:auto;color:var(--acc);font-size:19px;transition:.25s;flex:none}
+.qa.open .qa-q .pl{transform:rotate(45deg)}
+.qa-a{max-height:0;overflow:hidden;transition:max-height .45s ease;color:var(--mut);font-size:13.8px}
+.qa.open .qa-a{max-height:560px}
+.qa-a div{padding:0 18px 17px}.qa-a b{color:var(--txt)}.qa-a li{margin-left:17px;margin-bottom:4px}
+.radar-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.radar-panel{border:1px solid var(--line);border-radius:15px;background:var(--panel);padding:20px 22px}
+.radar-panel h3{font-family:var(--disp);font-size:16px;margin-bottom:6px}
+.radar-panel .rdesc{font-size:12.5px;color:var(--dim);margin-bottom:14px}
+.rtabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+.rtab{font-family:var(--mono);font-size:11px;padding:7px 13px;border-radius:8px;border:1px solid var(--line2);background:transparent;color:var(--mut);cursor:pointer;transition:.18s}
+.rtab.on{background:var(--rc);border-color:var(--rc);color:#0d1218;font-weight:600}
+.rlist{display:flex;flex-direction:column;gap:8px}
+.ritem{display:grid;grid-template-columns:150px 1fr;gap:12px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);padding:11px 14px;align-items:center}
+.ritem .rn{font-family:var(--mono);font-size:11.5px;color:var(--acc2);cursor:pointer}
+.ritem .rn:hover{text-decoration:underline}
+.ritem .rw{font-size:12.5px;color:var(--mut)}
 .paths{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
 .path-card{border:1px solid var(--line);border-radius:15px;background:var(--panel);padding:22px;position:relative;overflow:hidden;transition:.25s}
 .path-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--pc)}
@@ -234,14 +267,6 @@ section{max-width:1340px;margin:0 auto;padding:76px 28px 8px}
 .qexp{font-family:var(--mono);font-size:11.5px;color:var(--acc2);margin:8px 0 12px;min-height:16px}
 .qscore-big{font-family:var(--disp);font-size:52px;font-weight:700;color:var(--acc);line-height:1}
 .qnext{margin-top:auto;align-self:flex-end}
-.qa{border:1px solid var(--line);border-radius:12px;background:var(--panel2);margin-bottom:10px;overflow:hidden}
-.qa-q{width:100%;display:flex;align-items:center;gap:12px;background:none;border:none;color:var(--txt);font-family:var(--disp);font-weight:600;font-size:14.5px;padding:15px 18px;cursor:pointer;text-align:left}
-.qa-q .qn{font-family:var(--mono);font-size:10px;color:var(--acc);border:1px solid rgba(255,153,0,.4);border-radius:5px;padding:2px 7px;flex:none}
-.qa-q .pl{margin-left:auto;color:var(--acc);font-size:19px;transition:.25s;flex:none}
-.qa.open .qa-q .pl{transform:rotate(45deg)}
-.qa-a{max-height:0;overflow:hidden;transition:max-height .4s ease;color:var(--mut);font-size:13.8px}
-.qa.open .qa-a{max-height:460px}
-.qa-a div{padding:0 18px 17px}.qa-a b{color:var(--txt)}
 .setup-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
 .codeblock{border:1px solid var(--line);border-radius:11px;overflow:hidden;background:#0a1119;margin-bottom:14px}
 .cb-head{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--line);background:#0e1620}
@@ -318,8 +343,8 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 #totop:hover{transform:translateY(-4px);border-color:var(--acc)}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
 .reveal.in{opacity:1;transform:translateY(0)}
-@media (max-width:1020px){.hero{grid-template-columns:1fr;padding-top:108px;gap:36px}.stats{grid-template-columns:repeat(2,1fr)}.fgrid{grid-template-columns:1fr 1fr}.quiz-wrap{grid-template-columns:1fr}.modgrid{grid-template-columns:1fr}.conv-split{grid-template-columns:1fr}.bplayer{grid-template-columns:1fr}}
-@media (max-width:680px){nav.mainnav{display:none}.burger{display:block}.prog-pill{display:none}.hero{padding-top:96px}.m-body{padding:20px 16px 24px}.m-head{padding:20px 16px 16px}.m-tabs{padding:0 12px}section{padding:60px 18px 8px}.hwrap{padding:0 16px}}
+@media (max-width:1020px){.hero{grid-template-columns:1fr;padding-top:106px;gap:36px}.stats{grid-template-columns:repeat(2,1fr)}.fgrid{grid-template-columns:1fr 1fr}.quiz-wrap{grid-template-columns:1fr}.modgrid{grid-template-columns:1fr}.conv-split{grid-template-columns:1fr}.bplayer{grid-template-columns:1fr}.radar-grid{grid-template-columns:1fr}.ent-cols{grid-template-columns:1fr}}
+@media (max-width:680px){nav.mainnav{display:none}.burger{display:block}.prog-pill{display:none}.hero{padding-top:94px}.m-body{padding:20px 16px 24px}.m-head{padding:20px 16px 16px}.m-tabs{padding:0 12px}section{padding:58px 18px 8px}.hwrap{padding:0 16px}.ritem{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.card,.reveal{opacity:1;transform:none}}
 </style>
 </head>
@@ -329,37 +354,37 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
   <div class="hwrap">
     <a class="logo" href="#top">
       <svg class="logo-cube" viewBox="0 0 40 40" fill="none"><path d="M20 3 36 12v16L20 37 4 28V12L20 3z" stroke="#ff9900" stroke-width="2" fill="rgba(255,153,0,.08)"/><path d="M20 3v14m0 0L4 12m16 5 16-5M20 17v20" stroke="#ff9900" stroke-width="1.4" opacity=".7"/><circle cx="20" cy="17" r="3" fill="#ff9900"/></svg>
-      <span><b>AWS<em>Atlas</em> Pro</b><small>68 SERVICES · PROJECTS · IaC LAB</small></span>
+      <span><b>AWS<em>Atlas</em> ENT</b><small>80 SERVICES · ENTERPRISE · AI</small></span>
     </a>
     <nav class="mainnav">
-      <a href="#services">Services</a><a href="#flows">Flows</a><a href="#blueprints">Blueprints</a><a href="#compare">Compare</a><a href="#projects">Projects</a><a href="#iac">IaC Lab</a><a href="#paths">Paths</a><a href="#quiz">Quiz</a>
+      <a href="#services">Services</a><a href="#flows">Flows</a><a href="#blueprints">Blueprints</a><a href="#compare">Compare</a><a href="#projects">Projects</a><a href="#enterprise">Enterprise</a><a href="#iac">IaC Lab</a><a href="#playbooks">Playbooks</a><a href="#radar">AI Radar</a><a href="#paths">Paths</a><a href="#quiz">Quiz</a>
     </nav>
     <div class="hright">
-      <div class="prog-pill"><span><b id="progNum">0</b>/68 learned</span><span class="prog-bar"><i id="progFill"></i></span></div>
+      <div class="prog-pill"><span><b id="progNum">0</b>/80 learned</span><span class="prog-bar"><i id="progFill"></i></span></div>
       <button class="burger" id="burger" aria-label="menu">☰</button>
     </div>
   </div>
   <div id="scrollbar"></div>
 </header>
 <div id="mnav">
-  <a href="#services">Services (68)</a><a href="#flows">Architecture Flows</a><a href="#blueprints">Deployment Blueprints</a><a href="#compare">Compare</a><a href="#projects">Projects Lab</a><a href="#iac">Terraform &amp; YAML Lab</a><a href="#paths">Learning Paths</a><a href="#quiz">Quiz Arena</a><a href="#interview">Interview Prep</a><a href="#setup">Day-0 Setup</a>
+  <a href="#services">Services (80)</a><a href="#flows">Architecture Flows</a><a href="#blueprints">Deployment Blueprints</a><a href="#compare">Decision Matrix</a><a href="#projects">Projects Lab</a><a href="#enterprise">Enterprise Architectures</a><a href="#iac">Terraform &amp; YAML Lab</a><a href="#playbooks">Production Playbooks</a><a href="#radar">Industry &amp; AI Radar</a><a href="#paths">Learning Paths</a><a href="#quiz">Quiz Arena</a><a href="#interview">Interview Prep</a><a href="#setup">Day-0 Setup</a>
 </div>
 
 <main id="top">
 <div class="hero">
   <div>
-    <div class="eyebrow"><span class="live-dot"></span>TERRAFORM · CDK · BOTO3 · YAML · AGENTOPS</div>
-    <h1>Learn AWS the way<br>production teams <span class="mark">actually ship.<svg viewBox="0 0 300 12" preserveAspectRatio="none"><path d="M3 9 Q 75 2 150 7 T 297 5"/></span></h1>
-    <p class="sub"><b>68 services</b> explained deeply — why they exist, what to learn first, with <b>Terraform</b>, <b>CDK</b>, <b>Boto3</b>, an <b>HCL↔YAML lab</b>, <b>4 guided projects</b>, and the <b>deployment blueprint</b> every cloud app needs.</p>
+    <div class="eyebrow"><span class="live-dot"></span>ENTERPRISE EDITION · IT &amp; AI CAREER TRACKS</div>
+    <h1>Learn AWS the way<br>enterprises <span class="mark">actually run it.<svg viewBox="0 0 300 12" preserveAspectRatio="none"><path d="M3 9 Q 75 2 150 7 T 297 5"/></span></h1>
+    <p class="sub"><b>80 services</b> with deep documentation, <b>enterprise-grade architectures</b>, production playbooks, and an <b>Industry × AI career radar</b> — everything you need to build real systems and get hired for them.</p>
     <div class="cta-row">
-      <a class="btn pri" href="#projects">Build a project 🛠</a>
-      <a class="btn gho" href="#services">Explore 68 services ↓</a>
+      <a class="btn pri" href="#enterprise">See enterprise architectures 🏦</a>
+      <a class="btn gho" href="#services">Browse 80 services ↓</a>
     </div>
     <div class="hero-badges">
-      <span class="hbadge"><i>✓</i> 204 scripts</span>
-      <span class="hbadge"><i>✓</i> 4 hands-on projects</span>
+      <span class="hbadge"><i>✓</i> 240 scripts</span>
+      <span class="hbadge"><i>✓</i> 3 enterprise builds</span>
+      <span class="hbadge"><i>✓</i> 8 production playbooks</span>
       <span class="hbadge"><i>✓</i> CSP-hardened UI</span>
-      <span class="hbadge"><i>✓</i> XSS-safe rendering</span>
     </div>
   </div>
   <div class="arch-shell">
@@ -392,22 +417,22 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 </div>
 
 <div class="stats">
-  <div class="stat reveal" style="--sc:#ff9d2e"><b class="count" data-n="68">0</b><span>Services end-to-end</span></div>
-  <div class="stat reveal" style="--sc:#f07be0"><b class="count" data-n="4">0</b><span>Guided projects</span></div>
-  <div class="stat reveal" style="--sc:#5fd68b"><b class="count" data-n="204">0</b><span>TF + CDK + SDK scripts</span></div>
-  <div class="stat reveal" style="--sc:#3ddad7"><b class="count" data-n="13">0</b><span>HCL ↔ YAML pairs</span></div>
+  <div class="stat reveal" style="--sc:#ff9d2e"><b class="count" data-n="80">0</b><span>Services documented</span></div>
+  <div class="stat reveal" style="--sc:#f07be0"><b class="count" data-n="3">0</b><span>Enterprise architectures</span></div>
+  <div class="stat reveal" style="--sc:#5fd68b"><b class="count" data-n="240">0</b><span>TF + CDK + SDK scripts</span></div>
+  <div class="stat reveal" style="--sc:#3ddad7"><b class="count" data-n="8">0</b><span>Production playbooks</span></div>
 </div>
 
 <section id="services">
   <div class="sec-head reveal">
-    <div class="kick">01 / THE CATALOG</div>
-    <h2>68 services. Every card is a complete lesson.</h2>
-    <p>Click any card: <b>why it exists + field notes</b> → <b>what to learn first</b> → <b>Terraform</b> → <b>CDK</b> → <b>Boto3</b> → <b>how it connects</b>. Press <b style="font-family:var(--mono)">/</b> to search.</p>
+    <div class="kick">01 / THE CATALOG — NOW 80 SERVICES</div>
+    <h2>Every service, documented like you'll be on-call for it.</h2>
+    <p>Each card opens: <b>why it exists + field notes</b> → <b>what to learn first</b> → <b>Terraform</b> → <b>CDK</b> → <b>Boto3</b> → <b>how it connects</b>. Includes enterprise governance (Organizations, Control Tower, IAM Identity Center, Macie, Shield) and the AI stack (Lex, Polly, Q Developer). Press <b style="font-family:var(--mono)">/</b> to search.</p>
   </div>
   <div class="toolbar reveal">
     <div class="searchbox">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8fa0b5" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="search" type="text" placeholder="Search VPC, Lambda, Bedrock, DMS…" autocomplete="off"><kbd>/</kbd>
+      <input id="search" type="text" placeholder="Search VPC, Organizations, Bedrock, Macie…" autocomplete="off"><kbd>/</kbd>
     </div>
     <div class="vault">
       <button class="vbtn" id="dlTf">⬇ All Terraform (.tf)</button>
@@ -421,14 +446,13 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
   <div class="chips reveal" id="chips"></div>
   <div id="countline"></div>
   <div class="grid" id="grid"></div>
-  <div id="empty"><b>∅</b>No service matches that query.<br>Try "queue", "vector" or "agent".</div>
+  <div id="empty"><b>∅</b>No service matches that query.<br>Try "governance", "vector" or "landing zone".</div>
 </section>
 
 <section id="flows">
   <div class="sec-head reveal">
     <div class="kick">02 / HOW THEY TALK TO EACH OTHER</div>
     <h2>The architectures you'll build in real jobs.</h2>
-    <p>Services are useless in isolation. This is how organizations wire them together.</p>
   </div>
   <div class="flow reveal" style="--fc:#ff9d2e">
     <div class="flow-head"><span class="fnum">FLOW 01</span><h3>The production web request</h3><small>DNS → EDGE → COMPUTE → DATA</small></div>
@@ -480,7 +504,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
   <div class="sec-head reveal">
     <div class="kick">03 / DEPLOYMENT BLUEPRINTS</div>
     <h2>What you need to deploy — on AWS or any cloud.</h2>
-    <p>Pick a project type. Every real deployment is built from these layers. Names change between clouds — <b>the roles never do</b>: DNS/CDN/WAF at the edge, compute in the middle, private data behind it, queues for async, identity + observability wrapping everything.</p>
+    <p>Pick a project type. Names change between clouds — <b>the roles never do</b>: DNS/CDN/WAF at the edge, compute in the middle, private data behind it, queues for async, identity + observability wrapping everything.</p>
   </div>
   <div class="bptabs reveal" id="bptabs"></div>
   <div class="bp-note reveal" id="bpnote"></div>
@@ -491,7 +515,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
   <div class="sec-head reveal">
     <div class="kick">04 / DECISION MATRIX</div>
     <h2>Compare before you choose.</h2>
-    <p>Interviewers love these questions. Click any service name to open its lesson.</p>
+    <p>Click any service name to open its lesson.</p>
   </div>
   <div class="cmp reveal"><table>
     <thead><tr><th>Container compute</th>
@@ -534,83 +558,119 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 <section id="projects">
   <div class="sec-head reveal">
     <div class="kick">05 / PROJECTS LAB — LEARN BY BUILDING</div>
-    <h2>Four guided builds. Check off steps as you go.</h2>
-    <p>Each project lists its architecture, the services involved (click them), a step-by-step checklist that saves your progress, and a <b>downloadable Terraform module bundle</b> (main.tf + variables.tf + outputs.tf).</p>
+    <h2>Four guided builds with downloadable Terraform modules.</h2>
   </div>
   <div class="projects" id="projwrap"></div>
 </section>
 
+<section id="enterprise">
+  <div class="sec-head reveal">
+    <div class="kick">06 / ENTERPRISE ARCHITECTURES — PRODUCTION GRADE</div>
+    <h2>How real companies structure AWS at scale.</h2>
+    <p>These are the three reference architectures every large org converges on: a governed multi-account application platform, an enterprise lakehouse, and a production GenAI/AgentOps platform. Study the <b>design decisions</b> — that's what senior interviews test.</p>
+  </div>
+  <div id="entwrap"></div>
+</section>
+
 <section id="iac">
   <div class="sec-head reveal">
-    <div class="kick">06 / TERRAFORM &amp; YAML LAB</div>
+    <div class="kick">07 / TERRAFORM &amp; YAML LAB</div>
     <h2>Why infrastructure-as-code — and how modules work.</h2>
-    <p>Clicking through a console can't be reviewed, versioned, repeated or audited. IaC turns infrastructure into code: peer-reviewed, tested, and identical in dev/staging/prod.</p>
   </div>
   <div class="why-iac reveal">
-    <div class="why-card"><b>① Repeatability</b><span>The same template builds dev, staging and prod identically — no "works on my account".</span></div>
-    <div class="why-card"><b>② Review &amp; audit</b><span>Changes are pull requests. Git history tells you who changed the firewall and why.</span></div>
-    <div class="why-card"><b>③ Blast-radius control</b><span>terraform plan / cdk diff show exactly what will change <b>before</b> it touches prod.</span></div>
-    <div class="why-card"><b>④ Disaster recovery</b><span>Region gone? Re-run the module. Your entire platform is one apply away.</span></div>
+    <div class="why-card"><b>① Repeatability</b><span>The same template builds dev, staging and prod identically.</span></div>
+    <div class="why-card"><b>② Review &amp; audit</b><span>Changes are pull requests. Git history is the audit trail.</span></div>
+    <div class="why-card"><b>③ Blast-radius control</b><span>terraform plan / cdk diff show changes <b>before</b> prod.</span></div>
+    <div class="why-card"><b>④ Disaster recovery</b><span>Region gone? Re-run the module — one apply away.</span></div>
   </div>
   <h4 style="font-family:var(--disp);letter-spacing:.1em;text-transform:uppercase;font-size:13px;color:var(--acc);margin-bottom:12px">Anatomy of a Terraform module</h4>
   <div class="modgrid reveal" id="modgrid"></div>
   <h4 style="font-family:var(--disp);letter-spacing:.1em;text-transform:uppercase;font-size:13px;color:var(--acc);margin:30px 0 12px">HCL → CloudFormation YAML converter</h4>
-  <p style="color:var(--mut);font-size:13.5px;margin-bottom:14px">Every Terraform resource compiles to an equivalent CloudFormation YAML resource (CDK outputs exactly this). Pick a resource and study both sides.</p>
+  <p style="color:var(--mut);font-size:13.5px;margin-bottom:14px">Every Terraform resource compiles to an equivalent CloudFormation YAML resource (CDK outputs exactly this).</p>
   <div class="conv-bar reveal">
     <select id="convSel"></select>
-    <span class="conv-note">Tip: <span style="color:var(--acc2)">cdk synth</span> generates the YAML side automatically from code.</span>
+    <span class="conv-note">Tip: <span style="color:var(--acc2)">cdk synth</span> generates the YAML side automatically.</span>
   </div>
   <div class="conv-split reveal" id="convSplit"></div>
 </section>
 
+<section id="playbooks">
+  <div class="sec-head reveal">
+    <div class="kick">08 / PRODUCTION PLAYBOOKS</div>
+    <h2>The practical guides teams actually follow.</h2>
+    <p>Eight runbooks distilled from real platform teams. Expand each — these double as interview answers.</p>
+  </div>
+  <div id="pbWrap" class="reveal"></div>
+</section>
+
+<section id="radar">
+  <div class="sec-head reveal">
+    <div class="kick">09 / INDUSTRY × AI CAREER RADAR</div>
+    <h2>What the IT industry uses — and where AI fits your role.</h2>
+    <p>Pick an industry to see its core AWS stack, or pick a role to see the AI-era skill map. Click any service to study it.</p>
+  </div>
+  <div class="radar-grid">
+    <div class="radar-panel reveal" style="--rc:#ff9d2e">
+      <h3>🏢 By Industry</h3>
+      <div class="rdesc">Each industry optimizes for different things — regulators, latency, inventory, viewers, uptime.</div>
+      <div class="rtabs" id="indTabs"></div>
+      <div class="rlist" id="indList"></div>
+    </div>
+    <div class="radar-panel reveal" style="--rc:#f07be0">
+      <h3>🤖 By AI-Era Role</h3>
+      <div class="rdesc">The 2026 skill stacks. Every role now has an AI component — AgentOps is the fastest-growing.</div>
+      <div class="rtabs" id="roleTabs"></div>
+      <div class="rlist" id="roleList"></div>
+    </div>
+  </div>
+</section>
+
 <section id="paths">
   <div class="sec-head reveal">
-    <div class="kick">07 / LEARNING PATHS</div>
+    <div class="kick">10 / LEARNING PATHS</div>
     <h2>Pick the job you want. Follow the order.</h2>
-    <p>Chips turn green as you learn them — finish a path for a surprise.</p>
   </div>
   <div class="paths">
     <div class="path-card reveal" style="--pc:#ff9d2e">
       <div class="pico">🛠️</div><h3>DevOps / Platform Engineer</h3>
-      <div class="pmeta">14 services · ~9 weeks</div>
-      <p>Networking and IAM first, then containers and the CI/CD loop.</p>
+      <div class="pmeta">16 services · ~10 weeks</div>
+      <p>Networking, IAM and governance first, then containers and the CI/CD golden path.</p>
       <div class="pprog"></div>
-      <div class="pchips" data-path="vpc,iam,ec2,alb,autoscaling,ecr,ecs,apprunner,codepipeline,codebuild,cloudwatch,ssm,config,backup"></div>
+      <div class="pchips" data-path="vpc,iam,ec2,alb,autoscaling,ecr,ecs,apprunner,codepipeline,codebuild,cloudwatch,ssm,config,backup,organizations,controltower"></div>
     </div>
     <div class="path-card reveal" style="--pc:#3ddad7">
       <div class="pico">📊</div><h3>Data / Analytics Engineer</h3>
-      <div class="pmeta">10 services · ~8 weeks</div>
-      <p>Lake-first: S3 → Glue → Athena → streams → Redshift.</p>
+      <div class="pmeta">12 services · ~9 weeks</div>
+      <p>Lake-first: S3 → Glue → Athena → streams → Redshift, with Lake Formation governance.</p>
       <div class="pprog"></div>
-      <div class="pchips" data-path="s3,glue,athena,kinesis,msk,emr,redshift,dynamodb,dms,quicksight"></div>
+      <div class="pchips" data-path="s3,glue,athena,kinesis,msk,emr,redshift,dynamodb,dms,quicksight,lakeformation,datasync"></div>
     </div>
     <div class="path-card reveal" style="--pc:#f07be0">
       <div class="pico">🤖</div><h3>ML / AI &amp; AgentOps Engineer</h3>
-      <div class="pmeta">12 services · ~10 weeks</div>
-      <p>SageMaker → Bedrock → KB + Guardrails → Agents with traces &amp; rollback.</p>
+      <div class="pmeta">14 services · ~11 weeks</div>
+      <p>SageMaker → Bedrock → KB + Guardrails → Agents with traces, evals and rollback.</p>
       <div class="pprog"></div>
-      <div class="pchips" data-path="iam,s3,ecr,sagemaker,opensearch,bedrock,bedrockkb,bedrockguardrails,bedrockagents,stepfunctions,cloudwatch,apigateway"></div>
+      <div class="pchips" data-path="iam,s3,ecr,sagemaker,opensearch,bedrock,bedrockkb,bedrockguardrails,bedrockagents,stepfunctions,cloudwatch,apigateway,qdeveloper,lex"></div>
     </div>
   </div>
 </section>
 
 <section id="quiz">
   <div class="sec-head reveal">
-    <div class="kick">08 / PROVE IT</div>
+    <div class="kick">11 / PROVE IT</div>
     <h2>Quiz Arena — 8 rapid-fire questions.</h2>
-    <p>Generated live from the catalog — every round is different.</p>
   </div>
   <div class="quiz-wrap reveal">
     <div class="quiz-intro">
       <h3>⚡ How well do you know the stack?</h3>
-      <p>Mix of "which service matches this description?" and "which one belongs to this track?" — instant feedback with explanations.</p>
+      <p>Generated live from the catalog — every round is different, with explanations.</p>
       <div class="best-score" id="bestScore">BEST SCORE · — not played yet</div>
       <button class="btn pri" id="quizStart">Start a round →</button>
     </div>
     <div id="quizBox">
       <div style="margin:auto;text-align:center;color:var(--dim);font-family:var(--mono);font-size:12px;padding:36px 10px">
         <div style="font-size:38px;margin-bottom:12px">🎯</div>
-        Press <b style="color:var(--acc2)">Start a round</b> to draw 8 questions<br>from all 68 services.
+        Press <b style="color:var(--acc2)">Start a round</b> to draw 8 questions<br>from all 80 services.
       </div>
     </div>
   </div>
@@ -618,15 +678,15 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 
 <section id="interview">
   <div class="sec-head reveal">
-    <div class="kick">09 / INTERVIEW PREP</div>
-    <h2>The eight questions you <em>will</em> get asked.</h2>
+    <div class="kick">12 / INTERVIEW PREP</div>
+    <h2>The questions you <em>will</em> get asked.</h2>
   </div>
   <div id="qaWrap" class="reveal"></div>
 </section>
 
 <section id="setup">
   <div class="sec-head reveal">
-    <div class="kick">10 / DAY-0 SETUP</div>
+    <div class="kick">13 / DAY-0 SETUP</div>
     <h2>Four tools away from your first deploy.</h2>
   </div>
   <div class="setup-grid" id="setupGrid"></div>
@@ -639,17 +699,17 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
       <div>
         <a class="logo" style="pointer-events:none">
           <svg class="logo-cube" viewBox="0 0 40 40" fill="none"><path d="M20 3 36 12v16L20 37 4 28V12L20 3z" stroke="#ff9900" stroke-width="2" fill="rgba(255,153,0,.08)"/><circle cx="20" cy="17" r="3" fill="#ff9900"/></svg>
-          <span><b>AWS<em>Atlas</em> Pro</b><small>68 SERVICES · PROJECTS · IaC LAB</small></span>
+          <span><b>AWS<em>Atlas</em> ENT</b><small>80 SERVICES · ENTERPRISE · AI</small></span>
         </a>
-        <p class="fabout">The daily-use AWS stack — compute, networking, data, DevOps and the full AI/AgentOps surface — with Terraform, CDK, Boto3, guided projects and deployment blueprints. All rendering is escaped; a CSP guards the page.</p>
+        <p class="fabout">The enterprise AWS stack — governance, platforms, data, DevOps and the full AI/AgentOps surface — with deep docs, production playbooks and career radar. All rendering is escaped; a CSP guards the page.</p>
       </div>
-      <div><h5>Catalog</h5><a data-jump="compute">Compute</a><a data-jump="database">Databases</a><a data-jump="networking">Networking</a><a data-jump="security">Security</a><a data-jump="ml">AI / ML / AgentOps</a></div>
-      <div><h5>Build</h5><a href="#projects">Projects Lab</a><a href="#blueprints">Deployment blueprints</a><a href="#iac">Terraform modules</a><a href="#iac">HCL ↔ YAML</a></div>
-      <div><h5>Tooling</h5><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs" target="_blank" rel="noopener noreferrer">Terraform AWS Provider ↗</a><a href="https://docs.aws.amazon.com/cdk/api/v2/" target="_blank" rel="noopener noreferrer">AWS CDK API ↗</a><a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html" target="_blank" rel="noopener noreferrer">Boto3 docs ↗</a></div>
+      <div><h5>Catalog</h5><a data-jump="compute">Compute</a><a data-jump="database">Databases</a><a data-jump="networking">Networking</a><a data-jump="security">Security &amp; Governance</a><a data-jump="ml">AI / ML / AgentOps</a></div>
+      <div><h5>Build</h5><a href="#projects">Projects Lab</a><a href="#enterprise">Enterprise architectures</a><a href="#playbooks">Production playbooks</a><a href="#iac">Terraform &amp; YAML</a></div>
+      <div><h5>Career</h5><a href="#radar">Industry radar</a><a href="#radar">AI role maps</a><a href="#paths">Learning paths</a><a href="#interview">Interview prep</a></div>
     </div>
     <div class="fbottom">
-      <span>AWS ATLAS PRO — built for learning · not affiliated with Amazon Web Services</span>
-      <span>cdk synth ✓ · terraform plan ✓ · CSP active · 0 errors</span>
+      <span>AWS ATLAS ENTERPRISE — built for learning · not affiliated with Amazon Web Services</span>
+      <span>terraform plan ✓ · cdk synth ✓ · CSP active · 0 errors</span>
     </div>
   </div>
 </footer>
@@ -669,31 +729,18 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 
 <script nonce="awsatlaspro26">
 "use strict";
-/* ============================================================
-   SECURITY CORE — defined FIRST, before any DOM work:
-   esc() escapes &, <, >, " and ' for safe HTML + attribute use.
-   Every dynamic value passes through esc()/escAttr() before
-   innerHTML. Text-only sinks (toast, counters) use textContent.
-============================================================ */
-function esc(v){
-  if(v===null||v===undefined) return "";
-  return String(v).replace(/[&<>"']/g, function(ch){
-    return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[ch];
-  });
-}
-const escAttr = esc; /* same rules are valid inside quoted attributes */
-const $  = function(sel){ return document.querySelector(sel); };
-const $$ = function(sel){ return Array.from(document.querySelectorAll(sel)); };
-const store = {
-  get:function(k,f){ try{ const v=JSON.parse(localStorage.getItem(k)); return v===null||v===undefined?f:v; }catch(e){ return f; } },
-  set:function(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){/* storage unavailable — degrade gracefully */} }
-};
+/* SECURITY CORE — defined first. esc() escapes &, <, >, " and ' for safe HTML + attributes. */
+function esc(v){if(v===null||v===undefined)return "";return String(v).replace(/[&<>"']/g,function(ch){return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[ch];});}
+const escAttr=esc;
+const $=function(s){return document.querySelector(s);};
+const $$=function(s){return Array.from(document.querySelectorAll(s));};
+const store={get:function(k,f){try{const v=JSON.parse(localStorage.getItem(k));return v===null||v===undefined?f:v;}catch(e){return f;}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
 
-const CATS={compute:{label:"Compute",c:"#ff9d2e"},storage:{label:"Storage",c:"#5fd68b"},database:{label:"Databases",c:"#5aa7ff"},networking:{label:"Networking",c:"#b79bff"},security:{label:"Security & Identity",c:"#ff7b72"},messaging:{label:"Messaging & Async",c:"#ffd75e"},analytics:{label:"Analytics & Data",c:"#3ddad7"},migration:{label:"Migration",c:"#f2a06c"},devops:{label:"DevOps & Mgmt",c:"#53d1ec"},ml:{label:"AI · ML · AgentOps",c:"#f07be0"}};
+const CATS={compute:{label:"Compute",c:"#ff9d2e"},storage:{label:"Storage",c:"#5fd68b"},database:{label:"Databases",c:"#5aa7ff"},networking:{label:"Networking",c:"#b79bff"},security:{label:"Security & Governance",c:"#ff7b72"},messaging:{label:"Messaging & Async",c:"#ffd75e"},analytics:{label:"Analytics & Data",c:"#3ddad7"},migration:{label:"Migration",c:"#f2a06c"},devops:{label:"DevOps & Mgmt",c:"#53d1ec"},ml:{label:"AI · ML · AgentOps",c:"#f07be0"}};
 
-/* ===== 68 SERVICES (static, trusted, frozen at the end) ===== */
+/* ===== 80 SERVICES ===== */
 const SERVICES=[
-{id:"ec2",n:"EC2",f:"Elastic Compute Cloud",c:"compute",i:"🖥️",t:"Rent virtual servers by the second — the original building block of the cloud.",w:"You need a machine you fully control: any OS, any software. EC2 launches one in 30 seconds and bills per second.",u:"Web servers, CI runners, batch workers, GPU hosts — anything that needs 'a server'.",b:["Linux basics & SSH","Security groups = firewalls","AMIs & instance families","On-Demand vs Spot vs Reserved"],
+{id:"ec2",n:"EC2",f:"Elastic Compute Cloud",c:"compute",i:"🖥️",t:"Rent virtual servers by the second — the original building block of the cloud.",w:"You need a machine you fully control: any OS, any software. EC2 launches one in 30 seconds and bills per second.",u:"Web servers, CI runners, batch workers, GPU hosts.",b:["Linux basics & SSH","Security groups = firewalls","AMIs & instance families","On-Demand vs Spot vs Reserved"],
 tf:`resource "aws_instance" "web" {
   ami                    = "ami-0c2b8ca1dad44e93a" # Amazon Linux 2023
   instance_type          = "t3.micro"
@@ -719,7 +766,7 @@ dl:`ec2.terminate_instances(InstanceIds=["i-0abc123"])`,
 x:["Never store keys on the box — use IAM instance profiles.","Stop ≠ terminate: stopped instances keep billing on EBS + EIP."],
 r:["Netflix","Streams video and runs chaos experiments across thousands of EC2 instances."],
 nt:[["VPC","Instances plug ENIs into subnets; SGs are the firewall."],["EBS","Root & data volumes attach here."],["ALB","Target groups route to healthy instances."],["IAM","Instance profiles grant permissions."]]},
-{id:"lambda",n:"Lambda",f:"AWS Lambda",c:"compute",i:"λ",t:"Run code on events. Zero servers, pay per 128ms slice.",w:"Most glue code doesn't deserve a server. Lambda spins up per request, scales to zero, bills in milliseconds.",u:"API handlers, S3 triggers, cron jobs, stream processors, service glue.",b:["Event-driven model","Cold starts & memory↔CPU","Execution role IAM","Timeouts & concurrency"],
+{id:"lambda",n:"Lambda",f:"AWS Lambda",c:"compute",i:"λ",t:"Run code on events. Zero servers, pay per 128ms slice.",w:"Most glue code doesn't deserve a server. Lambda spins up per request, scales to zero, bills in milliseconds.",u:"API handlers, S3 triggers, cron jobs, stream processors.",b:["Event-driven model","Cold starts & memory↔CPU","Execution role IAM","Timeouts & concurrency"],
 tf:`resource "aws_lambda_function" "processor" {
   function_name = "order-processor"
   role          = aws_iam_role.lambda_role.arn
@@ -749,8 +796,7 @@ nt:[["API Gateway","HTTP routes invoke Lambda directly."],["DynamoDB","Stateless
 tf:`resource "aws_ecs_cluster" "apps" { name = "apps-cluster" }
 
 resource "aws_ecs_task_definition" "api" {
-  family = "api"
-  network_mode = "awsvpc"
+  family = "api"; network_mode = "awsvpc"
   requires_compatibilities = ["EC2"]
   cpu = "512"; memory = "1024"
   execution_role_arn = aws_iam_role.ecs_exec.arn
@@ -1164,7 +1210,7 @@ dl:`boto3.client("redshift").delete_cluster(ClusterIdentifier="acme-dw", SkipFin
 x:["Load with COPY, never row-by-row inserts.","RA3 separates compute from storage — scale them independently."],
 r:["Amgen","Runs petabyte-scale biomedical analytics on Redshift."],
 nt:[["S3","COPY loads data; Spectrum queries S3 in place."],["Glue","Cleans data before it lands."],["QuickSight","Consumption layer on top."]]},
-{id:"neptune",n:"Neptune",f:"Amazon Neptune",c:"database",i:"🔱",t:"Graph database for relationships — fraud rings, social graphs, knowledge.",w:"When the question is 'who connects to whom, how many hops away', joins collapse. Graphs traverse in milliseconds.",u:"Fraud detection, recommendations, knowledge graphs, network topology.",b:["Property graph vs RDF","Gremlin / openCypher","Graph modeling"],
+{id:"neptune",n:"Neptune",f:"Amazon Neptune",c:"database",i:"🔱",t:"Graph database for relationships — fraud rings, social graphs, knowledge.",w:"When the question is 'who connects to whom, how many hops away', joins collapse. Graphs traverse in milliseconds.",u:"Fraud detection, recommendations, knowledge graphs.",b:["Property graph vs RDF","Gremlin / openCypher","Graph modeling"],
 tf:`resource "aws_neptune_cluster" "graph" {
   cluster_identifier = "acme-graph"
   engine = "neptune"
@@ -1379,6 +1425,37 @@ dl:`elb.delete_load_balancer(LoadBalancerArn=arn)`,
 x:["Health check path should be cheap (/healthz), not /.","ALB spans 2+ AZs by design — never deploy in one."],
 r:["BuzzFeed","Absorbs viral spikes by spreading load behind ALBs."],
 nt:[["Auto Scaling / ECS","Register targets dynamically."],["ACM","TLS certs attach to listeners."],["WAF","Regional ACLs protect ALBs."],["VPC","ALB public; targets private."]]},
+{id:"nlb",n:"NLB",f:"Network Load Balancer",c:"networking",i:"🚦",t:"Layer-4 load balancer — millions of connections/sec, static IPs, TCP/UDP/TLS.",w:"Ultra-high-throughput TCP/UDP, static IPs per AZ, or fronting PrivateLink/EKS services — that's L4 territory.",u:"Game servers, IoT fleets, PrivateLink endpoint services, k8s LoadBalancer services.",b:["L4 vs L7 (ALB)","Static IP per AZ","Target groups: instance/IP modes","Pairs with PrivateLink & Global Accelerator"],
+tf:`resource "aws_lb" "tcp" {
+  name               = "tcp-nlb"
+  load_balancer_type = "network"
+  subnets            = [aws_subnet.pub_a.id, aws_subnet.pub_b.id]
+}
+
+resource "aws_lb_target_group" "tcp" {
+  name = "tcp-tg"; port = 443; protocol = "TLS"
+  vpc_id = aws_vpc.main.id
+}
+
+resource "aws_lb_listener" "tcp" {
+  load_balancer_arn = aws_lb.tcp.arn
+  port = 443; protocol = "TLS"
+  certificate_arn = aws_acm_certificate.site.arn
+  default_action { type = "forward"; target_group_arn = aws_lb_target_group.tcp.arn }
+}`,
+ck:`import * as elbv2 from "aws-cdk-lib/aws-elasticloadbalancingv2";
+const nlb = new elbv2.NetworkLoadBalancer(this, "Tcp", {
+  vpc, internetFacing: true,
+});`,
+sd:`import boto3
+elb = boto3.client("elbv2", region_name="us-east-1")
+for lb in elb.describe_load_balancers()["LoadBalancers"]:
+    if lb["Type"] == "network":
+        print(lb["LoadBalancerName"], lb["State"]["Code"])`,
+dl:`elb.delete_load_balancer(LoadBalancerArn=arn)`,
+x:["NLB preserves the client source IP; ALB doesn't.","PrivateLink endpoint services REQUIRE an NLB."],
+r:["Game studios","Absorb millions of concurrent TCP connections with static IPs."],
+nt:[["PrivateLink","Endpoint services sit behind NLBs."],["EKS","Service type LoadBalancer provisions NLBs."],["Global Accelerator","Uses NLBs/ALBs as endpoints."]]},
 {id:"tgw",n:"Transit Gateway",f:"AWS Transit Gateway",c:"networking",i:"🔀",t:"One hub that connects every VPC, on-prem network and shared service.",w:"Peering 30 VPCs pairwise means 435 connections. TGW replaces that with one hub: every VPC attaches once.",u:"Enterprise multi-account networking, hub-and-spoke, hybrid routing.",b:["Hub-and-spoke vs mesh","TGW route tables","When peering/PrivateLink is simpler"],
 tf:`resource "aws_ec2_transit_gateway" "hub" {
   description = "hub for regional VPCs"
@@ -1745,6 +1822,124 @@ dl:`ins.disable(accountIds=[acct], resourceTypes=["EC2","ECR","LAMBDA"])`,
 x:["Gate deploys: block CRITICAL CVEs in ECR before promotion.","Scan Lambda too — your pip dependencies are attack surface."],
 r:["Platform security","Block deploys when ECR images carry critical CVEs."],
 nt:[["ECR","Image scan findings per repository."],["Security Hub","Findings roll up centrally."],["EventBridge","React to new critical findings."]]},
+{id:"macie",n:"Macie",f:"Amazon Macie",c:"security",i:"🔬",t:"ML that hunts PII inside S3 — finds the secret nobody remembered storing.",w:"Someone always dumps a CSV of emails into a bucket. Macie continuously classifies S3 data and alerts on sensitive content.",u:"PII discovery, GDPR/HIPAA evidence, bucket hygiene at scale.",b:["Managed data identifiers (PII types)","Scheduled vs one-time jobs","Sensitive data discovery results","Custom data identifiers"],
+tf:`resource "aws_macie2_account" "main" {}
+
+resource "aws_macie2_classification_job" "weekly" {
+  job_type = "SCHEDULED"
+  schedule_frequency { daily_schedule = true }
+  # scoping block selects buckets; managed identifiers find PII
+}`,
+ck:`import * as macie2 from "aws-cdk-lib/aws-macie";
+new macie2.CfnSession(this, "Macie", {
+  findingPublishingFrequency: "FIFTEEN_MINUTES",
+});`,
+sd:`import boto3
+mac = boto3.client("macie2", region_name="us-east-1")
+print(mac.get_macie_session())
+for f in mac.list_findings()["ids"][:5]:
+    print(f)`,
+dl:`mac.disable_macie()`,
+x:["Run a one-time full-account scan before any audit.","Pair findings with EventBridge → auto-quarantine bucket ACLs."],
+r:["Regulated enterprises","Weekly PII sweeps across thousands of buckets, results in Security Hub."],
+nt:[["S3","The surface it scans."],["Security Hub","Findings roll up."],["EventBridge","Reacts to new sensitive-data findings."]]},
+{id:"shield",n:"Shield",f:"AWS Shield",c:"security",i:"☂️",t:"DDoS protection — always-on L3/4 defense; Advanced guards L7.",w:"Volumetric attacks hit everyone eventually. Standard is free and automatic; Advanced adds L7 rules, response team and cost protection.",u:"Protecting CloudFront, ALB/NLB, Global Accelerator, Route 53.",b:["Standard (always on) vs Advanced","L3/4 vs L7 attack vectors","Shield Response Team (SRT)","Cost protection"],
+tf:`resource "aws_shield_protection" "cf" {
+  name = "cloudfront-shield"
+  resource_arn = aws_cloudfront_distribution.site.arn
+}
+# Shield Standard (L3/4) is automatic for every account.`,
+ck:`import * as shield from "aws-cdk-lib/aws-route53"; // Shield via CfnProtection
+new shield.CfnProtection(this, "CfShield", {
+  name: "cloudfront-shield",
+  resourceArn: dist.distributionArn,
+});`,
+sd:`import boto3
+sh = boto3.client("shield", region_name="us-east-1")
+for p in sh.list_protections()["Protections"]:
+    print(p["Name"], p["ResourceArn"])`,
+dl:`sh.delete_protection(ProtectionId=pid)`,
+x:["Advanced includes 24/7 access to the DDoS Response Team.","Bundle Advanced with WAF — they're designed together."],
+r:["Ticketing platforms","Survive sale-day bot floods with Shield Advanced + WAF."],
+nt:[["WAF","L7 rules layer on top of Shield."],["CloudFront / ALB / GA","The protected surfaces."],["Route 53","DNS layer protection."]]},
+{id:"organizations",n:"Organizations",f:"AWS Organizations",c:"security",i:"🏛️",t:"Multi-account governance — SCPs, consolidated billing, account factories.",w:"Serious companies don't use one account. Organizations gives you account boundaries, SCP guardrails and one bill.",u:"Landing zones, per-env accounts, SCPs, consolidated billing.",b:["OUs & account hierarchy","Service Control Policies (SCPs)","Consolidated billing","Delegated admin services"],
+tf:`resource "aws_organizations_organization" "org" {
+  feature_set = "ALL"
+  enabled_policy_types = ["SERVICE_CONTROL_POLICY", "TAG_POLICY"]
+}
+
+resource "aws_organizations_policy" "region_fence" {
+  name = "region-fence"
+  content = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Sid = "DenyOutsideApprovedRegions"
+      Effect = "Deny"; Action = "*"; Resource = "*"
+      Condition = { StringNotEquals = {
+        "aws:RequestedRegion" = ["us-east-1", "eu-west-1"] } }
+    }]
+  })
+}`,
+ck:`import * as organizations from "aws-cdk-lib/aws-organizations";
+new organizations.CfnOrganization(this, "Org", {
+  featureSet: "ALL",
+});`,
+sd:`import boto3
+org = boto3.client("organizations", region_name="us-east-1")
+for a in org.list_accounts()["Accounts"]:
+    print(a["Name"], a["Id"], a["Status"])`,
+dl:`# Leaving an org is a process, not a delete call — plan it.`,
+x:["SCPs set the MAXIMUM permissions — IAM still applies inside.","Deny root user and unencrypted S3 org-wide from day one."],
+r:["Banks & enterprises","One org, dozens of accounts, SCPs as the outer security wall."],
+nt:[["Control Tower","Automates the landing zone on top of Organizations."],["IAM Identity Center","SSO across every account."],["CloudTrail / Config","Org-wide trails and rules."]]},
+{id:"controltower",n:"Control Tower",f:"AWS Control Tower",c:"security",i:"🗼",t:"Landing zone as code — guardrails, account vending, baseline security.",w:"Control Tower stands up the multi-account baseline (logging, audit, shared network) and enforces guardrails — the enterprise starting line.",u:"Greenfield landing zones, account vending machines, detective/preventive guardrails.",b:["Landing zone vs guardrails (controls)","Account Factory","Mandatory vs strongly-recommended controls","Home Region concept"],
+tf:`resource "aws_controltower_landing_zone" "lz" {
+  manifest_json = file("landing-zone-manifest.json")
+}
+
+# Example guardrail on a workload OU:
+resource "aws_controltower_control" "no_root" {
+  target_identifier = aws_organizations_ou.workloads.arn
+  control_identifier = "arn:aws:controltower:us-east-1::control/AWS-GR_RESTRICT_ROOT_USER"
+}`,
+ck:`import * as controltower from "aws-cdk-lib/aws-controltower";
+new controltower.CfnLandingZone(this, "LZ", {
+  manifest: JSON.parse(fs.readFileSync("manifest.json", "utf8")),
+});`,
+sd:`import boto3
+ct = boto3.client("controltower", region_name="us-east-1")
+for lz in ct.list_landing_zones()["landingZones"]:
+    print(ct.get_landing_zone(landingZoneIdentifier=lz)["landingZone"]["status"])`,
+dl:`ct.delete_landing_zone(landingZoneIdentifier=lzid)  # rare — usually you evolve it`,
+x:["Adopt Control Tower BEFORE you have 20 accounts, not after.","Guardrails beat tribal knowledge — they enforce policy automatically."],
+r:["Global enterprises","Every new team gets a compliant account in minutes via Account Factory."],
+nt:[["Organizations","The substrate Control Tower manages."],["CloudTrail / Config","Centralized logging accounts."],["IAM Identity Center","Identity baseline."]]},
+{id:"idc",n:"IAM Identity Center",f:"IAM Identity Center (SSO)",c:"security",i:"🎫",t:"SSO for humans — one login to every account, mapped to permission sets.",w:"Humans shouldn't have IAM users in 30 accounts. Identity Center federates your IdP once and assigns permission sets per group.",u:"Workforce SSO, permission sets, app assignments, machine-to-machine too.",b:["Permission sets vs IAM roles","Identity source (built-in / Entra / Okta)","Account assignments","MFA enforcement"],
+tf:`data "aws_ssoadmin_instances" "idc" {}
+
+resource "aws_ssoadmin_permission_set" "platform_admin" {
+  instance_arn = tolist(data.aws_ssoadmin_instances.idc.arns)[0]
+  name = "PlatformAdmin"
+  session_duration = "PT2H"
+}
+
+resource "aws_ssoadmin_managed_policy_attachment" "admin" {
+  instance_arn = tolist(data.aws_ssoadmin_instances.idc.arns)[0]
+  managed_policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+  permission_set_arn = aws_ssoadmin_permission_set.platform_admin.arn
+}`,
+ck:`// Identity Center is configured via console/API + assignments:
+// map groups -> permission sets -> accounts. In CDK, manage the IAM
+// side (roles) and keep IdP sync in your identity team's tooling.`,
+sd:`import boto3
+sso = boto3.client("sso-admin", region_name="us-east-1")
+inst = sso.list_instances()["Instances"][0]["InstanceArn"]
+for ps in sso.list_permission_sets(InstanceArn=inst)["PermissionSets"]:
+    print(ps)`,
+dl:`sso.delete_permission_set(InstanceArn=inst, PermissionSetArn=ps)`,
+x:["Permission sets are roles that SSO assumes for you — auditable.","Short session durations (1-2h) + re-auth beats 12h sessions."],
+r:["Enterprises","One login, every account, zero shared passwords."],
+nt:[["Organizations","Assigns across all accounts."],["IAM","Permission sets materialize as roles."],["External IdPs","Entra ID / Okta / Google federation."]]},
 {id:"sqs",n:"SQS",f:"Simple Queue Service",c:"messaging",i:"📬",t:"A queue between services — spikes land here, workers drain at their pace.",w:"Synchronous calls cascade failures. A queue decouples producer and consumer: checkout never waits for inventory.",u:"Work queues, order pipelines, buffering, dead-letter queues.",b:["Standard vs FIFO","Visibility timeout","DLQs & redrive","Long polling"],
 tf:`resource "aws_sqs_queue" "orders_dlq" { name = "orders-dlq" }
 
@@ -2061,6 +2256,25 @@ dl:`qs.delete_dashboard(AwsAccountId=acct, DashboardId=id)`,
 x:["SPICE = in-memory turbo for dashboards; direct query for freshness.","Per-session pricing beats per-seat when viewers are occasional."],
 r:["Product teams","Embed live usage dashboards inside their SaaS apps."],
 nt:[["Athena / Redshift / RDS","Dataset sources."],["S3","SPICE imports."],["Cognito","Auth for embedded dashboards."]]},
+{id:"lakeformation",n:"Lake Formation",f:"AWS Lake Formation",c:"analytics",i:"🏞️",t:"Fine-grained permissions over the lake — column-level security, no IAM acrobatics.",w:"Bucket policies can't say 'analysts see revenue but not salaries'. Lake Formation grants table/column/cell access on the Glue Catalog.",u:"Lake permissions, column-level masking, cross-account sharing, curated zones.",b:["LF-tags & data location registration","Grant/revoke on catalog objects","Column filters","Cross-account sharing"],
+tf:`resource "aws_lakeformation_permissions" "analyst_read" {
+  principal = aws_iam_role.analyst.arn
+  permissions = ["SELECT", "DESCRIBE"]
+  database { name = aws_glue_catalog_database.raw.name }
+}
+# Column-level: table_with_columns with excluded_column_names = ["ssn", "salary"]`,
+ck:`import * as lakeformation from "aws-cdk-lib/aws-lakeformation";
+new lakeformation.CfnDataLakeSettings(this, "Admins", {
+  admins: [{ dataLakePrincipalIdentifier: platformRole.roleArn }],
+});`,
+sd:`import boto3
+lf = boto3.client("lakeformation", region_name="us-east-1")
+for g in lf.list_permissions()["PrincipalResourcePermissions"]:
+    print(g["Principal"], g["Permissions"])`,
+dl:`lf.batch_revoke_permissions(...)  # then deregister locations`,
+x:["Register S3 locations BEFORE granting on them.","LF-tags scale better than per-principal grants."],
+r:["Regulated data teams","Analysts query revenue freely while PII columns stay masked automatically."],
+nt:[["Glue","Catalog objects are what you grant on."],["Athena / Redshift / EMR","Engines enforce LF permissions."],["RAM","Shares the lake across accounts."]]},
 {id:"dms",n:"DMS",f:"Database Migration Service",c:"migration",i:"🚚",t:"Migrate live databases to AWS with near-zero downtime — including CDC.",w:"You can't freeze production to move it. DMS copies the data, then streams ongoing changes (CDC) until cutover.",u:"Oracle → Aurora, on-prem → RDS, consolidation.",b:["Replication instance sizing","Source & target endpoints","Full load vs full-load + CDC"],
 tf:`resource "aws_dms_replication_instance" "mig" {
   replication_instance_id = "mig-01"
@@ -2112,6 +2326,56 @@ dms.delete_replication_instance(ReplicationInstanceArn=arn)`,
 x:["Run SCT first for heterogeneous engines (Oracle → Postgres).","CDC lag is your cutover-readiness metric."],
 r:["Enterprises","Oracle → Aurora with CDC: cutover in minutes, not a frozen weekend."],
 nt:[["RDS / Aurora","The usual targets."],["VPC","The replication instance sits inside your network."],["CloudWatch","Migration progress."]]},
+{id:"datasync",n:"DataSync",f:"AWS DataSync",c:"migration",i:"🔄",t:"High-speed mover for on-prem ↔ AWS — NFS/SMB/S3 at up to 10 Gbps.",w:"Copying terabytes with rsync takes weeks. DataSync saturates the wire, verifies checksums, and schedules recurring syncs.",u:"NAS → S3 migration, DR replication, inter-bucket moves.",b:["Agents vs task model","Locations (NFS/SMB/S3/EFS)","Bandwidth throttling","Schedules & filters"],
+tf:`resource "aws_datasync_location_s3" "dest" {
+  s3_bucket_arn = aws_s3_bucket.lake.arn
+  subdirectory = "/raw/"
+  s3_config { bucket_access_role_arn = aws_iam_role.datasync.arn }
+}
+
+resource "aws_datasync_task" "nightly" {
+  name = "nas-to-lake"
+  source_location_arn = aws_datasync_location_nfs.nas.arn
+  destination_location_arn = aws_datasync_location_s3.dest.arn
+  options { bytes_per_second = 104857600 }  # 100 MB/s cap
+}`,
+ck:`import * as datasync from "aws-cdk-lib/aws-datasync";
+new datasync.CfnLocationS3(this, "Dest", {
+  s3BucketArn: lake.bucketArn,
+  subdirectory: "/raw/",
+  s3Config: { bucketAccessRoleArn: dsRole.roleArn },
+});`,
+sd:`import boto3
+ds = boto3.client("datasync", region_name="us-east-1")
+for t in ds.list_tasks()["Tasks"]:
+    print(t["Name"], t["Status"])`,
+dl:`ds.delete_task(TaskArn=arn)`,
+x:["Throttle bandwidth during business hours — saturating the WAN hurts everyone.","Verify with checksums enabled; don't trust blind copies."],
+r:["Media companies","Nightly 40TB NAS → S3 syncs finish before breakfast."],
+nt:[["S3 / EFS","Destinations for migrated data."],["Direct Connect","The pipe it saturates."],["Snow Family","When even DataSync is too slow."]]},
+{id:"snow",n:"Snow Family",f:"Snowball / Snowmobile",c:"migration",i:"❄️",t:"Petabyte-mover by truck — when the network is simply too slow.",w:"At 1 Gbps, 1 PB takes ~3 months. Snowball Edge carries 80-100 TB per box; Snowmobile is a 40-foot container for exabytes.",u:"One-time bulk migrations, remote/offline sites, tape replacement.",b:["Snowball vs Edge vs Snowmobile","Ordering & job workflow","On-device compute basics","Chain of custody / encryption"],
+tf:`# Snow devices are physical — ordered via console/API, not Terraform.
+# IaC manages the IAM role the device assumes when shipping into S3:
+resource "aws_iam_role" "snow" {
+  name = "snow-import-role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"; Action = "sts:AssumeRole"
+      Principal = { Service = "importexport.amazonaws.com" }
+    }]
+  })
+}`,
+ck:`// No CDK construct — device jobs are API/console operations.
+// Keep the landing bucket + role in CDK, order the device manually.`,
+sd:`import boto3
+imp = boto3.client("snowball", region_name="us-east-1")
+for j in imp.list_jobs()["JobList"]:
+    print(j["JobId"], j["JobState"], j["JobType"])`,
+dl:`imp.cancel_job(JobId=jid)  # before the device ships`,
+x:["Encrypt with your KMS key before the device leaves AWS.","Plan the return logistics — devices have due dates."],
+r:["Film studios","Ship a season of raw footage on Snowballs instead of frying the uplink."],
+nt:[["S3","Where the boxes empty into."],["KMS","Device-side encryption keys."],["DataSync","Takes over for ongoing syncs after the initial dump."]]},
 {id:"cloudwatch",n:"CloudWatch",f:"Amazon CloudWatch",c:"devops",i:"👁️",t:"Metrics, logs, alarms and dashboards — the nervous system of AWS.",w:"You can't operate what you can't see. Every service emits metrics here; alarms turn metrics into pages.",u:"Monitoring, autoscaling triggers, log analysis, billing alarms.",b:["Metrics, dimensions, namespaces","Alarms → SNS","Log groups & Logs Insights"],
 tf:`resource "aws_cloudwatch_log_group" "api" {
   name = "/aws/lambda/order-processor"
@@ -2752,7 +3016,7 @@ resp = tex.analyze_document(
     Document={"S3Object": {"Bucket": "acme-assets-prod", "Name": "invoice-1042.pdf"}},
     FeatureTypes=["TABLES", "FORMS"])
 for b in resp["Blocks"][:5]:
-    if b["BlockType"] === "LINE" ? false : b["BlockType"] == "LINE":
+    if b["BlockType"] == "LINE":
         print(b["Text"])`,
 dl:`# Nothing to delete — per-call service.`,
 x:["Use AnalyzeExpense for invoices — it knows line items.","Route low-confidence fields to a human review queue."],
@@ -2788,38 +3052,106 @@ print("job started")`,
 dl:`tr.delete_transcription_job(TranscriptionJobName="call-2026-08-05")`,
 x:["Custom vocabularies fix product-name hallucinations.","Chain into Comprehend for per-speaker sentiment."],
 r:["Contact centers","Transcribe 100% of calls, then Comprehend scores sentiment."],
-nt:[["S3","Audio in, transcripts out."],["Comprehend","Sentiment over transcripts."],["Kinesis","Streaming for live calls."]]}
+nt:[["S3","Audio in, transcripts out."],["Comprehend","Sentiment over transcripts."],["Kinesis","Streaming for live calls."]]},
+{id:"lex",n:"Lex",f:"Amazon Lex",c:"ml",i:"🗨️",t:"Managed conversational bots — the engine behind Alexa-style dialog.",w:"Building intent recognition and slot filling from scratch is years of work. Lex gives you ASR + NLU as an API.",u:"Chatbots, voice IVRs, form-like dialogs over chat.",b:["Intents, slots, utterances","Dialog flow & confirmations","Channels (web, Slack, Connect)","Lex v2 bots & aliases"],
+tf:`resource "aws_lexv2models_bot" "faq" {
+  name = "faq-bot"
+  role_arn = aws_iam_role.lex.arn
+  data_privacy { child_directed = false }
+  idle_session_ttl_in_seconds = 300
+}`,
+ck:`import * as lex from "aws-cdk-lib/aws-lex";
+new lex.CfnBot(this, "Faq", {
+  name: "faq-bot",
+  roleArn: lexRole.roleArn,
+  dataPrivacy: { childDirected: false },
+  idleSessionTTLInSeconds: 300,
+});`,
+sd:`import boto3
+lex = boto3.client("lexv2-runtime", region_name="us-east-1")
+resp = lex.recognize_text(botId="BOT123", botAliasId="ALIAS1",
+    localeId="en_US", sessionId="s1", text="Where is my order?")
+print(resp["messages"][0]["content"])`,
+dl:`boto3.client("lexv2-models").delete_bot(id="BOT123")`,
+x:["Start with 3 tight intents; expand after real transcripts.","Pair with Bedrock for open-ended questions, Lex for structured flows."],
+r:["Retail support","Deflects 60% of 'where is my order?' chats before a human."],
+nt:[["Cognito","Auth for web chat widgets."],["Lambda","Fulfillment logic per intent."],["Bedrock","Hybrid: Lex routes, LLMs elaborate."]]},
+{id:"polly",n:"Polly",f:"Amazon Polly",c:"ml",i:"🔊",t:"Text-to-speech API — turn content into natural, human-like voices.",w:"Reading content aloud (accessibility, podcasts, IVR) shouldn't need a studio. Polly synthesizes speech in dozens of voices/languages.",u:"Accessibility readers, audiobooks, IVR prompts, voice assistants.",b:["Standard vs Neural voices","SSML markup","Output formats (mp3/ogg)","Synthesis jobs"],
+tf:`# Per-call AI service — manage the invoke permission:
+resource "aws_iam_policy" "polly_speak" {
+  name = "polly-speak"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Action = ["polly:SynthesizeSpeech"]
+      Resource = "*"
+    }]
+  })
+}`,
+ck:`new iam.ManagedPolicy(this, "PollySpeak", {
+  statements: [new iam.PolicyStatement({
+    actions: ["polly:SynthesizeSpeech"], resources: ["*"],
+  })],
+});`,
+sd:`import boto3
+pol = boto3.client("polly", region_name="us-east-1")
+resp = pol.synthesize_speech(Text="Your order has shipped.",
+    OutputFormat="mp3", VoiceId="Joanna", Engine="neural")
+open("ship.mp3", "wb").write(resp["AudioStream"].read())`,
+dl:`# Per-call service — nothing to delete. Clean up generated audio + IAM.`,
+x:["Neural voices cost more but sound dramatically better.","Use SSML breaks (<break/>) for natural pacing."],
+r:["Publishers","Auto-narrate daily articles for commuter listening."],
+nt:[["S3","Store generated audio."],["Transcribe","The reverse direction — speech to text."],["Lex","Voice input for chatbots."]]},
+{id:"qdeveloper",n:"Q Developer",f:"Amazon Q Developer",c:"devops",i:"🧞",t:"AWS's AI pair programmer — code gen, upgrades, chat in the IDE & console.",w:"Q Developer writes IaC, explains errors, upgrades Java versions, and answers 'how do I wire X to Y?' — your always-on senior engineer.",u:"Generating Terraform/CDK, debugging errors, code transformation, AWS Q&A.",b:["IDE plugin vs console chat","Code transformation jobs","Security scans","Citing sources & trust"],
+tf:`# Q Developer is enabled per organization/user (IAM Identity Center);
+# Terraform manages nothing but access. Typical guardrail:
+resource "aws_iam_policy" "q_no_admin" {
+  name = "q-suggestions-scoped"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Deny"
+      Action = ["iam:CreateUser", "organizations:LeaveOrganization"]
+      Resource = "*"
+    }]
+  })
+}`,
+ck:`// No infrastructure needed — install the AWS Toolkit / Q extension
+// and sign in with IAM Identity Center. Treat its output like a
+// junior dev's PR: review, test, then merge.`,
+sd:`# Q lives in the IDE/console, not boto3 — but validate everything it
+# generates with the same loop you'd use for any code:
+#   terraform plan / cdk diff / pytest before merge.`,
+dl:`# Disable per user in IAM Identity Center; nothing to delete in AWS.`,
+x:["Use Q to draft, humans to approve — that's the enterprise pattern.","Its best trick: generating the IAM/TF boilerplate you'd copy-paste."],
+r:["Platform teams","Cut boilerplate IaC writing time and onboard juniors faster."],
+nt:[["IAM Identity Center","Licensing & access control."],["CodePipeline","Q-generated code flows through your normal CI."],["Every service","Q knows the docs — ask it about any of the 80."]]}
 ];
-/* Treat the catalog as immutable trusted data — nothing may mutate it at runtime. */
-if(Object.freeze){ SERVICES.forEach(function(s){ Object.freeze(s); }); Object.freeze(SERVICES); }
+if(Object.freeze){SERVICES.forEach(function(s){Object.freeze(s);});Object.freeze(SERVICES);}
 
-/* ================= state ================= */
+/* ===== state ===== */
 let learned=new Set(store.get("awsAtlasLearned",[]));
 let celebrated=new Set(store.get("awsAtlasCelebrated",[]));
 let projDone=store.get("awsAtlasSteps",{});
 let activeCat="all",activeQuery="",currentIdx=-1,currentTab="overview";
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t;}return a;}
-
-/* hl(): escape FIRST, then wrap comment spans. Supports #, // and block comments. */
-function hl(code,lang){
-  let h=esc(code);
-  if(lang==="tf"||lang==="bash"||lang==="py"||lang==="yaml"){ h=h.replace(/(#.*$)/gm,'<span class="cm">$1</span>'); }
-  if(lang==="ts"){ h=h.replace(/(\/\/.*$)/gm,'<span class="cm">$1</span>'); h=h.replace(/(\/\*[\s\S]*?\*\/)/g,'<span class="cm">$1</span>'); }
-  return h;
-}
+function svc(id){return SERVICES.find(function(s){return s.id===id;});}
+function hl(code,lang){let h=esc(code);
+  if(lang==="tf"||lang==="bash"||lang==="py"||lang==="yaml"){h=h.replace(/(#.*$)/gm,'<span class="cm">$1</span>');}
+  if(lang==="ts"){h=h.replace(/(\/\/.*$)/gm,'<span class="cm">$1</span>');h=h.replace(/(\/\*[\s\S]*?\*\/)/g,'<span class="cm">$1</span>');}
+  return h;}
 function codeBlock(code,fname,langLabel,lang){
-  return '<div class="codeblock"><div class="cb-head"><span class="fname">'+esc(fname)+'</span><span class="lang">'+esc(langLabel)+'</span><button class="copybtn" data-copy>⧉ Copy</button></div><pre>'+hl(code,lang)+'</pre></div>';
-}
+  return '<div class="codeblock"><div class="cb-head"><span class="fname">'+esc(fname)+'</span><span class="lang">'+esc(langLabel)+'</span><button class="copybtn" data-copy>⧉ Copy</button></div><pre>'+hl(code,lang)+'</pre></div>';}
 let toastTimer;
 function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.classList.remove("show");},2400);}
 function copyText(text,btn){const done=function(){if(btn){btn.classList.add("ok");btn.innerHTML="✓ Copied";setTimeout(function(){btn.classList.remove("ok");btn.innerHTML="⧉ Copy";},1600);}toast("✓ Copied to clipboard");};
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(function(){fb(text,done);});}else fb(text,done);}
 function fb(t,cb){const ta=document.createElement("textarea");ta.value=t;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);cb();}
 function download(name,content){const b=new Blob([content],{type:"text/plain;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href);},600);toast("⬇ Downloading "+name);}
-function svc(id){ return SERVICES.find(function(s){return s.id===id;}); }
 function visibleServices(){return SERVICES.filter(function(s){const ok=activeCat==="all"||s.c===activeCat;const hay=(s.n+" "+s.f+" "+s.t+" "+CATS[s.c].label).toLowerCase();return ok&&(activeQuery===""||hay.indexOf(activeQuery)>=0);});}
 
-/* ================= catalog ================= */
+/* ===== catalog ===== */
 function renderChips(){const counts={};SERVICES.forEach(function(s){counts[s.c]=(counts[s.c]||0)+1;});
   let html='<button class="chip on" data-cat="all" style="--cc:#ff9900">ALL <span class="n">'+SERVICES.length+'</span></button>';
   Object.keys(CATS).forEach(function(k){html+='<button class="chip" data-cat="'+escAttr(k)+'" style="--cc:'+CATS[k].c+'">'+esc(CATS[k].label)+' <span class="n">'+counts[k]+'</span></button>';});
@@ -2843,7 +3175,7 @@ function renderTracks(){$("#tracks").innerHTML=Object.keys(CATS).map(function(k)
   return '<div class="track" style="--tc:'+CATS[k].c+'"><div class="trow"><span class="tname">'+esc(CATS[k].label)+'</span><span class="tcount">'+done+'/'+all.length+'</span></div><div class="tbar"><i style="width:'+pct+'%"></i></div></div>';}).join("");}
 function updateProgress(){$("#progNum").textContent=learned.size;$("#progFill").style.width=(learned.size/SERVICES.length*100)+"%";renderTracks();updatePathUI();if($("#bpwrap").children.length)renderBlueprints();}
 
-/* ================= modal ================= */
+/* ===== modal ===== */
 function openService(id){const idx=SERVICES.findIndex(function(s){return s.id===id;});if(idx<0)return;currentIdx=idx;currentTab="overview";renderModal();$("#overlay").classList.add("open");document.body.style.overflow="hidden";}
 function closeService(){$("#overlay").classList.remove("open");document.body.style.overflow="";}
 function renderModal(){const s=SERVICES[currentIdx],c=CATS[s.c].c,m=$("#modal");m.style.setProperty("--cc",c);
@@ -2882,27 +3214,27 @@ function toggleLearned(id){const wasNew=!learned.has(id);
   const card=document.querySelector('.card[data-open="'+id+'"] .done');if(card)card.classList.toggle("learned",learned.has(id));
   const lb=document.querySelector('[data-learn="'+id+'"]');if(lb){lb.classList.toggle("on",learned.has(id));lb.textContent=learned.has(id)?"✓ Learned":"Mark as learned";}}
 
-/* ================= blueprints ================= */
+/* ===== deployment blueprints ===== */
 const BLUEPRINTS={
- web:{name:"🌐 Web / SaaS App",c:"#ff9d2e",note:"The classic production web stack. 18 services across 6 layers — this is what 'deploying an app' actually means.",layers:[
-  ["Edge & Delivery",["route53","cloudfront","waf","acm"],"DNS resolves → CDN caches at the edge → WAF filters → TLS terminates before anything computes."],
-  ["Compute",["alb","autoscaling","ecs","lambda"],"Public tier balances traffic; containers or functions do the actual work."],
-  ["Data",["rds","elasticache","s3"],"Private-subnet stores: SQL for truth, cache for speed, S3 for everything else."],
-  ["Async & Messaging",["sqs","sns","eventbridge"],"Never block the request: buffer writes, fan out events, react without polling."],
-  ["Observability",["cloudwatch","cloudtrail","xray"],"Metrics + alarms, full audit trail, request traces — from day one."],
-  ["Security & Ops",["iam","kms","secretsmanager","backup","config"],"Identity, keys, credentials, backups and drift detection wrap every layer."]]},
- data:{name:"📊 Data Platform",c:"#3ddad7",note:"Lake-first architecture: land raw, catalog it, transform, serve. The lake is the source of truth.",layers:[
-  ["Ingest",["dms","kinesis","msk"],"Databases migrate with CDC; streams land in real time; Kafka keeps the backbone."],
-  ["Lake (raw + curated)",["s3","glue"],"Land everything in S3; Glue crawls schemas and Spark jobs curate zones."],
-  ["Process & Warehouse",["emr","redshift"],"Heavy Spark transforms on EMR; BI-scale aggregations land in Redshift."],
-  ["Serve & Query",["athena","quicksight"],"Ad-hoc SQL on the lake; dashboards for humans and execs."],
-  ["Ops & Security",["iam","kms","cloudwatch","backup"],"Least-privilege lake policies, encrypted zones, job alarms, vaulted backups."]]},
- genai:{name:"🤖 GenAI / AgentOps",c:"#f07be0",note:"The AI stack: grounded, guarded, traced and rollback-safe. This is AgentOps.",layers:[
-  ["Entry",["apigateway","cognito"],"Authenticated chat/API entry with throttling before any tokens are spent."],
-  ["Reasoning",["bedrock","bedrockagents"],"Foundation models do the thinking; agents add tools, memory and action groups."],
-  ["Grounding & Safety",["bedrockkb","opensearch","bedrockguardrails"],"RAG retrieval grounds answers in your docs; guardrails filter both directions."],
-  ["Data",["s3","dynamodb"],"Source documents live in S3; sessions and user state in DynamoDB."],
-  ["AgentOps",["cloudwatch","stepfunctions","iam","kms"],"Every trace, tool call and block is measured; long flows orchestrated; identity scoped."]]}
+ web:{name:"🌐 Web / SaaS App",c:"#ff9d2e",note:"The classic production web stack. 18 services across 6 layers.",layers:[
+  ["Edge & Delivery",["route53","cloudfront","waf","acm"],"DNS → CDN edge → WAF → TLS before anything computes."],
+  ["Compute",["alb","nlb","autoscaling","ecs","lambda"],"Public tier balances; containers or functions do the work."],
+  ["Data",["rds","elasticache","s3","dynamodb"],"Private stores: SQL for truth, cache for speed, S3 for the rest."],
+  ["Async & Messaging",["sqs","sns","eventbridge"],"Buffer writes, fan out events, react without polling."],
+  ["Observability",["cloudwatch","cloudtrail","xray"],"Metrics + alarms, audit trail, traces — from day one."],
+  ["Security & Ops",["iam","kms","secretsmanager","backup","config"],"Identity, keys, creds, backups, drift wrap every layer."]]},
+ data:{name:"📊 Data Platform",c:"#3ddad7",note:"Lake-first: land raw, catalog, transform, serve. The lake is truth.",layers:[
+  ["Ingest",["dms","datasync","snow","kinesis","msk"],"Databases via CDC, NAS via DataSync, petabytes by truck, streams live."],
+  ["Lake (raw + curated)",["s3","glue"],"Land everything in S3; Glue crawls schemas and curates zones."],
+  ["Process & Warehouse",["emr","redshift"],"Heavy Spark on EMR; BI aggregations in Redshift."],
+  ["Serve & Query",["athena","quicksight"],"Ad-hoc SQL on the lake; dashboards for humans."],
+  ["Governance & Security",["lakeformation","macie","kms","config"],"Column-level grants, PII scans, encryption, drift rules."]]},
+ genai:{name:"🤖 GenAI / AgentOps",c:"#f07be0",note:"Grounded, guarded, traced, rollback-safe. This is AgentOps.",layers:[
+  ["Entry",["apigateway","cognito","waf"],"Authenticated, throttled entry before tokens are spent."],
+  ["Reasoning",["bedrock","bedrockagents","stepfunctions","lambda"],"Models think; agents act; workflows orchestrate."],
+  ["Grounding",["bedrockkb","opensearch","s3"],"Docs chunked + embedded; vectors served for RAG."],
+  ["Safety",["bedrockguardrails","macie","kms"],"Filter in/out, hunt PII, encrypt everything."],
+  ["AgentOps",["cloudwatch","xray","eventbridge","iam"],"Traces, evals, feedback loops, scoped identity."]]}
 };
 let bpActive="web";
 function renderBlueprintTabs(){$("#bptabs").innerHTML=Object.keys(BLUEPRINTS).map(function(k){return '<button class="bptab'+(k===bpActive?" on":"")+'" data-bp="'+escAttr(k)+'" style="--bc:'+BLUEPRINTS[k].c+'">'+esc(BLUEPRINTS[k].name)+'</button>';}).join("");
@@ -2917,18 +3249,18 @@ function renderBlueprints(){const bp=BLUEPRINTS[bpActive];
       return s?'<button class="svcchip'+(learned.has(id)?" got":"")+'" data-open="'+escAttr(id)+'" style="--bc:'+bp.c+'"><span class="em">'+esc(s.i)+'</span>'+esc(s.n)+'</button>':"";}).join("")+'</div></div>';}).join("")
     +'<div class="bp-note">// you already know <b style="color:'+bp.c+'">'+known+' / '+allIds.length+'</b> of the services in this blueprint</div>';}
 
-/* ================= projects ================= */
+/* ===== projects ===== */
 const PROJECTS=[
 {id:"p1",icon:"🏖️",name:"Static Site on S3 + CloudFront",lvl:"Beginner",pc:"#5fd68b",
- desc:"Your first real deploy: a private S3 bucket fronted by CloudFront with HTTPS and a custom domain. Zero servers.",
+ desc:"Your first real deploy: a private S3 bucket fronted by CloudFront with HTTPS and a custom domain.",
  arch:["s3","cloudfront","acm","route53"],
- steps:[["Plan the architecture","Bucket stays PRIVATE; CloudFront is the only door. Sketch it first."],
- ["Create the bucket + block public access","Versioning ON before your first upload — it's your undo button."],
+ steps:[["Plan the architecture","Bucket stays PRIVATE; CloudFront is the only door."],
+ ["Create the bucket + block public access","Versioning ON before your first upload — your undo button."],
  ["Upload the site","aws s3 sync dist/ s3://your-bucket — one command deploys."],
- ["CloudFront + OAC","Origin Access Control locks the bucket so ONLY the CDN can read it."],
+ ["CloudFront + OAC","OAC locks the bucket so ONLY the CDN can read it."],
  ["ACM certificate (us-east-1)","CloudFront certs must live in us-east-1 — classic gotcha."],
- ["Route 53 alias record","Alias www → distribution. Then curl -I https://www.yourdomain.dev."],
- ["Ship a change + invalidate","Re-sync, then invalidate /* — congratulations, you did CI/CD by hand."]],
+ ["Route 53 alias record","Alias www → distribution. curl -I https://www.yourdomain.dev."],
+ ["Ship a change + invalidate","Re-sync, invalidate /* — you just did CI/CD by hand."]],
  bundle:`# ══════ main.tf ══════
 resource "aws_s3_bucket" "site" { bucket = var.bucket_name }
 resource "aws_s3_bucket_public_access_block" "site" {
@@ -2958,23 +3290,20 @@ resource "aws_cloudfront_distribution" "site" {
   restrictions { geo_restriction { restriction_type = "none" } }
   viewer_certificate { cloudfront_default_certificate = true }
 }
-
 # ══════ variables.tf ══════
 variable "bucket_name" { type = string; default = "acme-site-prod" }
-
 # ══════ outputs.tf ══════
-output "distribution_url" { value = aws_cloudfront_distribution.site.domain_name }
-output "bucket_arn" { value = aws_s3_bucket.site.arn }`},
+output "distribution_url" { value = aws_cloudfront_distribution.site.domain_name }`},
 {id:"p2",icon:"⚡",name:"Serverless Order API",lvl:"Intermediate",pc:"#3ddad7",
  desc:"POST /orders through API Gateway → Lambda → DynamoDB, with Cognito auth and an async SQS side-channel.",
  arch:["cognito","apigateway","lambda","dynamodb","sqs"],
- steps:[["Design the access pattern","orders table keyed by customer_id + order_id. Queries defined BEFORE code."],
+ steps:[["Design the access pattern","orders table keyed by customer_id + order_id. Queries BEFORE code."],
  ["Create the DynamoDB table","PAY_PER_REQUEST + point-in-time recovery from the start."],
- ["Write & deploy the Lambda","Python handler; execution role allows ONLY this table."],
- ["HTTP API + route","POST /orders → Lambda proxy integration; auto-deploy stage 'prod'."],
+ ["Write & deploy the Lambda","Execution role allows ONLY this table."],
+ ["HTTP API + route","POST /orders → Lambda proxy; auto-deploy stage 'prod'."],
  ["Cognito authorizer","JWT validation before the function ever runs."],
- ["Async side-channel","Lambda publishes OrderCreated to EventBridge → SQS worker queue."],
- ["Load-test & alarm","Hit the endpoint with a load tool; 5XX alarm → SNS → you."]],
+ ["Async side-channel","Lambda publishes OrderCreated → EventBridge → SQS worker queue."],
+ ["Load-test & alarm","Hit the endpoint; 5XX alarm → SNS → you."]],
  bundle:`# ══════ main.tf ══════
 resource "aws_dynamodb_table" "orders" {
   name = "orders"; billing_mode = "PAY_PER_REQUEST"
@@ -2991,23 +3320,20 @@ resource "aws_lambda_function" "api" {
 }
 resource "aws_apigatewayv2_api" "orders" { name = "orders-api"; protocol_type = "HTTP" }
 resource "aws_sqs_queue" "workers" { name = "order-events"; visibility_timeout_seconds = 60 }
-
 # ══════ variables.tf ══════
 variable "env" { type = string; default = "prod" }
-
 # ══════ outputs.tf ══════
-output "api_endpoint" { value = aws_apigatewayv2_api.orders.api_endpoint }
-output "table_name" { value = aws_dynamodb_table.orders.name }`},
+output "api_endpoint" { value = aws_apigatewayv2_api.orders.api_endpoint }`},
 {id:"p3",icon:"🖼️",name:"Event-Driven Thumbnail Pipeline",lvl:"Intermediate",pc:"#ffd75e",
- desc:"Drop an image in S3 → EventBridge fires → Lambda thumbnails it → writes to a resized bucket → SNS notifies.",
+ desc:"Drop an image in S3 → EventBridge fires → Lambda thumbnails it → SNS notifies. Fully async.",
  arch:["s3","eventbridge","lambda","sns"],
- steps:[["Two buckets, two zones","acme-raw (landing) and acme-resized (output). Lifecycle rules on both."],
- ["Enable S3 EventBridge notifications","One toggle on the raw bucket — no Lambda permissions wrestling."],
+ steps:[["Two buckets, two zones","acme-raw (landing) and acme-resized (output)."],
+ ["Enable S3 EventBridge notifications","One toggle on the raw bucket."],
  ["EventBridge rule","Pattern: aws.s3 → Object Created → bucket acme-raw."],
- ["Thumbnail Lambda","Pillow resizes to 256px; writes to acme-resized with the same key."],
- ["SNS notification","Publish ThumbnailDone per success; email + Slack subscriptions."],
- ["Dead-letter & retries","Lambda DLQ → SQS so no image silently disappears."],
- ["Test with 20 images","aws s3 sync photos/ s3://acme-raw — watch the pipeline ripple."]],
+ ["Thumbnail Lambda","Pillow resizes to 256px; writes to acme-resized."],
+ ["SNS notification","Publish ThumbnailDone per success."],
+ ["Dead-letter & retries","Lambda DLQ → SQS so nothing silently disappears."],
+ ["Test with 20 images","aws s3 sync photos/ s3://acme-raw — watch it ripple."]],
  bundle:`# ══════ main.tf ══════
 resource "aws_s3_bucket" "raw" { bucket = "acme-raw" }
 resource "aws_s3_bucket" "resized" { bucket = "acme-resized" }
@@ -3034,27 +3360,21 @@ resource "aws_cloudwatch_event_target" "thumb" {
   arn = aws_lambda_function.thumb.arn
 }
 resource "aws_sns_topic" "done" { name = "thumbnail-done" }
-
-# ══════ variables.tf ══════
-variable "thumb_size" { type = number; default = 256 }
-
 # ══════ outputs.tf ══════
-output "raw_bucket" { value = aws_s3_bucket.raw.id }
-output "resized_bucket" { value = aws_s3_bucket.resized.id }`},
+output "raw_bucket" { value = aws_s3_bucket.raw.id }`},
 {id:"p4",icon:"🦾",name:"RAG Support Bot — full AgentOps",lvl:"Advanced",pc:"#f07be0",
- desc:"Bedrock Agent grounded on your docs via a Knowledge Base, protected by Guardrails, traced in CloudWatch, promoted via aliases.",
+ desc:"Bedrock Agent grounded on your docs via a Knowledge Base, guarded by Guardrails, traced in CloudWatch, promoted via aliases.",
  arch:["s3","bedrockkb","opensearch","bedrockguardrails","bedrockagents","apigateway","cloudwatch"],
- steps:[["Collect & stage docs","Support PDFs → S3 bucket rag-docs/ with sensible prefixes."],
- ["OpenSearch Serverless collection","Vector index for the knowledge base (encryption + network policies)."],
- ["Create the Knowledge Base","Titan embeddings; chunking strategy; sync the S3 data source."],
- ["Guardrails","Block PII + off-topic; friendly blocked messaging. Version it."],
- ["Bedrock Agent + KB + action group","Instruction defines persona; action group calls a status-check Lambda."],
- ["Alias & API entry","DRAFT → PROD alias; HTTP API + Lambda invoke_agent in front."],
- ["AgentOps dashboard","CloudWatch: invocation count, latency, guardrail blocks, tool-call errors."],
- ["Eval & promote","Run your eval set vs DRAFT; if green, update PROD alias. Rollback = repoint."]],
+ steps:[["Collect & stage docs","Support PDFs → S3 bucket rag-docs/."],
+ ["OpenSearch Serverless collection","Vector index for the knowledge base."],
+ ["Create the Knowledge Base","Titan embeddings; chunking; sync the S3 source."],
+ ["Guardrails","Block PII + off-topic. Version it."],
+ ["Bedrock Agent + KB + action group","Persona instruction; action group calls a status Lambda."],
+ ["Alias & API entry","DRAFT → PROD alias; HTTP API + Lambda invoke_agent."],
+ ["AgentOps dashboard","CloudWatch: invocations, latency, guardrail blocks, tool errors."],
+ ["Eval & promote","Golden eval set vs DRAFT; if green, update PROD. Rollback = repoint."]],
  bundle:`# ══════ main.tf (core pieces) ══════
 resource "aws_s3_bucket" "rag_docs" { bucket = "acme-rag-docs" }
-
 resource "aws_bedrock_guardrail" "rails" {
   name = "support-rails"
   blocked_input_messaging = "I can only help with product support."
@@ -3066,28 +3386,20 @@ resource "aws_bedrock_guardrail" "rails" {
     pii_entity_config { action = "BLOCK"; type = "EMAIL" }
   }
 }
-
 resource "aws_bedrockagent_agent" "support" {
   agent_name = "support-bot"
   foundation_model = "anthropic.claude-3-haiku-20240307-v1:0"
   agent_resource_role_arn = aws_iam_role.agent.arn
-  instruction = "Answer product-support questions using the knowledge base. Cite sources. Escalate refunds."
+  instruction = "Answer product-support questions using the knowledge base. Cite sources."
 }
-
 resource "aws_bedrockagent_agent_alias" "prod" {
   agent_id = aws_bedrockagent_agent.support.id
   agent_alias_name = "PROD"
 }
 # + aws_bedrockagent_knowledge_base (OpenSearch Serverless vector store)
-# + aws_apigatewayv2_api fronting a Lambda that calls invoke_agent
-
-# ══════ variables.tf ══════
-variable "model_id" { type = string; default = "anthropic.claude-3-haiku-20240307-v1:0" }
-
 # ══════ outputs.tf ══════
 output "agent_id" { value = aws_bedrockagent_agent.support.id }
-output "prod_alias" { value = aws_bedrockagent_agent_alias.prod.agent_alias_id }
-output "guardrail_arn" { value = aws_bedrock_guardrail.rails.guardrail_arn }`}
+output "prod_alias" { value = aws_bedrockagent_agent_alias.prod.agent_alias_id }`}
 ];
 function renderProjects(){
   $("#projwrap").innerHTML=PROJECTS.map(function(p){
@@ -3113,9 +3425,121 @@ function renderProjects(){
   $$("[data-bundle]").forEach(function(b){b.addEventListener("click",function(){
     const p=PROJECTS.find(function(x){return x.id===b.dataset.bundle;});
     download(p.name.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-module.tf",
-      "# "+p.name+"\n# AWS Atlas Pro — project Terraform module bundle\n# files: main.tf · variables.tf · outputs.tf\n\n"+p.bundle);});});}
+      "# "+p.name+"\n# AWS Atlas — project Terraform module bundle (main.tf · variables.tf · outputs.tf)\n\n"+p.bundle);});});}
 
-/* ================= IaC lab ================= */
+/* ===== ENTERPRISE ARCHITECTURES ===== */
+const ENT=[
+{id:"e1",icon:"🏦",name:"Enterprise 3-Tier SaaS Platform",sub:"Multi-account · Multi-AZ · Zero-trust",ec:"#ff9d2e",
+ story:"A regulated company outgrows one account. It builds a landing zone: governance account, shared-network account, workload accounts per environment. Every layer below is isolated, encrypted, observed — and boring on purpose.",
+ layers:[
+  ["Accounts & Governance",["organizations","controltower","idc","cloudtrail","config"],"One org, SCPs as the outer wall, SSO for humans, audit everywhere."],
+  ["Edge",["route53","cloudfront","waf","shield","acm"],"DNS + CDN + WAF + DDoS before any compute sees traffic."],
+  ["App tier",["alb","nlb","ecs","eks","autoscaling"],"Containers behind L7 for HTTP, L4 for raw TCP; fleets self-heal."],
+  ["Data tier",["aurora","elasticache","dynamodb","s3"],"Private subnets only; cache in front of SQL; objects in S3."],
+  ["Async backbone",["sqs","sns","eventbridge","stepfunctions"],"Nothing blocks: queues buffer, events fan out, workflows orchestrate."],
+  ["Delivery",["codepipeline","codebuild","ecr","codedeploy"],"Commit → build → scan → blue/green deploy with auto-rollback."],
+  ["Security & Observability",["cloudwatch","xray","guardduty","securityhub","macie"],"Golden signals, traces, threat detection, compliance, PII hunts."]],
+ decisions:["One account per environment + shared services: blast radius stays small, billing stays sane.","Transit Gateway hub connects every VPC; an inspection VPC filters east-west traffic.","Data tier has NO internet route — reachable only via app-tier security groups.","Blue/green deploys gated by CloudWatch alarms; failed canaries roll back automatically.","Humans enter through IAM Identity Center with MFA — zero long-lived keys anywhere.","Backups are cross-region with quarterly restore tests — untested backups are wishes."],
+ checklist:["SCPs: deny root, deny unencrypted S3, allow-list regions","WAF + Shield Advanced on every public entry point","Macie weekly sweep on every bucket","DR targets documented: RTO < 1h, RPO < 15 min + drilled","Cost anomaly alarms + mandatory cost-allocation tags","On-call runbooks link dashboards, not dashboards link on-call"],
+ tf:`# ══ enterprise-skeleton.tf — the shape of a real platform ══
+# 1) Organization + SCPs
+resource "aws_organizations_organization" "org" {
+  feature_set = "ALL"
+  enabled_policy_types = ["SERVICE_CONTROL_POLICY"]
+}
+# 2) Per-account: Control Tower landing zone (see Control Tower lesson)
+# 3) Shared-network account: TGW hub + inspection VPC
+resource "aws_ec2_transit_gateway" "hub" { description = "enterprise hub" }
+# 4) Workload accounts: modules/vpc + modules/app + modules/data
+module "prod_vpc" { source = "./modules/vpc"; name = "prod"; cidr = "10.20.0.0/16" }
+module "prod_app" { source = "./modules/app"; env = "prod"; vpc_id = module.prod_vpc.vpc_id }
+module "prod_db"  { source = "./modules/data"; env = "prod"; vpc_id = module.prod_vpc.vpc_id }
+# 5) Org-wide security: GuardDuty + Config + CloudTrail delegated to a security account
+# 6) CI/CD: one pipeline repo per service, shared CodeBuild standards`},
+{id:"e2",icon:"🏭",name:"Enterprise Data Platform (Lakehouse)",sub:"Medallion zones · Fine-grained ACLs · Cost control",ec:"#3ddad7",
+ story:"Every team wants data; nobody wants a swamp. The lakehouse pattern gives one governed S3 lake with medallion zones (raw → curated → consumed), column-level permissions, and engines that read the same catalog.",
+ layers:[
+  ["Sources & Ingest",["dms","datasync","snow","kinesis","msk"],"CDC from DBs, NAS via DataSync, petabytes by truck, streams live."],
+  ["Storage zones",["s3","backup"],"raw/ (immutable), curated/ (clean), consumed/ (mart-ready). Lifecycle → Glacier."],
+  ["Catalog & Permissions",["glue","lakeformation"],"One catalog; Lake Formation grants per table/column — analysts never touch IAM."],
+  ["Transform",["emr","glue"],"Spark on EMR for heavy jobs; Glue jobs for scheduled ETL."],
+  ["Serve",["redshift","athena","quicksight"],"Warehouse for BI scale, Athena for ad-hoc, QuickSight for humans."],
+  ["Governance",["config","cloudtrail","macie","kms"],"Drift rules, audit trail, PII classification, per-zone KMS keys."]],
+ decisions:["Medallion zones with different lifecycles: raw is immortal, consumed is disposable.","Lake Formation over bucket policies — column-level grants scale, bucket ACLs don't.","One KMS CMK per zone: leak isolation and per-zone key policies.","Athena workgroups with budgets stop a runaway query from costing a car.","Parquet + partitioning is enforced in the pipeline, not requested from users.","PII is classified by Macie at ingest; sensitive columns masked by Lake Formation."],
+ checklist:["Register all lake locations in Lake Formation before granting","Lifecycle rules: raw → Glacier IR after 90 days","Compression + Parquet enforced in every Glue job","Query budgets per workgroup (e.g. $50/day) with SNS alerts","Data quality checks (row counts, null rates) alert on anomalies","Retention & deletion policies documented for GDPR/HIPAA"],
+ tf:`# ══ lakehouse-skeleton.tf ══
+resource "aws_s3_bucket" "raw" { bucket = "acme-lake-raw" }
+resource "aws_s3_bucket" "curated" { bucket = "acme-lake-curated" }
+resource "aws_glue_catalog_database" "raw" { name = "lake_raw" }
+resource "aws_glue_crawler" "raw" {
+  name = "raw"; role = aws_iam_role.glue.arn
+  database_name = "lake_raw"
+  s3_target { path = "s3://acme-lake-raw/" }
+}
+# Zone permissions via Lake Formation (column-level)
+resource "aws_lakeformation_permissions" "analysts" {
+  principal = aws_iam_role.analyst.arn
+  permissions = ["SELECT", "DESCRIBE"]
+  database { name = aws_glue_catalog_database.raw.name }
+}
+# Engines read ONE catalog: Athena (ad-hoc), Redshift Spectrum (BI), EMR (heavy)`},
+{id:"e3",icon:"🧠",name:"Enterprise GenAI / AgentOps Platform",sub:"RAG · Guardrails · Evals · Rollback",ec:"#f07be0",
+ story:"POCs die in notebooks. Production GenAI is a platform: grounded retrieval, guarded generation, versioned agents, eval gates before promotion, and full observability. This is what 'AgentOps' means in an org.",
+ layers:[
+  ["Access",["cognito","apigateway","waf","cloudfront"],"Authenticated, throttled, filtered entry — before any tokens are spent."],
+  ["Orchestration",["bedrockagents","stepfunctions","lambda","appsync"],"Agents reason & call tools; workflows run long multi-step jobs."],
+  ["Grounding (RAG)",["bedrockkb","opensearch","s3"],"Docs → chunks → embeddings → vectors; retrieval grounds every answer."],
+  ["Safety",["bedrockguardrails","macie","kms","iam"],"Denied topics, PII masking both directions, encryption, scoped roles."],
+  ["Evaluation & Observability",["cloudwatch","xray","eventbridge","s3"],"Golden-set evals, trace every tool call, log prompts/answers (redacted)."],
+  ["Delivery",["codepipeline","codebuild","ecr"],"Prompts & agent configs deploy through CI with eval gates; aliases = rollback."]],
+ decisions:["DRAFT/PROD aliases: prod never tracks DRAFT; promotion is an explicit, gated step.","An eval set of 100+ golden prompts runs in CI — regressions block promotion.","Token budgets per tenant + CloudWatch cost alarms cap runaway spend.","Guardrails apply on BOTH input and output; block metrics feed the dashboard.","PII is masked before prompts leave your boundary (Macie found it first).","Human-in-the-loop: low-confidence answers escalate via Step Functions, silently."],
+ checklist:["Golden eval set ≥ 100 prompts, versioned in git","Guardrail block rate monitored (< 2% target, alert on spikes)","p95 latency budget declared (e.g. 4s) with alarms","Monthly cost ceiling alarm + per-tenant budgets","Quarterly red-team exercise against jailbreaks","Prompt/answer logging redacted via Comprehend PII before S3"],
+ tf:`# ══ genai-platform-skeleton.tf ══
+resource "aws_bedrock_guardrail" "rails" {
+  name = "prod-rails"
+  blocked_input_messaging = "I can't help with that."
+  content_policy_config {
+    filters_config { type = "HATE"; input_strength = "HIGH"; output_strength = "HIGH" }
+  }
+  sensitive_information_policy_config {
+    pii_entity_config { action = "ANONYMIZE"; type = "NAME" }
+    pii_entity_config { action = "BLOCK"; type = "CREDIT_DEBIT_CARD_NUMBER" }
+  }
+}
+resource "aws_bedrockagent_agent" "copilot" {
+  agent_name = "support-copilot"
+  foundation_model = "anthropic.claude-3-haiku-20240307-v1:0"
+  agent_resource_role_arn = aws_iam_role.agent.arn
+  instruction = "Answer using the knowledge base; cite sources; escalate refunds."
+}
+resource "aws_bedrockagent_agent_alias" "prod" {
+  agent_id = aws_bedrockagent_agent.copilot.id
+  agent_alias_name = "PROD"   # CI only moves this after eval gates pass
+}
+# KB: aws_bedrockagent_knowledge_base + OpenSearch Serverless vector store
+# Evals: CodePipeline stage runs your eval harness before alias promotion`}
+];
+function renderEnterprise(){
+  $("#entwrap").innerHTML=ENT.map(function(e){
+    return '<div class="ent reveal in" style="--ec:'+e.ec+'">'
+    +'<div class="ent-head"><div class="etop"><span class="eicon">'+esc(e.icon)+'</span><h3>'+esc(e.name)+'</h3><span class="esub">'+esc(e.sub)+'</span></div><p>'+esc(e.story)+'</p></div>'
+    +'<div class="ent-body">'
+    +e.layers.map(function(l){return '<div class="bplayer" style="--bc:'+e.ec+'"><div><div class="lname">'+esc(l[0])+'</div><div class="ldesc">'+esc(l[2])+'</div></div>'
+      +'<div class="lsrv">'+l[1].map(function(id){const s=svc(id);return s?'<button class="svcchip'+(learned.has(id)?" got":"")+'" data-open="'+escAttr(id)+'" style="--bc:'+e.ec+'"><span class="em">'+esc(s.i)+'</span>'+esc(s.n)+'</button>':"";}).join("")+'</div></div>';}).join("")
+    +'<div class="ent-cols">'
+    +'<div class="ent-block"><h4>◈ Design decisions (interview gold)</h4><ul>'+e.decisions.map(function(d){return '<li>'+esc(d)+'</li>';}).join("")+'</ul></div>'
+    +'<div class="ent-block"><h4>✓ Production checklist</h4><ul>'+e.checklist.map(function(d){return '<li>'+esc(d)+'</li>';}).join("")+'</ul></div>'
+    +'</div>'
+    +'<div class="ent-tf">'+codeBlock(e.tf,"enterprise-skeleton.tf","TERRAFORM · HCL","tf")
+    +'<button class="btn gho sm" data-edl="'+escAttr(e.id)+'">⬇ Download skeleton (.tf)</button></div>'
+    +'</div></div>';}).join("");
+  $$("[data-edl]").forEach(function(b){b.addEventListener("click",function(){
+    const e=ENT.find(function(x){return x.id===b.dataset.edl;});
+    download(e.name.toLowerCase().replace(/[^a-z0-9]+/g,"-")+".tf",
+      "# "+e.name+" — "+e.sub+"\n# AWS Atlas Enterprise skeleton\n\n"+e.tf);});});
+  $$("#entwrap [data-copy]").forEach(function(btn){btn.addEventListener("click",function(){copyText(btn.closest(".codeblock").querySelector("pre").textContent,btn);});});}
+
+/* ===== IaC lab ===== */
 const MODULE_FILES=[
 {n:"main.tf — the resources",l:"TERRAFORM · HCL",lang:"tf",code:`# modules/vpc/main.tf — what gets built
 resource "aws_vpc" "this" {
@@ -3123,7 +3547,6 @@ resource "aws_vpc" "this" {
   enable_dns_hostnames = true
   tags = { Name = var.name }
 }
-
 resource "aws_subnet" "public" {
   count                   = length(var.public_cidrs)
   vpc_id                  = aws_vpc.this.id
@@ -3131,27 +3554,21 @@ resource "aws_subnet" "public" {
   availability_zone       = var.azs[count.index]
   map_public_ip_on_launch = true
 }
-
-resource "aws_internet_gateway" "this" {
-  vpc_id = aws_vpc.this.id
-}`},
+resource "aws_internet_gateway" "this" { vpc_id = aws_vpc.this.id }`},
 {n:"variables.tf — the knobs",l:"TERRAFORM · HCL",lang:"tf",code:`# modules/vpc/variables.tf — what callers can tune
 variable "name" {
   type        = string
   description = "Name tag applied to every resource"
 }
-
 variable "cidr" {
   type        = string
   description = "VPC CIDR block"
   default     = "10.0.0.0/16"
 }
-
 variable "public_cidrs" {
   type    = list(string)
   default = ["10.0.1.0/24", "10.0.2.0/24"]
 }
-
 variable "azs" {
   type    = list(string)
   default = ["us-east-1a", "us-east-1b"]
@@ -3161,15 +3578,11 @@ output "vpc_id" {
   description = "ID of the created VPC"
   value       = aws_vpc.this.id
 }
-
 output "public_subnet_ids" {
   description = "IDs of the public subnets"
   value       = aws_subnet.public[*].id
 }
-
-output "igw_id" {
-  value = aws_internet_gateway.this.id
-}`},
+output "igw_id" { value = aws_internet_gateway.this.id }`},
 {n:"usage — calling the module",l:"TERRAFORM · HCL",lang:"tf",code:`# root/main.tf — reuse the same module everywhere
 module "prod_vpc" {
   source       = "./modules/vpc"
@@ -3177,23 +3590,18 @@ module "prod_vpc" {
   cidr         = "10.20.0.0/16"
   public_cidrs = ["10.20.1.0/24", "10.20.2.0/24"]
 }
-
 module "dev_vpc" {
   source       = "./modules/vpc"   # SAME code, different inputs
   name         = "dev-vpc"
   cidr         = "10.30.0.0/16"
 }
-
 # Why this matters:
 #  - one tested module = zero drift between environments
 #  - upgrades ship by changing the module, not 40 copy-pasted files
-#  - registry.terraform.io lets you publish & version modules`}
-];
+#  - registry.terraform.io lets you publish & version modules`}];
 function renderModuleLab(){
   $("#modgrid").innerHTML=MODULE_FILES.map(function(f){return codeBlock(f.code,f.n,f.l,f.lang);}).join("");
   $$("#modgrid [data-copy]").forEach(function(btn){btn.addEventListener("click",function(){copyText(btn.closest(".codeblock").querySelector("pre").textContent,btn);});});}
-
-/* ================= HCL -> YAML converter ================= */
 const CONV=[
 {n:"S3 Bucket",tf:`resource "aws_s3_bucket" "site" {
   bucket = "acme-site-prod"
@@ -3400,7 +3808,48 @@ function showConv(i){const c=CONV[i];
    +'<div>'+codeBlock(c.yaml,"cloudformation / template.yaml","YAML","yaml")+'</div>';
   $$("#convSplit [data-copy]").forEach(function(btn){btn.addEventListener("click",function(){copyText(btn.closest(".codeblock").querySelector("pre").textContent,btn);});});}
 
-/* ================= paths ================= */
+/* ===== playbooks ===== */
+const PLAYBOOKS=[
+["Landing zone: multi-account the right way","<li><b>Start with Control Tower</b>, not manual accounts — you get logging, audit and guardrails free.</li><li>Baseline accounts: Management, Security (delegated admin), Logging, Shared-Network, Workload-dev/staging/prod.</li><li>SCPs from day one: deny root, deny leaving approved regions, require encryption.</li><li>Humans only via <b>IAM Identity Center</b> mapped to permission sets; services use roles.</li><li>Every new team = new account via Account Factory, never a new VPC in a shared account.</li>"],
+["The CI/CD golden path: commit → prod in 15 minutes","<li>Source (GitHub/CodeCommit) → <b>Build</b> (tests + lint + <b>Inspector scan</b> + image push to ECR) → <b>Deploy</b> (blue/green or rolling).</li><li>Immutable artifacts: tag images by git SHA, never 'latest'.</li><li>Approval stage before prod; auto-rollback wired to CloudWatch alarms.</li><li>Infra changes run <b>terraform plan / cdk diff</b> in the pipeline and post the diff to the PR.</li><li>Everything the pipeline touches lives in git — including the pipeline itself.</li>"],
+["Networking at scale: hub-and-spoke beats mesh","<li>2-3 VPCs: <b>peering</b>. 4+: <b>Transit Gateway</b> with route-table segmentation (prod can't reach dev).</li><li>On-prem enters via Direct Connect into the TGW; internet egress centralized via NAT/shared egress VPC.</li><li>Consume other teams' services via <b>PrivateLink</b>, not by opening routes.</li><li>DNS is a design decision: private hosted zones + Route 53 Resolver rules.</li><li>Document CIDR allocations centrally — overlap is the #1 migration blocker.</li>"],
+["Disaster recovery: pick your tier honestly","<li><b>Tier 1 (RTO days):</b> backups in another region, restore when needed. Cheap.</li><li><b>Tier 2 (RTO hours):</b> Pilot light — data replicated, compute off, scale up on failover.</li><li><b>Tier 3 (RTO minutes):</b> Warm standby — scaled-down replica running, flip DNS.</li><li><b>Tier 4 (RTO ~0):</b> Active-active multi-region. Expensive — justify with revenue math.</li><li>The rule: an untested DR plan is a hope. Drill quarterly, log the RTO you actually hit.</li>"],
+["Cost governance that actually works","<li>Mandatory cost-allocation tags (team, env, service) enforced by SCP + Config rules.</li><li>Budgets with 80%/100% alarms → SNS → the team that spends it, not finance.</li><li>Right-size weekly: idle EC2/RDS show up in Compute Optimizer — kill them.</li><li>Spot for stateless/batch, Savings Plans for the stable baseline, on-demand only for spiky stateful.</li><li>Athena workgroups + S3 lifecycle rules quietly save 30% of most data bills.</li>"],
+["Security baseline: the 12 controls auditors check first","<li>① MFA everywhere ② no root keys ③ IAM roles not users ④ S3 block-public + Macie ⑤ KMS encryption at rest</li><li>⑥ Secrets Manager rotation ⑦ GuardDuty org-wide ⑧ CloudTrail multi-region + validation</li><li>⑨ Config rules + auto-remediation ⑩ WAF/Shield on public surfaces ⑪ least-privilege SCPs ⑮ quarterly access reviews.</li><li>Automate evidence: Security Hub compliance score is your live audit dashboard.</li>"],
+["Observability standards: 4 golden signals per service","<li>Every service exports <b>latency, traffic, errors, saturation</b> to CloudWatch.</li><li>SLOs are numbers with owners: 'p95 < 300ms, 99.9% of hours' — alarms burn error budgets.</li><li>Structured JSON logs with correlation IDs; X-Ray traces for cross-service calls.</li><li>Dashboards per team; one wall dashboard for the org; runbooks linked from every alarm.</li><li>For GenAI: add token spend, guardrail blocks and eval scores as first-class signals.</li>"],
+["GenAI rollout: POC to production in 6 gates","<li><b>Gate 1 Use case:</b> measurable outcome + human fallback defined.</li><li><b>Gate 2 Grounding:</b> KB built, chunking tuned, retrieval quality measured.</li><li><b>Gate 3 Guardrails:</b> denied topics + PII policy; red-team pass.</li><li><b>Gate 4 Evals:</b> golden set ≥100 prompts, CI blocks regressions.</li><li><b>Gate 5 AgentOps:</b> traces, cost ceilings, rollback alias, on-call runbook.</li><li><b>Gate 6 Scale:</b> per-tenant budgets, feedback loop back into the eval set. Ship.</li>"]];
+function renderPlaybooks(){$("#pbWrap").innerHTML=PLAYBOOKS.map(function(p,i){
+  return '<div class="qa"><button class="qa-q"><span class="qn">PB'+(i+1)+'</span>'+esc(p[0])+'<span class="pl">+</span></button><div class="qa-a"><div><ul>'+p[1]+'</ul></div></div></div>';}).join("");
+  $$("#pbWrap .qa-q").forEach(function(btn){btn.addEventListener("click",function(){btn.parentElement.classList.toggle("open");});});}
+
+/* ===== industry & AI radar ===== */
+const INDUSTRIES=[
+{k:"fintech",name:"🏦 Fintech",rc:"#ff9d2e",items:[["organizations","Multi-account isolation; auditors ask for it first"],["kms","PCI-DSS encryption for card data"],["dynamodb","Ledger-style event streams at scale"],["waf","Fraud bots & account takeover defense"],["guardduty","Detect compromised trading infra"],["cloudtrail","Every API call = audit evidence"]],},
+{k:"health",name:"🏥 Healthcare",rc:"#5fd68b",items:[["kms","HIPAA encryption everywhere"],["macie","Find PHI in S3 before auditors do"],["textract","Digitize forms & claims"],["comprehend","Extract medical entities from notes"],["organizations","One account per data classification tier"],["backup","Immutable backups with retention locks"]]},
+{k:"retail",name:"🛒 Retail & E-com",rc:"#ffd75e",items:[["dynamodb","Carts & sessions through flash sales"],["sqs","Order decoupling so checkout never fails"],["personalize-ask","(Bedrock) product Q&A copilots"],["lex","'Where is my order?' bot"],["quicksight","Merchandising dashboards"],["autoscaling","Black Friday scale-out"]]},
+{k:"media",name:"🎬 Media & Gaming",rc:"#3ddad7",items:[["cloudfront","Global delivery at the edge"],["kinesis","Live telemetry & watch-party events"],["emr","Petabyte content analytics"],["rekognition","Auto-tag archives"],["nlb","Millions of concurrent game connections"],["snow","Ship footage when networks can't"]]},
+{k:"mfg",name:"🏭 Manufacturing & IoT",rc:"#b79bff",items:[["kinesis","Sensor streams in real time"],["neptune","Supply-chain relationship graphs"],["sagemaker","Predictive maintenance models"],["datasync","Factory NAS → lake nightly"],["eks","Edge/fleet orchestration"],["textract","Scan invoices & BOLs"]]}];
+const ROLES=[
+{k:"platform",name:"🛠 Platform / DevOps",rc:"#ff9d2e",items:[["organizations","Landing zones & SCPs are your product"],["codepipeline","The golden path you own"],["eks","Fleets of fleets"],["cloudwatch","Your observability spine"],["qdeveloper","AI drafts the boilerplate, you approve it"],["controltower","Account vending at scale"]]},
+{k:"data",name:"📊 Data Engineer",rc:"#3ddad7",items:[["glue","Your daily driver"],["lakeformation","Permissions as a feature"],["emr","Heavy Spark days"],["athena","Ad-hoc everything"],["msk","Streaming backbones"],["datasync","On-prem bridges"]]},
+{k:"mlops",name:"🤖 ML Engineer",rc:"#f07be0",items:[["sagemaker","Train → registry → endpoint"],["stepfunctions","Retrain orchestration"],["cloudwatch","Drift alarms you get paged for"],["opensearch","Vector stores for RAG"],["ecr","Model + tool containers"],["bedrock","Eval before every promotion"]]},
+{k:"agentops",name:"🦾 AgentOps Engineer",rc:"#f07be0",items:[["bedrockagents","Agents with aliases & action groups"],["bedrockguardrails","Your safety SLA"],["bedrockkb","Retrieval quality is on you"],["cloudwatch","Traces, blocks, latency budgets"],["eventbridge","Feedback loops back into evals"],["qdeveloper","The AI you pair with daily"]]},
+{k:"security",name:"🔐 Security Engineer",rc:"#ff7b72",items:[["guardduty","Your triage queue"],["securityhub","The compliance scoreboard"],["macie","PII hunt automation"],["organizations","SCPs as guardrails"],["idc","Who can assume what"],["iam","Least privilege, forever"]]}];
+let indActive=0,roleActive=0;
+function renderRadarTabs(){
+  $("#indTabs").innerHTML=INDUSTRIES.map(function(x,i){return '<button class="rtab'+(i===indActive?" on":"")+'" data-i="'+i+'" style="--rc:'+x.rc+'">'+esc(x.name)+'</button>';}).join("");
+  $("#roleTabs").innerHTML=ROLES.map(function(x,i){return '<button class="rtab'+(i===roleActive?" on":"")+'" data-i="'+i+'" style="--rc:'+x.rc+'">'+esc(x.name)+'</button>';}).join("");
+  $$("#indTabs .rtab").forEach(function(b){b.addEventListener("click",function(){indActive=+b.dataset.i;renderRadarTabs();renderRadarLists();});});
+  $$("#roleTabs .rtab").forEach(function(b){b.addEventListener("click",function(){roleActive=+b.dataset.i;renderRadarTabs();renderRadarLists();});});}
+function renderRadarLists(){
+  const ind=INDUSTRIES[indActive],role=ROLES[roleActive];
+  $("#indList").innerHTML=ind.items.map(function(it){const s=svc(it[0]);
+    return s?'<div class="ritem"><span class="rn" data-open="'+escAttr(s.id)+'">'+esc(s.i)+' '+esc(s.n)+'</span><span class="rw">'+esc(it[1])+'</span></div>'
+    :'<div class="ritem"><span class="rn">🧩 Bedrock</span><span class="rw">'+esc(it[1])+'</span></div>';}).join("");
+  $("#roleList").innerHTML=role.items.map(function(it){const s=svc(it[0]);
+    return s?'<div class="ritem"><span class="rn" data-open="'+escAttr(s.id)+'">'+esc(s.i)+' '+esc(s.n)+'</span><span class="rw">'+esc(it[1])+'</span></div>':'';}).join("");}
+
+/* ===== paths ===== */
 const pathIds=function(el){return el.dataset.path.split(",");};
 function renderPathChips(){$$(".pchips").forEach(function(wrap){wrap.innerHTML=pathIds(wrap).map(function(id,i){const s=svc(id);
   return s?'<button class="pchip'+(learned.has(id)?" got":"")+'" data-open="'+escAttr(id)+'"><i>'+(i+1).toString().padStart(2,"0")+'</i>'+esc(s.n)+'</button>':"";}).join("");});updatePathUI();}
@@ -3411,7 +3860,7 @@ function updatePathUI(){$$(".pchips").forEach(function(wrap){wrap.querySelectorA
 function checkPathCompletion(){$$(".pchips").forEach(function(wrap){const ids=pathIds(wrap);const name=wrap.closest(".path-card").querySelector("h3").textContent;
   if(ids.every(function(id){return learned.has(id);})&&!celebrated.has(name)){celebrated.add(name);store.set("awsAtlasCelebrated",Array.from(celebrated));setTimeout(function(){toast("🎉 TRACK COMPLETE — "+name);},400);}});}
 
-/* ================= quiz ================= */
+/* ===== quiz ===== */
 let quiz=null;
 const bestGet=function(){return +(localStorage.getItem("awsAtlasBest")||0);};
 function refreshBest(){const b=bestGet();$("#bestScore").textContent=b>0?("BEST SCORE · "+b+" / 8 correct"):"BEST SCORE · — not played yet";}
@@ -3448,25 +3897,24 @@ function renderQuiz(){const box=$("#quizBox");if(!quiz)return;
   $("#qnext").addEventListener("click",function(){quiz.i++;renderQuiz();});}
 $("#quizStart").addEventListener("click",startQuiz);
 
-/* ================= interview ================= */
+/* ===== interview ===== */
 const QA=[
-["VPC Peering vs Transit Gateway — when do you pick which?","<b>Peering</b> is a direct 1:1 link: cheap and simple but <b>non-transitive</b> (A↔B and B↔C doesn't give A↔C). Use it for a few static pairs. <b>Transit Gateway</b> is a hub: every VPC attaches once and gets full mesh connectivity with centralized routing. Past ~4-5 VPCs or multiple accounts, TGW wins."],
-["SQS vs SNS vs EventBridge — one breath.","<b>SQS</b> is a queue — one consumer pulls work (decoupling). <b>SNS</b> is a topic — pushes the same message to many subscribers (fan-out). <b>EventBridge</b> is a content-filtered bus routing AWS-service and app events to many targets. Mental model: <b>queue → fan-out → router</b>."],
-["Why DynamoDB instead of RDS? And when NOT to?","<b>DynamoDB</b> when access patterns are known, key-based, and you need single-digit-ms at any scale with zero ops. <b>RDS</b> when you need SQL joins, multi-row transactions and ad-hoc queries. The trap: retrofitting DynamoDB after access patterns were never designed."],
-["Walk me through a request from user to a private database.","DNS via <b>Route 53</b> → <b>CloudFront</b> edge (cache + TLS) → <b>WAF</b> → <b>ALB</b> in public subnets → targets in <b>private subnets</b> → <b>RDS</b> whose SG accepts only the app tier. Outbound internet goes through NAT. Every hop is a security boundary."],
-["IAM users vs roles — why do roles win?","Users carry <b>long-lived credentials</b> (leak risk). Roles issue <b>temporary STS credentials</b> via assume-role: services, CI and cross-account actors use them, nothing gets embedded in code, and trust policies define exactly who may assume them."],
-["Why Terraform / IaC for deployments?","Repeatability (dev=staging=prod), reviewability (changes are PRs), blast-radius control (plan/diff before apply) and disaster recovery (re-apply = rebuild). Console clicks can't deliver any of that. State files live in S3 + DynamoDB locks."],
-["What does MLOps look like on AWS?","Reproducible training via <b>SageMaker Pipelines / Step Functions</b>, models versioned in a registry, CI/CD via <b>CodePipeline → ECR → endpoints</b> with blue/green, then <b>CloudWatch</b> latency/drift alarms that retrigger training."],
-["What is AgentOps and why does it matter?","Operating LLM <b>agents</b> in production: aliases for safe rollback, eval datasets to catch regressions, tracing every tool call, <b>guardrail</b> metrics, latency & cost budgets, human escalation. Stack: <b>Bedrock Agents + Guardrails + Knowledge Bases + CloudWatch + EventBridge</b>."]];
+["VPC Peering vs Transit Gateway — when do you pick which?","<b>Peering</b> is a direct 1:1 link: cheap but <b>non-transitive</b>. Use it for a few static pairs. <b>Transit Gateway</b> is a hub: every VPC attaches once, full mesh, centralized routing. Past ~4-5 VPCs or multi-account, TGW wins."],
+["SQS vs SNS vs EventBridge — one breath.","<b>SQS</b> = queue (one consumer pulls). <b>SNS</b> = topic (push fan-out). <b>EventBridge</b> = content-filtered bus for AWS + app events. Mental model: <b>queue → fan-out → router</b>."],
+["Why DynamoDB instead of RDS? And when NOT to?","<b>DynamoDB</b> for known access patterns, ms latency at any scale, zero ops. <b>RDS</b> for joins, transactions, ad-hoc SQL. The trap: retrofitting DynamoDB without designing access patterns."],
+["Walk me through a request from user to a private database.","<b>Route 53</b> → <b>CloudFront</b> (cache + TLS) → <b>WAF</b> → <b>ALB</b> (public) → targets (private) → <b>RDS</b> (private, SG allows only app tier). NAT for outbound. Every hop is a security boundary."],
+["IAM users vs roles — why do roles win?","Users = long-lived creds (leak risk). Roles = temporary STS creds via assume-role for services, CI, cross-account. Nothing embedded in code; trust policies scope who can assume."],
+["Why Terraform / IaC for deployments?","Repeatability (dev=staging=prod), reviewability (PRs), blast-radius control (plan/diff before apply), DR (re-apply = rebuild). Console clicks deliver none of that."],
+["What does MLOps look like on AWS?","Reproducible training (<b>SageMaker Pipelines / Step Functions</b>), registry versioning, CI/CD (<b>CodePipeline → ECR → endpoints</b>, blue/green), <b>CloudWatch</b> drift alarms retriggering training."],
+["What is AgentOps and why does it matter?","Operating LLM <b>agents</b> in production: aliases for rollback, eval datasets, tool-call tracing, guardrail metrics, latency & cost budgets, human escalation. Stack: <b>Agents + Guardrails + KB + CloudWatch + EventBridge</b>."]];
 function renderQA(){$("#qaWrap").innerHTML=QA.map(function(q,i){return '<div class="qa"><button class="qa-q"><span class="qn">Q'+(i+1)+'</span>'+esc(q[0])+'<span class="pl">+</span></button><div class="qa-a"><div>'+q[1]+'</div></div></div>';}).join("");
-  $$(".qa-q").forEach(function(btn){btn.addEventListener("click",function(){btn.parentElement.classList.toggle("open");});});}
+  $$("#qaWrap .qa-q").forEach(function(btn){btn.addEventListener("click",function(){btn.parentElement.classList.toggle("open");});});}
 
-/* ================= setup ================= */
+/* ===== setup ===== */
 const SETUP=[
 {f:"01 · aws cli — credentials",l:"BASH",lang:"bash",code:`# install: pip install awscli   (or brew install awscli)
 aws configure
 #   Access Key ID / Secret / region=us-east-1 / output=json
-
 aws sts get-caller-identity   # prove it works`},
 {f:"02 · terraform — remote state",l:"HCL",lang:"tf",code:`terraform {
   required_providers {
@@ -3482,11 +3930,8 @@ aws sts get-caller-identity   # prove it works`},
 }`},
 {f:"03 · aws cdk — bootstrap & deploy",l:"BASH",lang:"bash",code:`npm install -g aws-cdk
 cdk bootstrap aws://YOUR-ACCOUNT/us-east-1   # one-time per env
-
 mkdir acme-cdk && cd acme-cdk
 cdk init app --language typescript
-# write constructs in lib/acme-stack.ts, then:
-
 cdk synth        # preview CloudFormation YAML
 cdk diff         # diff against deployed stack
 cdk deploy       # ship it
@@ -3494,18 +3939,17 @@ cdk destroy      # tear it all down`},
 {f:"04 · python — boto3 env",l:"BASH",lang:"bash",code:`python -m venv .venv
 source .venv/bin/activate       # windows: .venv\\Scripts\\activate
 pip install boto3
-
 python -c "import boto3; print('account:', boto3.client('sts').get_caller_identity()['Account'])"`}];
 function renderSetup(){$("#setupGrid").innerHTML=SETUP.map(function(s){return codeBlock(s.code,s.f,s.l,s.lang);}).join("");
   $("#setupGrid").querySelectorAll("[data-copy]").forEach(function(btn){btn.addEventListener("click",function(){copyText(btn.closest(".codeblock").querySelector("pre").textContent,btn);});});}
 
-/* ================= vault & roulette ================= */
+/* ===== vault & roulette ===== */
 $("#dlTf").addEventListener("click",function(){download("aws-atlas-terraform.tf","# AWS ATLAS — Terraform vault ("+SERVICES.length+" services)\n\n"+SERVICES.map(function(s){return "# ==================================================\n# "+s.n+" — "+s.f+"  ["+CATS[s.c].label+"]\n# ==================================================\n"+s.tf+"\n";}).join("\n"));});
 $("#dlCdk").addEventListener("click",function(){download("aws-atlas-cdk.ts","// AWS ATLAS — CDK vault ("+SERVICES.length+" services)\n\n"+SERVICES.map(function(s){return "// ==================================================\n// "+s.n+" — "+s.f+"  ["+CATS[s.c].label+"]\n// ==================================================\n"+s.ck+"\n";}).join("\n"));});
 $("#dlPy").addEventListener("click",function(){download("aws-atlas-boto3.py","# AWS ATLAS — Boto3 vault ("+SERVICES.length+" services)\n\n"+SERVICES.map(function(s){return "# ==================================================\n# "+s.n+" — "+s.f+"\n# ==================================================\n"+s.sd+"\n\n# cleanup:\n"+s.dl+"\n";}).join("\n"));});
 $("#roulette").addEventListener("click",function(){openService(SERVICES[Math.floor(Math.random()*SERVICES.length)].id);});
 
-/* ================= global events ================= */
+/* ===== global events ===== */
 $("#grid").addEventListener("click",function(e){
   const doneBtn=e.target.closest("[data-done]");
   if(doneBtn){e.stopPropagation();toggleLearned(doneBtn.dataset.done);return;}
@@ -3527,23 +3971,23 @@ document.addEventListener("keydown",function(e){
     if(e.key==="ArrowLeft"){currentIdx=(currentIdx-1+SERVICES.length)%SERVICES.length;renderModal();}}});
 $("#search").addEventListener("input",function(e){activeQuery=e.target.value.trim().toLowerCase();renderGrid();});
 
-/* ================= hero console ================= */
+/* ===== console ===== */
 const LOGLINES=[
 '<span class="op">[09:41:02] ▸</span> terraform plan — <b>12 to add</b>, 0 to change',
 '<span class="op">[09:41:07] ✓</span> aws_vpc.main: Creation complete <b>[vpc-0a3f9c21]</b>',
 '<span class="op">[09:41:12] ▸</span> cdk deploy — AcmeStack: <b>3 resources</b> updating',
-'<span class="op">[09:41:18] ✓</span> aws_lambda_function.api: role updated',
+'<span class="op">[09:41:18] ✓</span> SCP region-fence applied to 24 accounts',
 '<span class="op">[09:41:23] ✓</span> CloudWatch alarm OK — ApiGateway5xxErrors &lt; 1',
 '<span class="op">[09:41:29] ▸</span> boto3: dynamodb.put_item(order_id=A-1042) <b>23ms</b>',
-'<span class="op">[09:41:34] ✓</span> GuardDuty: 0 new findings (us-east-1)',
-'<span class="op">[09:41:40] ▸</span> sagemaker endpoint churn-v2 → <b>InService</b>',
+'<span class="op">[09:41:34] ✓</span> Macie: 0 new PII findings across 312 buckets',
+'<span class="op">[09:41:40] ▸</span> agent alias PROD: eval gate passed (104/104)',
 '<span class="op">[09:41:47] ✓</span> bedrock-agent invoke_agent: 4 tool calls, 812ms',
 '<span class="op">[09:41:52] ▸</span> codepipeline ship-api: Build stage <b>SUCCEEDED</b>'];
 const consoleEl=$("#console");let logIdx=0;
 function pushLog(){const div=document.createElement("div");div.className="cline";div.innerHTML=LOGLINES[logIdx%LOGLINES.length];consoleEl.insertBefore(div,consoleEl.lastElementChild);while(consoleEl.children.length>6)consoleEl.removeChild(consoleEl.firstChild);logIdx++;}
 pushLog();pushLog();pushLog();setInterval(pushLog,2100);
 
-/* ================= scroll fx ================= */
+/* ===== scroll fx ===== */
 const revObs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");revObs.unobserve(e.target);}});},{threshold:.12});
 $$(".reveal").forEach(function(el){revObs.observe(el);});
 const cntObs=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;cntObs.unobserve(e.target);
@@ -3555,8 +3999,8 @@ $("#totop").addEventListener("click",function(){window.scrollTo({top:0,behavior:
 $("#burger").addEventListener("click",function(){$("#mnav").classList.toggle("open");});
 $$("#mnav a").forEach(function(a){a.addEventListener("click",function(){$("#mnav").classList.remove("open");});});
 
-/* ================= init ================= */
-renderChips();renderGrid();renderTracks();renderBlueprintTabs();renderBlueprints();renderProjects();renderModuleLab();renderConverter();renderPathChips();renderQA();renderSetup();refreshBest();updateProgress();checkPathCompletion();
+/* ===== init ===== */
+renderChips();renderGrid();renderTracks();renderBlueprintTabs();renderBlueprints();renderProjects();renderEnterprise();renderModuleLab();renderConverter();renderPlaybooks();renderRadarTabs();renderRadarLists();renderPathChips();renderQA();renderSetup();refreshBest();updateProgress();checkPathCompletion();
 </script>
 </body>
 </html>

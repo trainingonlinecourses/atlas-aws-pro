@@ -243,9 +243,9 @@ SERVICES_DATA = [
         "ai_enabled": True
     },
     {
-        "id": "s3",
+        "id": "s3-v2",
         "name": "S3",
-        "full_name": "Amazon S3",
+        "full_name": "Amazon S3 (Advanced)",
         "category": "storage",
         "icon": "🪣",
         "tagline": "Object storage with 11 nines durability",
@@ -264,9 +264,9 @@ SERVICES_DATA = [
         "ai_enabled": False
     },
     {
-        "id": "rds",
+        "id": "rds-v2",
         "name": "RDS",
-        "full_name": "Amazon RDS",
+        "full_name": "Amazon RDS (Advanced)",
         "category": "database",
         "icon": "🛢️",
         "tagline": "Managed relational databases with automated patching and backups",
@@ -625,7 +625,7 @@ def _extend_services():
 
     # Add additional services to reach 80
     for svc in additional:
-        if svc["id"] not in [s["id"] for extended]:
+        if svc["id"] not in [s["id"] for s in SERVICES_DATA]:
             # Copy base structure and add missing fields
             new_svc = copy.deepcopy(SERVICES_DATA[0])
             new_svc.update(svc)

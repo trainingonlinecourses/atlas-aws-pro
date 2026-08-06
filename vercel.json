@@ -1,0 +1,12 @@
+{
+  "buildCommand": "echo 'Static frontend deployment; API routes handled by separate backend service.'",
+  "outputDirectory": "frontend",
+  "devCommand": "uvicorn backend.main:app --reload --port 8000",
+  "framework": "python",
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://your-backend-api.onrender.com/api/$1"
+    }
+  ]
+}

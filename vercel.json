@@ -1,5 +1,5 @@
 {
-  "buildCommand": "python -m pip install -r backend/requirements.txt && cp -r frontend/dist frontend && cp -r frontend/* dist/",
+  "buildCommand": "python -m pip install -r backend/requirements.txt && cp -r frontend/* dist/",
   "outputDirectory": "dist",
   "devCommand": "uvicorn backend.main:app --reload --port 8000",
   "framework": "python",

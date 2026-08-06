@@ -791,7 +791,7 @@ async def get_enterprise_architectures():
              "compliance": ["PCI-DSS"]},
             {"id": "media", "name": "Media & Entertainment", "description": "Streaming and content delivery at scale",
              "components": ["CloudFront", "MediaConvert", "MediaStore", "S3", "Batch", "EKS", "EFS", "Backup", "CloudWatch", "X-Ray"],
-             "compliance": []),
+             "compliance": []},
         ]
     }
 

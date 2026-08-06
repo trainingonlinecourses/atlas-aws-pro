@@ -18,7 +18,7 @@ from datetime import datetime
 
 # Configuration
 PROJECT_ROOT = Path(__file__).parent.parent
-FRONTEND_DIR = PROJECT_ROOT / "frontend"
+FRONTEND_DIR = PROJECT_ROOT / "dist"
 DEBUG = os.getenv("DEBUG", "true").lower() == "true"
 
 # Initialize app

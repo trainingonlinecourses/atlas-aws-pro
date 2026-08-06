@@ -31,10 +31,6 @@ app = FastAPI(
     redoc_url=None,
 )
 
-# Static files middleware
-if FRONTEND_DIR.exists():
-    app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR / "static")), name="static")
-
 # CORS
 app.add_middleware(
     CORSMiddleware,

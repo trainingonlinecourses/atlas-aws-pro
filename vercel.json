@@ -2,11 +2,5 @@
   "buildCommand": "mkdir -p dist && python -m pip install -r backend/requirements.txt && cp -r frontend/* dist/",
   "outputDirectory": "dist",
   "devCommand": "uvicorn backend.main:app --reload --port 8000",
-  "framework": "python",
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/v1/$1"
-    }
-  ]
+  "framework": "python"
 }

@@ -105,6 +105,17 @@ async def get_services():
     """Get all services"""
     return SERVICES_DATA
 
+@app.get("/api/v1/services/search")
+async def search_services(q: str = Query(..., min_length=1), limit: int = 50):
+    """Search services by query"""
+    results = [
+        s for s in SERVICES_DATA
+        if q.lower() in s["name"].lower()
+        or q.lower() in s["tagline"].lower()
+        or q.lower() in s.get("why_it_exists", "").lower()
+    ][:limit]
+    return results
+
 @app.get("/api/v1/services/{service_id}", response_model=ServiceDetail)
 async def get_service(service_id: str):
     """Get a single service by ID"""
@@ -121,17 +132,6 @@ async def get_categories():
         cat = service["category"]
         categories[cat] = categories.get(cat, 0) + 1
     return {"total": len(SERVICES_DATA), "categories": categories}
-
-@app.get("/api/v1/services/search")
-async def search_services(q: str = Query(..., min_length=1), limit: int = 50):
-    """Search services by query"""
-    results = [
-        s for s in SERVICES_DATA
-        if q.lower() in s["name"].lower()
-        or q.lower() in s["tagline"].lower()
-        or q.lower() in s.get("why_it_exists", "").lower()
-    ][:limit]
-    return results
 
 @app.get("/api/v1/quiz")
 async def get_quiz(count: int = 8):

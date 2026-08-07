@@ -4,8 +4,9 @@ Full-stack API with 80 AWS services, quizzes, learning paths, and enterprise arc
 """
 import os
 import copy
+import traceback
 from pathlib import Path
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from typing import List, Optional, Dict, Any
 from functools import lru_cache
 
@@ -159,26 +160,42 @@ async def get_quiz(count: int = 8):
 @app.get("/api/v1/db")
 async def get_db_status():
     """Private DB status (driver, persistence mode). No data is exposed."""
-    return db_store.status()
+    try:
+        return db_store.status()
+    except Exception:
+        traceback.print_exc()
+        return JSONResponse(status_code=503, content={"error": "storage unavailable"})
 
 @app.get("/api/v1/user-state")
 async def get_user_state(user_id: str = Query(..., min_length=1, max_length=128)):
     """Read a user's saved progress. Returns empty state if none saved."""
-    state = db_store.get_user_state(user_id)
-    if state is not None:
-        return state
-    return {"user_id": user_id, "learned": [], "quiz_best": 0}
+    try:
+        state = db_store.get_user_state(user_id)
+        if state is not None:
+            return state
+        return {"user_id": user_id, "learned": [], "quiz_best": 0}
+    except Exception:
+        traceback.print_exc()
+        return {"user_id": user_id, "learned": [], "quiz_best": 0}
 
 @app.put("/api/v1/user-state", response_model=UserState)
 async def put_user_state(state: UserState):
     """Persist a user's progress (learned services + quiz best score)."""
-    return db_store.upsert_user_state(state.user_id, state.learned, state.quiz_best)
+    try:
+        return db_store.upsert_user_state(state.user_id, state.learned, state.quiz_best)
+    except Exception:
+        traceback.print_exc()
+        return JSONResponse(status_code=503, content={"error": "storage unavailable"})
 
 @app.delete("/api/v1/user-state")
 async def delete_user_state(user_id: str = Query(..., min_length=1, max_length=128)):
     """Delete a user's saved progress (privacy: full wipe on request)."""
-    removed = db_store.delete_user_state(user_id)
-    return {"deleted": removed, "user_id": user_id}
+    try:
+        removed = db_store.delete_user_state(user_id)
+        return {"deleted": removed, "user_id": user_id}
+    except Exception:
+        traceback.print_exc()
+        return JSONResponse(status_code=503, content={"error": "storage unavailable"})
 
 @app.get("/api/v1/projects")
 async def get_projects():

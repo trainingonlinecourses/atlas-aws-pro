@@ -21,10 +21,13 @@ Swapping to a serverless-persistent store (Turso/libSQL, Postgres) later is a
 one-line change in _connect() — the API layer and schema do not change.
 """
 import json
+import logging
 import os
 import sqlite3
 import threading
 from pathlib import Path
+
+logger = logging.getLogger("atlas.db")
 
 DB_PATH_ENV = "ATLAS_DB_PATH"
 DEFAULT_DB_DIR = Path(__file__).resolve().parent.parent / "data"
@@ -45,9 +48,17 @@ _ephemeral = False
 
 
 def db_path() -> str:
-    """Resolve the configured DB path (env override, else project data dir)."""
+    """Resolve the configured DB path.
+
+    Order: explicit ATLAS_DB_PATH -> Vercel serverless (/tmp is the only
+    guaranteed-writable dir) -> project-local data dir (local/Docker).
+    """
     env = os.getenv(DB_PATH_ENV)
-    return env if env else str(DEFAULT_DB_DIR / "atlas.db")
+    if env:
+        return env
+    if os.getenv("VERCEL"):  # serverless functions: /var/task may be read-only
+        return "/tmp/atlas.db"
+    return str(DEFAULT_DB_DIR / "atlas.db")
 
 
 def _connect() -> sqlite3.Connection:
@@ -62,13 +73,15 @@ def _connect() -> sqlite3.Connection:
             Path(path).parent.mkdir(parents=True, exist_ok=True)
         conn = sqlite3.connect(path, check_same_thread=False)
         conn.row_factory = sqlite3.Row
+        conn.execute("PRAGMA busy_timeout = 5000")  # wait on locks, don't 500
         conn.executescript(_SCHEMA)
         conn.commit()
         _is_file = path != ":memory:"
         _ephemeral = False
-    except Exception:
+    except Exception as exc:
         # Read-only / unwritable filesystem (Vercel serverless): keep the API
         # alive with an in-memory DB. Data resets between cold starts.
+        logger.warning("db unavailable at %s (%r); falling back to in-memory", path, exc)
         conn = sqlite3.connect(":memory:", check_same_thread=False)
         conn.row_factory = sqlite3.Row
         conn.executescript(_SCHEMA)

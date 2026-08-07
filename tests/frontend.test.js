@@ -36,7 +36,7 @@ if (start !== -1) {
   catch (e) { check(false, 'SERVICES parses: ' + e.message); }
 }
 
-check(SERVICES.length === 80, `expect 80 services, got ${SERVICES.length}`);
+check(SERVICES.length === 94, `expect 94 services, got ${SERVICES.length}`);
 
 const KEYS = ['id', 'n', 'f', 'c', 'i', 't', 'w', 'u', 'b', 'tf', 'ck', 'sd', 'dl', 'x', 'r', 'nt'];
 const ids = SERVICES.map((s) => s.id);
@@ -85,4 +85,4 @@ const roundTripOk = SERVICES.every((s) => {
 check(roundTripOk, 'adapter round-trips every service exactly');
 
 if (failures) { console.error(`${failures} frontend test(s) failed`); process.exit(1); }
-console.log('frontend tests: ALL PASS (80 services, unique ids, full fields, adapter round-trip, wiring)');
+console.log('frontend tests: ALL PASS (94 services, unique ids, full fields, adapter round-trip, wiring)');

@@ -3126,7 +3126,254 @@ sd:`# Q lives in the IDE/console, not boto3 — but validate everything it
 dl:`# Disable per user in IAM Identity Center; nothing to delete in AWS.`,
 x:["Use Q to draft, humans to approve — that's the enterprise pattern.","Its best trick: generating the IAM/TF boilerplate you'd copy-paste."],
 r:["Platform teams","Cut boilerplate IaC writing time and onboard juniors faster."],
-nt:[["IAM Identity Center","Licensing & access control."],["CodePipeline","Q-generated code flows through your normal CI."],["Every service","Q knows the docs — ask it about any of the 80."]]}
+nt:[["IAM Identity Center","Licensing & access control."],["CodePipeline","Q-generated code flows through your normal CI."],["Every service","Q knows the docs — ask it about any of the 80."]]},
+{id:"lightsail",n:"Lightsail",f:"Amazon Lightsail",c:"compute",i:"💡",t:"Simplest way to launch a VM or container — fixed price, predictable, zero cloud jargon.",w:"For most small projects you don't need twelve networking services. Lightsail bundles compute + disk + DNS + firewall into one monthly plan a junior can manage.",u:"Personal sites, dev/test boxes, small SaaS, WordPress.",b:["Monthly plans vs usage-based","Static IPs & DNS","Firewall = security group","Snapshots"],
+tf:`resource "aws_lightsail_instance" "web" {
+  name           = "web"
+  availability_zone = "us-east-1a"
+  blueprint_id   = "amazon_linux_2023"
+  bundle_id      = "small_2_0"
+}`,
+ck:`// CDK's Lightsail support is thin — manage via Terraform or the console.
+// The bundles (small_2_0 etc.) are the pricing unit; pick one, not specs.`,
+sd:`import boto3
+ls = boto3.client("lightsail", region_name="us-east-1")
+insts = ls.get_instances()["instances"]
+for i in insts: print(i["name"], i["blueprintName"])`,
+dl:`ls.delete_instance(instanceName="web")`,
+x:["Blueprints are pre-baked OS/app images — pick 'WordPress', not 'install everything'.","Snapshots let you clone a whole instance into another region."],
+r:["Indie hackers & small agencies","Stand up client sites with a fixed, predictable monthly bill."],
+nt:[["EC2","Full control when you outgrow the bundles."],["Route 53","DNS beyond the Lightsail console."],["S3","Offload files and backups."]]},
+{id:"elasticbeanstalk",n:"Elastic Beanstalk",f:"AWS Elastic Beanstalk",c:"compute",i:"🌱",t:"Paste your app code; AWS provisions the servers, load balancer and scaling for you.",w:"Before containers took over, Beanstalk was how you deployed without a DevOps team — it still handles health checks, rollbacks and capacity automatically.",u:"Prototypes, internal tools, lift-and-shift web apps.",b:["Prebuilt runtimes (Node, Python, Java...)","Single vs load-balanced environments","Deploy = version + configuration","Health monitoring"],
+tf:`resource "aws_elastic_beanstalk_application" "app" {
+  name = "myapp"
+}
+resource "aws_elastic_beanstalk_environment" "prod" {
+  name                = "myapp-prod"
+  application         = aws_elastic_beanstalk_application.app.name
+  solution_stack_name = "64bit Amazon Linux 2023 v4.0.1 running Python 3.11"
+}`,
+ck:`// No first-class CDK construct — Beanstalk is AWS-managed; manage with TF.`,
+sd:`import boto3
+eb = boto3.client("elasticbeanstalk", region_name="us-east-1")
+envs = eb.describe_environments()["Environments"]
+for e in envs: print(e["EnvironmentName"], e["Status"])`,
+dl:`eb.terminate_environment(EnvironmentName="myapp-prod")`,
+x:["Treat it as a bridge, not a destination — modern apps outgrow it.","Swap to a newer platform version by launching a fresh environment and cutting over."],
+r:["Early-stage startups","Shipped MVPs in days without hiring DevOps."],
+nt:[["ECS","Container-native replacement when you mature."],["CodePipeline","Blue/green deploys with Beanstalk."]]},
+{id:"fsx",n:"FSx",f:"Amazon FSx",c:"storage",i:"🗂️",t:"Fully managed, high-performance file systems — Lustre, NetApp ONTAP, OpenZFS, Windows File Server.",w:"High-performance compute (HPC, EDA, video) needs parallel file systems, and Windows shops need SMB. FSx runs those without you operating the infrastructure.",u:"HPC workloads, Windows file shares, replacing on-prem NAS.",b:["Windows vs Lustre vs OpenZFS types","SMB/NFS vs POSIX clients","Backups & replication","Data compression tier"],
+tf:`resource "aws_fsx_lustre_file_system" "hpc" {
+  storage_capacity = 1200
+  deployment_type  = "PERSISTENT_1"
+  per_unit_storage_throughput = 200
+}`,
+ck:`import * as fsx from "aws-cdk-lib/aws-fsx";
+new fsx.LustreFileSystem(this, "Hpc", {
+  vpc, storageCapacityGiB: 1200,
+  deploymentType: fsx.LustreDeploymentType.PERSISTENT_1,
+});`,
+sd:`import boto3
+fsx = boto3.client("fsx", region_name="us-east-1")
+for fs in fsx.describe_file_systems()["FileSystems"]:
+    print(fs["FileSystemId"], fs["FileSystemType"], fs["Lifecycle"])`,
+dl:`fsx.delete_file_system(FileSystemId="fs-0abc123")`,
+x:["Match the type to the workload — Lustre for HPC, Windows for SMB, OpenZFS for NFS at scale.","Enable the data-compression tier on Lustre to cut storage cost 50%+."],
+r:["Media & VFX studios","Shared storage for rendering farms."],
+nt:[["EFS","Cheaper network FS for generic Linux."],["S3","Lifecycle cold data off FSx."]]},
+{id:"storagegateway",n:"Storage Gateway",f:"AWS Storage Gateway",c:"storage",i:"🚪",t:"Bridge your on-premises storage to AWS — cache, backup and archive without re-architecting.",w:"Hybrid cloud starts here: a virtual appliance gives on-prem apps low-latency cached access to S3 and lands backups in AWS.",u:"NAS migration, tape replacement, disaster recovery, cloud-backed file shares.",b:["File vs Volume vs Tape gateway","The on-prem appliance","SMB/NFS protocol mapping","Bandwidth throttling"],
+tf:`resource "aws_storagegateway_gateway" "gw" {
+  gateway_name = "site-a-gw"
+  gateway_ip_address = "10.0.0.20"
+  gateway_type = "FILE_S3"
+  gateway_timezone = "GMT"
+}`,
+ck:`// No first-class CDK construct — the gateway is an on-prem appliance.`,
+sd:`import boto3
+sgw = boto3.client("storagegateway", region_name="us-east-1")
+for g in sgw.list_gateways()["Gateways"]:
+    print(g["GatewayARN"], g["GatewayType"])`,
+dl:`sgw.delete_gateway(GatewayARN="arn:aws:storagegateway:...")`,
+x:["Files are always eventually in S3 — the gateway is a cache in front.","Use Tape Gateway to retire physical tapes for backup compliance."],
+r:["Enterprise IT","Backup tools like Veeam send copies to AWS."],
+nt:[["S3","The target of every gateway upload."],["DMS","Related migration paths."],["Snowball","Bulk data transfer for big migrations."]]},
+{id:"documentdb",n:"DocumentDB",f:"Amazon DocumentDB",c:"database",i:"🍃",t:"MongoDB-compatible, fully managed document database.",w:"Teams with MongoDB skills shouldn't have to run MongoDB servers. DocumentDB speaks the MongoDB wire protocol while AWS handles clusters, failover and backups.",u:"Content/catalog systems, user profiles, JSON-heavy workloads.",b:["MongoDB compatibility level","Cluster = instance + replicas","Change streams","TLS/connection strings"],
+tf:`resource "aws_docdb_cluster" "app" {
+  cluster_identifier = "app-cluster"
+  engine             = "docdb"
+  master_username    = "admin"
+  master_password    = "CHANGE_ME_STRONG"
+  skip_final_snapshot = true
+}
+resource "aws_docdb_cluster_instance" "primary" {
+  cluster_identifier = aws_docdb_cluster.app.id
+  instance_class     = "db.r5.large"
+}`,
+ck:`import * as docdb from "aws-cdk-lib/aws-docdb";
+new docdb.DatabaseCluster(this, "AppDb", {
+  vpc, masterUser: { username: "admin", password: "CHANGE_ME_STRONG" },
+  instanceType: ec2.InstanceType.of(ec2.InstanceClass.R5, ec2.InstanceSize.LARGE),
+});`,
+sd:`import boto3
+docdb = boto3.client("docdb", region_name="us-east-1")
+for c in docdb.describe_db_clusters()["DBClusters"]:
+    print(c["DBClusterIdentifier"], c["Status"])`,
+dl:`docdb.delete_db_cluster(DBClusterIdentifier="app-cluster", SkipFinalSnapshot=True)`,
+x:["Use the driver version matching the engine — compatibility is real but not 1:1.","Replicas are read-only; all writes go to the primary."],
+r:["Edtech & media companies","Profiles and catalogs too flexible for SQL."],
+nt:[["DynamoDB","Managed NoSQL if you don't need Mongo semantics."],["RDS","When the data is relational after all."]]},
+{id:"memorydb",n:"MemoryDB",f:"Amazon MemoryDB",c:"database",i:"⚡",t:"Redis-compatible, durable in-memory database — for when losing data is not an option.",w:"Plain ElastiCache is a cache: restart and it's empty. MemoryDB keeps a write-ahead log so data survives restarts, making it a true database.",u:"Leaderboards, sessions, real-time counters, durable pub/sub.",b:["Durable vs ephemeral in-memory","Cluster + shards + replicas","Redis data types","Eviction vs persistence"],
+tf:`resource "aws_memorydb_cluster" "live" {
+  name         = "live-scores"
+  node_type    = "db.t4g.small"
+  num_shards   = 1
+  num_replicas_per_shard = 1
+}`,
+ck:`// No first-class CDK construct (L1 only) — manage with Terraform.`,
+sd:`import boto3
+mdb = boto3.client("memorydb", region_name="us-east-1")
+for c in mdb.describe_clusters()["Clusters"]:
+    print(c["Name"], c["Status"])`,
+dl:`mdb.delete_cluster(ClusterName="live-scores")`,
+x:["Pick MemoryDB when the data must survive; ElastiCache when it's just a cache.","Scale writes with multiple shards."],
+r:["Gaming companies","Live leaderboards that must not wipe on deploy."],
+nt:[["ElastiCache","Cheaper when you truly only need a cache."],["DAX","In-memory acceleration for DynamoDB."]]},
+{id:"timestream",n:"Timestream",f:"Amazon Timestream",c:"database",i:"⏱️",t:"Serverless time-series database for IoT, telemetry and metrics.",w:"Time-series data grows forever and is queried differently than rows. Timestream separates hot in-memory from cold storage automatically and scales to billions of points.",u:"IoT sensor streams, industrial telemetry, stock tickers, app metrics.",b:["Time-series vs relational modeling","Memory vs magnetic store","Automatic retention tiers","SQL with time functions"],
+tf:`resource "aws_timestreamwrite_database" "metrics" {
+  database_name = "metrics"
+}
+resource "aws_timestreamwrite_table" "sensors" {
+  database_name = aws_timestreamwrite_database.metrics.database_name
+  table_name    = "sensors"
+}`,
+ck:`// No first-class CDK construct (L1 only) — manage with Terraform.`,
+sd:`from boto3.session import Session
+w = Session().client("timestream-write", region_name="us-east-1")
+recs = [{"Dimensions": [{"Name": "sensor", "Value": "s1"}],
+         "MeasureName": "temp", "MeasureValue": "22.5",
+         "MeasureValueType": "DOUBLE", "Time": str(int(__import__('time').time()*1000))}]
+w.write_records(DatabaseName="metrics", TableName="sensors", Records=recs)`,
+dl:`# Delete tables first, then the database
+w.delete_table(DatabaseName="metrics", TableName="sensors")
+w.delete_database(DatabaseName="metrics")`,
+x:["Model one 'measure' per row with tags — not one column per sensor.","Use scheduled queries to roll raw ticks up into 5-minute aggregates."],
+r:["Industrial IoT vendors","Millions of sensor readings per day at low cost."],
+nt:[["Kinesis","Ingest streams into Timestream."],["QuickSight","Dashboards over time series."]]},
+{id:"ses",n:"SES",f:"Amazon Simple Email Service",c:"messaging",i:"✉️",t:"Transactional and bulk email at scale — deliverability handled.",w:"Sending email reliably means SPF/DKIM/DMARC, bounces, complaints and warmup. SES packages all of it at the lowest per-message price in the market.",u:"Transactional email (receipts, password resets), newsletters, automated alerts.",b:["Verified identities & domains","DKIM/SPF/DMARC setup","Suppression & bounces","Sending limits & warmup"],
+tf:`resource "aws_ses_domain_identity" "example" {
+  domain = "example.com"
+}
+resource "aws_ses_domain_dkim" "example" {
+  domain = aws_ses_domain_identity.example.domain
+}`,
+ck:`import * as ses from "aws-cdk-lib/aws-ses";
+new ses.EmailIdentity(this, "Identity", { identity: ses.Identity.domain("example.com") });`,
+sd:`import boto3
+ses = boto3.client("sesv2", region_name="us-east-1")
+ses.send_email(FromEmailAddress="noreply@example.com",
+    Destination={"ToAddresses": ["user@example.com"]},
+    Content={"Simple": {"Subject": {"Data": "Hello"},
+             "Body": {"Text": {"Data": "Welcome!"}}}})`,
+dl:`ses.delete_email_identity(EmailIdentity="example.com")`,
+x:["Always attach a configuration set with a bounce SNS topic — you will get bounces.","Auto-suppress hard bounces via SNS + Lambda."],
+r:["SaaS companies","Send millions of receipts and notifications monthly."],
+nt:[["SNS","Push notifications + email fan-out."],["Pinpoint","Marketing campaigns."]]},
+{id:"costexplorer",n:"Cost Explorer",f:"AWS Cost Explorer",c:"analytics",i:"📊",t:"See, filter and forecast what you spend on AWS — by service, account, tag or day.",w:"Cloud bills spiral quietly. Cost Explorer turns billing data into dashboards and forecasts so you notice the runaway cluster before the invoice.",u:"Monthly cost review, anomaly detection, chargeback by team/tag.",b:["Cost categories & tags","Forecasting","Anomaly detection alerts","RI/SP coverage reports"],
+tf:`# Nothing to provision — Cost Explorer is a built-in AWS service.
+# Tag resources so you can slice spend by project/team.`,
+ck:`// No construct needed — Cost Explorer is AWS-managed. Tag resources instead.`,
+sd:`import boto3
+ce = boto3.client("ce", region_name="us-east-1")
+r = ce.get_cost_and_usage(TimePeriod={"Start": "2026-07-01", "End": "2026-08-01"},
+    Granularity="MONTHLY", Metrics=["UnblendedCost"])
+print(r["ResultsByTime"])`,
+dl:`# Nothing to delete — built-in console service.`,
+x:["Tag everything, then report by tag — untagged spend is 'orphan' cost.","Pair with Budgets for alerting, not just dashboards."],
+r:["Every AWS customer","FinOps teams run the show on Cost Explorer."],
+nt:[["Budgets","Alerts before you overspend."],["CloudWatch","Resource-level metrics."]]},
+{id:"budgets",n:"Budgets",f:"AWS Budgets",c:"devops",i:"🎯",t:"Set spend limits and get alerted before the invoice surprises you.",w:"Costs climb daily but invoices come monthly. Budgets watches actual vs forecasted spend and pings you at thresholds — cost control as a safety net.",u:"Monthly cost budgets, RI/SP utilization budgets, usage budgets.",b:["Cost vs usage budgets","Thresholds & notifications","RI & Savings Plans budgets","Budget actions"],
+tf:`resource "aws_budgets_budget" "monthly" {
+  name         = "monthly-spend"
+  budget_type  = "COST"
+  limit_amount = "5000"
+  limit_unit   = "USD"
+  time_unit    = "MONTHLY"
+  notification {
+    comparison_operator = "GREATER_THAN"
+    threshold           = 80
+    notification_type   = "ACTUAL"
+    subscriber_email_addresses = ["team@example.com"]
+  }
+}`,
+ck:`// No first-class CDK construct (L1 only) — manage with Terraform.`,
+sd:`import boto3
+bud = boto3.client("budgets", region_name="us-east-1")
+bud.describe_budgets(AccountId="123456789012")`,
+dl:`bud.delete_budget(AccountId="123456789012", BudgetName="monthly-spend")`,
+x:["Set a 50%/90%/100% threshold chain, not a single alert.","Budget actions can auto-stop or scale resources when a limit is hit."],
+r:["Finance teams","Catch runaway spend before month-end."],
+nt:[["Cost Explorer","Deep-dive the numbers behind the alert."],["CloudWatch","Alarm on resource metrics too."]]},
+{id:"trustedadvisor",n:"Trusted Advisor",f:"AWS Trusted Advisor",c:"devops",i:"🛡️",t:"AWS's built-in auditor — security, cost, performance and fault-tolerance checks across your account.",w:"You can't manually check 100+ best practices. Trusted Advisor runs the checklists and flags underutilized instances, open security groups and single-AZ risks.",u:"Well-Architected reviews, cost-savings discovery, security posture checks.",b:["Cost / security / performance / fault tolerance / limits","Full checks vs Business+ tier","Weekly report emails","Pairing with AWS Config"],
+tf:`# Nothing to provision — Trusted Advisor audits what already exists.`,
+ck:`// Nothing to build — it's a managed auditing service.`,
+sd:`import boto3
+support = boto3.client("support", region_name="us-east-1")
+for c in support.describe_trusted_advisor_checks(language="en")["checks"][:5]:
+    print(c["id"], c["name"])`,
+dl:`# Nothing to delete — built-in console service.`,
+x:["Business+ plans unlock the full check set — budget for the tier.","Act on 'idle RDS' and 'unused EC2' checks first: fastest savings."],
+r:["Enterprise accounts","Central cloud teams run monthly TA reviews."],
+nt:[["Config","Custom rules beyond TA's checklist."],["Cost Explorer","Verify the cost flags."]]},
+{id:"kendra",n:"Kendra",f:"Amazon Kendra",c:"ml",i:"🔍",t:"Enterprise search powered by ML — answers from your documents, not a keyword list.",w:"Keyword search returns 1,000 docs; people want an answer. Kendra indexes your docs, wikis and SharePoint and returns relevant answers with sources.",u:"Internal knowledge bases, help centers, HR/IT self-service search.",b:["Indexes, data sources, connectors","Document metadata & access control","FAQs & question answering","S3/SharePoint/Confluence connectors"],
+tf:`resource "aws_kendra_index" "kb" {
+  name     = "company-kb"
+  edition  = "DEVELOPER_EDITION"
+  role_arn = aws_iam_role.kendra.arn
+}
+resource "aws_kendra_data_source" "s3_docs" {
+  index_id = aws_kendra_index.kb.id
+  name     = "s3-docs"
+  type     = "S3"
+  role_arn = aws_iam_role.kendra.arn
+}`,
+ck:`// No first-class CDK construct (L1 only) — manage with Terraform.`,
+sd:`import boto3
+kendra = boto3.client("kendra", region_name="us-east-1")
+resp = kendra.query(IndexId="<index-id>", QueryText="how to reset my password")
+for r in resp["ResultItems"][:3]:
+    print(r.get("DocumentTitle", {}).get("Text"), "-", r.get("DocumentURI"))`,
+dl:`kendra.delete_index(Id="<index-id>")`,
+x:["Feed it metadata-rich docs; relevance depends on structure.","Use FAQ + document-answer query modes for better responses."],
+r:["Large enterprises","Cut support tickets with internal answer search."],
+nt:[["Bedrock + OpenSearch","Build a custom RAG pipeline instead."],["Textract","Extract text from PDFs before indexing."]]},
+{id:"forecast",n:"Forecast",f:"Amazon Forecast",c:"ml",i:"📈",t:"Time-series forecasting with ML — demand, staffing, capacity — without building models.",w:"Forecasting is a solved problem when you have clean data and the right library. Forecast automates model selection and tuning behind the scenes.",u:"Demand planning, staffing, inventory, energy-load forecasting.",b:["Dataset groups & time series","Predictors (models)","What-if scenarios","Accuracy metrics"],
+tf:`resource "aws_forecast_dataset_group" "demand" {
+  dataset_group_name = "demand"
+  domain             = "RETAIL"
+}`,
+ck:`// No first-class CDK construct (L1 only) — manage with Terraform.`,
+sd:`import boto3
+fc = boto3.client("forecast", region_name="us-east-1")
+for p in fc.list_predictors()["Predictors"]:
+    print(p["PredictorArn"], p["Status"])`,
+dl:`fc.delete_forecast(ForecastArn="...")
+fc.delete_predictor(PredictorArn="...")`,
+x:["Historical-data quality beats fancy models — clean the spikes first.","Backtest before trusting a forecast; pick the right horizon."],
+r:["Retailers","Demand planning across thousands of SKUs."],
+nt:[["Personalize","The recommendation cousin."],["QuickSight","Plot forecast vs actual."]]},
+{id:"personalize",n:"Personalize",f:"Amazon Personalize",c:"ml",i:"🎯",t:"ML-based recommendations — 'customers also bought' — without a data-science team.",w:"Recommendation engines are table stakes for ecommerce but hard to build. Personalize trains models on your users' interactions and serves ranked recommendations via API.",u:"Product recommendations, content ranking, personalized emails.",b:["Interaction datasets (views, clicks, purchases)","Solutions & campaigns","Recipes (HRNN, SIMS, etc.)","Real-time vs batch recommendations"],
+tf:`# Personalize support in the AWS TF provider is still maturing.
+# Model: dataset-group -> dataset -> solution -> campaign.`,
+ck:`// No first-class CDK construct (L1 only) — manage via the console or SDK.`,
+sd:`import boto3
+pr = boto3.client("personalize-runtime", region_name="us-east-1")
+resp = pr.get_recommendations(campaignArn="arn:aws:personalize:...:campaign/demo",
+    userId="user-42")
+for item in resp["itemList"][:5]: print(item["itemId"])`,
+dl:`# Delete campaign, then solution, then datasets, then the group.`,
+x:["You need a steady stream of interaction events — no data, no personalization.","Start with the SIMS recipe for 'related items', HRNN for user recommendations."],
+r:["E-commerce","10-30% click-through lifts from personalized feeds."],
+nt:[["Pinpoint","Deliver personalized emails."],["Kinesis","Stream interaction events in."]]}
 ];
 if(Object.freeze){SERVICES.forEach(function(s){Object.freeze(s);});Object.freeze(SERVICES);}
 
@@ -3208,7 +3455,7 @@ function bindModal(){const m=$("#modal");
   m.querySelectorAll("[data-copyraw]").forEach(function(btn){btn.addEventListener("click",function(){copyText(btn.dataset.copyraw,btn);});});}
 function toggleLearned(id){const wasNew=!learned.has(id);
   if(learned.has(id))learned.delete(id);else learned.add(id);
-  store.set("awsAtlasLearned",Array.from(learned));
+  store.set("awsAtlasLearned",Array.from(learned));syncPush();
   if(wasNew)toast("✓ "+id.toUpperCase()+" marked as learned");
   updateProgress();checkPathCompletion();
   const card=document.querySelector('.card[data-open="'+id+'"] .done');if(card)card.classList.toggle("learned",learned.has(id));
@@ -3873,7 +4120,7 @@ function startQuiz(){const pool=shuffle(SERVICES.slice());const qs=[];
   quiz={qs:qs,i:0,score:0,missed:[]};renderQuiz();}
 function renderQuiz(){const box=$("#quizBox");if(!quiz)return;
   if(quiz.i>=quiz.qs.length){const pct=Math.round(quiz.score/quiz.qs.length*100);
-    if(quiz.score>bestGet()){localStorage.setItem("awsAtlasBest",quiz.score);refreshBest();}
+    if(quiz.score>bestGet()){localStorage.setItem("awsAtlasBest",quiz.score);refreshBest();syncPush();}
     box.innerHTML='<div class="qmeta"><span>ROUND COMPLETE</span><span>SCORE</span></div>'
       +'<div style="margin:auto;text-align:center;width:100%"><div class="qscore-big">'+quiz.score+'<span style="font-size:24px;color:var(--dim)"> / '+quiz.qs.length+'</span></div>'
       +'<p style="color:var(--mut);margin:14px 0 22px">'+(pct===100?"Flawless. You clearly ship on AWS. 🔥":pct>=60?"Solid — review the ones you missed below.":"Good start — the catalog above is your gym. 💪")+'</p>'
@@ -4019,9 +4266,35 @@ async function loadFromAPI(){
   }catch(e){/* keep embedded data as offline fallback */}
 }
 
+/* ===== private progress sync (backend SQLite via API) ===== */
+let uid=store.get("atlas_user_id","");
+if(!uid){uid="u_"+Math.random().toString(36).slice(2,10)+Date.now().toString(36);store.set("atlas_user_id",uid);}
+let syncTimer=null;
+function syncPush(){ /* debounced PUT of progress to the private backend store */
+  clearTimeout(syncTimer);
+  syncTimer=setTimeout(function(){
+    fetch("/api/v1/user-state",{method:"PUT",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({user_id:uid,learned:Array.from(learned),quiz_best:bestGet()})}).catch(function(){});
+  },700);
+}
+function syncPull(){ /* merge server progress in, then push the merged state back */
+  fetch("/api/v1/user-state?user_id="+encodeURIComponent(uid),{headers:{Accept:"application/json"},cache:"no-cache"})
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(st){
+      if(!st)return;
+      let changed=false;
+      const valid=new Set(SERVICES.map(function(s){return s.id;}));
+      (st.learned||[]).forEach(function(id){if(!learned.has(id)&&valid.has(id)){learned.add(id);changed=true;}});
+      if(st.quiz_best>bestGet()){localStorage.setItem("awsAtlasBest",st.quiz_best);refreshBest();changed=true;}
+      if(changed){store.set("awsAtlasLearned",Array.from(learned));updateProgress();if($("#overlay").classList.contains("open"))renderModal();}
+      syncPush();
+    }).catch(function(){});
+}
+
 /* ===== init ===== */
 renderChips();renderGrid();renderTracks();renderBlueprintTabs();renderBlueprints();renderProjects();renderEnterprise();renderModuleLab();renderConverter();renderPlaybooks();renderRadarTabs();renderRadarLists();renderPathChips();renderQA();renderSetup();refreshBest();updateProgress();checkPathCompletion();
 loadFromAPI(); /* fetch live services from backend; embedded stays as fallback */
+syncPull();    /* merge any server-saved progress into the UI (private DB via API) */
 </script>
 </body>
 </html>

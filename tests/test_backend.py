@@ -1,6 +1,6 @@
 """Backend + data-integrity test suite for AWS Atlas Pro.
 
-Covers: every API endpoint, the 80-service dataset (no dup ids, no missing or
+Covers: every API endpoint, the 94-service dataset (no dup ids, no missing or
 empty fields), and frontend adapter compatibility (the fields the SPA's
 loadFromAPI adapter needs must be present in /api/v1/services).
 """
@@ -52,10 +52,10 @@ def test_root_contains_api_loader():
     assert b"loadFromAPI" in r.content
 
 
-def test_services_count_is_80():
+def test_services_count_is_94():
     r = client.get("/api/v1/services")
     assert r.status_code == 200
-    assert len(r.json()) == 80
+    assert len(r.json()) == 94
 
 
 def test_api_matches_dataset_ids():
@@ -112,8 +112,8 @@ def test_frontend_adapter_compat():
 
 def test_categories_total_matches():
     d = client.get("/api/v1/categories").json()
-    assert d["total"] == 80
-    assert sum(d["categories"].values()) == 80
+    assert d["total"] == 94
+    assert sum(d["categories"].values()) == 94
 
 
 def test_service_detail():
@@ -154,3 +154,66 @@ def test_data_endpoints_ok():
     for path in paths:
         r = client.get(path)
         assert r.status_code == 200, f"{path} -> {r.status_code}"
+
+
+# --- private DB (SQLite user state) ---
+
+TEST_UID = "test-user-001"
+
+
+def test_db_status_ok():
+    r = client.get("/api/v1/db")
+    assert r.status_code == 200
+    body = r.json()
+    assert body["driver"] == "sqlite"
+    assert "persistent" in body and "ephemeral" in body
+
+
+def test_user_state_default_empty():
+    r = client.get("/api/v1/user-state", params={"user_id": TEST_UID})
+    assert r.status_code == 200
+    assert r.json() == {"user_id": TEST_UID, "learned": [], "quiz_best": 0}
+
+
+def test_user_state_roundtrip():
+    payload = {"user_id": TEST_UID, "learned": ["ec2", "s3", "lambda"], "quiz_best": 8}
+    r = client.put("/api/v1/user-state", json=payload)
+    assert r.status_code == 200
+    assert r.json() == payload
+    got = client.get("/api/v1/user-state", params={"user_id": TEST_UID}).json()
+    assert got == payload
+    # cleanup
+    client.delete("/api/v1/user-state", params={"user_id": TEST_UID})
+
+
+def test_user_state_overwrite():
+    a = {"user_id": TEST_UID, "learned": ["ec2"], "quiz_best": 3}
+    b = {"user_id": TEST_UID, "learned": ["ec2", "rds"], "quiz_best": 5}
+    client.put("/api/v1/user-state", json=a)
+    client.put("/api/v1/user-state", json=b)
+    got = client.get("/api/v1/user-state", params={"user_id": TEST_UID}).json()
+    assert got == b
+    client.delete("/api/v1/user-state", params={"user_id": TEST_UID})
+
+
+def test_user_state_delete():
+    client.put("/api/v1/user-state", json={"user_id": TEST_UID, "learned": ["ec2"], "quiz_best": 1})
+    r = client.delete("/api/v1/user-state", params={"user_id": TEST_UID})
+    assert r.status_code == 200
+    assert r.json()["deleted"] is True
+    r = client.delete("/api/v1/user-state", params={"user_id": TEST_UID})
+    assert r.json()["deleted"] is False
+
+
+def test_user_state_requires_user_id():
+    assert client.get("/api/v1/user-state").status_code == 422
+    assert client.put("/api/v1/user-state", json={"learned": ["ec2"], "quiz_best": 1}).status_code == 422
+
+
+def test_user_state_learned_only_valid_service_ids():
+    """Learned entries that aren't real service ids must be rejected client-side, but the
+    API stays safe: it stores strings only (no code execution, no injection)."""
+    r = client.put("/api/v1/user-state", json={"user_id": TEST_UID, "learned": ["</script>"], "quiz_best": 0})
+    assert r.status_code == 200
+    assert r.json()["learned"] == ["</script>"]
+    client.delete("/api/v1/user-state", params={"user_id": TEST_UID})

@@ -53,6 +53,12 @@ try:
 except ImportError:  # imported as backend.main
     from backend.services_data import SERVICES_DATA
 
+# Private SQLite persistence (see backend/db.py for the privacy model)
+try:
+    import db as db_store
+except ImportError:  # imported as backend.main
+    from backend import db as db_store
+
 # ============================================================
 # Pydantic Models
 # ============================================================
@@ -95,6 +101,11 @@ class QuizQuestion(BaseModel):
     options: List[str]
     correct_answer: int
     explanation: str
+
+class UserState(BaseModel):
+    user_id: str = Field(min_length=1, max_length=128)
+    learned: List[str] = []
+    quiz_best: int = Field(default=0, ge=0, le=100)
 
 # ============================================================
 # API ROUTES
@@ -144,6 +155,30 @@ async def get_quiz(count: int = 8):
         {"id": "q5", "question": "Which service is used for serverless functions?", "options": ["EC2", "Lambda", "ECS", "EKS"], "correct_answer": 1, "explanation": "Lambda runs code without provisioning servers, paying only for compute time."},
     ]
     return {"questions": questions[:count], "total": len(questions)}
+
+@app.get("/api/v1/db")
+async def get_db_status():
+    """Private DB status (driver, persistence mode). No data is exposed."""
+    return db_store.status()
+
+@app.get("/api/v1/user-state")
+async def get_user_state(user_id: str = Query(..., min_length=1, max_length=128)):
+    """Read a user's saved progress. Returns empty state if none saved."""
+    state = db_store.get_user_state(user_id)
+    if state is not None:
+        return state
+    return {"user_id": user_id, "learned": [], "quiz_best": 0}
+
+@app.put("/api/v1/user-state", response_model=UserState)
+async def put_user_state(state: UserState):
+    """Persist a user's progress (learned services + quiz best score)."""
+    return db_store.upsert_user_state(state.user_id, state.learned, state.quiz_best)
+
+@app.delete("/api/v1/user-state")
+async def delete_user_state(user_id: str = Query(..., min_length=1, max_length=128)):
+    """Delete a user's saved progress (privacy: full wipe on request)."""
+    removed = db_store.delete_user_state(user_id)
+    return {"deleted": removed, "user_id": user_id}
 
 @app.get("/api/v1/projects")
 async def get_projects():

@@ -1,9 +1,20 @@
 *.pyc
 __pycache__/
 .env
+.env.*
+.env.local
 *.egg-info/
 .venv/
 node_modules/
 CLAUDE.md
 .claude/
 .vercel
+# private data — never push DB files or local data
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite-*
+data/
+config/
+backend/data/

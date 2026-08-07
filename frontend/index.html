@@ -739,7 +739,7 @@ const store={get:function(k,f){try{const v=JSON.parse(localStorage.getItem(k));r
 const CATS={compute:{label:"Compute",c:"#ff9d2e"},storage:{label:"Storage",c:"#5fd68b"},database:{label:"Databases",c:"#5aa7ff"},networking:{label:"Networking",c:"#b79bff"},security:{label:"Security & Governance",c:"#ff7b72"},messaging:{label:"Messaging & Async",c:"#ffd75e"},analytics:{label:"Analytics & Data",c:"#3ddad7"},migration:{label:"Migration",c:"#f2a06c"},devops:{label:"DevOps & Mgmt",c:"#53d1ec"},ml:{label:"AI · ML · AgentOps",c:"#f07be0"}};
 
 /* ===== 80 SERVICES ===== */
-const SERVICES=[
+let SERVICES=[
 {id:"ec2",n:"EC2",f:"Elastic Compute Cloud",c:"compute",i:"🖥️",t:"Rent virtual servers by the second — the original building block of the cloud.",w:"You need a machine you fully control: any OS, any software. EC2 launches one in 30 seconds and bills per second.",u:"Web servers, CI runners, batch workers, GPU hosts.",b:["Linux basics & SSH","Security groups = firewalls","AMIs & instance families","On-Demand vs Spot vs Reserved"],
 tf:`resource "aws_instance" "web" {
   ami                    = "ami-0c2b8ca1dad44e93a" # Amazon Linux 2023
@@ -3999,8 +3999,29 @@ $("#totop").addEventListener("click",function(){window.scrollTo({top:0,behavior:
 $("#burger").addEventListener("click",function(){$("#mnav").classList.toggle("open");});
 $$("#mnav a").forEach(function(a){a.addEventListener("click",function(){$("#mnav").classList.remove("open");});});
 
+/* ===== live data from backend API ===== */
+function adaptService(s){
+  return {id:s.id,n:s.name,f:s.full_name,c:s.category,i:s.icon,t:s.tagline,
+    w:s.why_it_exists,u:s.use_cases,b:s.learn_first,
+    tf:s.terraform,ck:s.cdk,sd:s.boto3,dl:s.delete,
+    x:s.expert_tips,r:s.real_world,nt:s.next_steps};
+}
+async function loadFromAPI(){
+  try{
+    const res=await fetch("/api/v1/services",{headers:{Accept:"application/json"},cache:"no-cache"});
+    if(!res.ok)return;
+    const data=await res.json();
+    if(!Array.isArray(data)||data.length===0)return;
+    const live=data.map(adaptService);
+    if(Object.freeze){live.forEach(function(s){Object.freeze(s);});Object.freeze(live);}
+    SERVICES=live;
+    renderChips();renderGrid();updateProgress();renderPathChips();
+  }catch(e){/* keep embedded data as offline fallback */}
+}
+
 /* ===== init ===== */
 renderChips();renderGrid();renderTracks();renderBlueprintTabs();renderBlueprints();renderProjects();renderEnterprise();renderModuleLab();renderConverter();renderPlaybooks();renderRadarTabs();renderRadarLists();renderPathChips();renderQA();renderSetup();refreshBest();updateProgress();checkPathCompletion();
+loadFromAPI(); /* fetch live services from backend; embedded stays as fallback */
 </script>
 </body>
 </html>

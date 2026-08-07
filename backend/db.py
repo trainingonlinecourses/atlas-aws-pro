@@ -16,12 +16,14 @@ Two drivers, selected by environment (never committed):
        Path configurable via ATLAS_DB_PATH.
   - Turso / libSQL ............ durable, serverless-persistent (recommended
        for Vercel). Enabled by setting ATLAS_DB_URL (and ATLAS_DB_AUTH_TOKEN).
-       Uses libsql_client.dbapi2 — a drop-in sqlite3 replacement, so the
-       schema and every query are identical.
+       Uses the official `libsql` client (sqlite3-compatible, qmark params)
+       which talks to Turso over HTTPS. (The older `libsql-client` package
+       only speaks WebSocket, which Turso no longer accepts — hence 400s.)
   - Fallback ................. if neither store is writable, an in-memory
        SQLite DB keeps every endpoint working (data resets on cold start).
 
-The API layer and schema are driver-agnostic.
+The API layer and schema are driver-agnostic. Rows are read back as dicts
+(keyed by column name) regardless of driver.
 """
 import json
 import logging
@@ -77,23 +79,34 @@ def db_path() -> str:
     return str(DEFAULT_DB_DIR / "atlas.db")
 
 
-def _turso_connect(url: str) -> sqlite3.Connection:
-    """Open a durable Turso/libSQL connection (drop-in sqlite3 replacement).
+def _turso_connect(url: str):
+    """Open a durable Turso/libSQL connection over HTTPS.
 
-    libsql_client.dbapi2.connect() only routes to the Hrana (wss) driver for
-    `libsql://`, `wss://` or `ws://` URLs; anything else takes the stdlib
-    sqlite3 path, where `auth_token` is an invalid kwarg and connect blows up.
-    Normalise the common Turso `https://` form to `libsql://` so a console
-    copy-paste still works.
+    Uses the official `libsql` client. Turso no longer accepts the WebSocket
+    Hrana handshake (old `libsql-client` gets HTTP 400 "protocol upgrade not
+    supported"), so auth_token must be passed as the string used by libsql.
+    Normalise `https://` to `libsql://` for a console copy-paste.
     """
-    from libsql_client import dbapi2 as libsql  # lazy: optional dependency
+    from libsql import connect as libsql_connect  # lazy: optional dependency
 
     token = os.getenv(TURSO_TOKEN_ENV)
     if url.startswith("https://"):
         url = "libsql://" + url[len("https://"):]
-    conn = libsql.connect(url, auth_token=token or None, check_same_thread=False, timeout=10.0)
-    conn.row_factory = libsql.Row
-    return conn
+    return libsql_connect(url, auth_token=token or "", timeout=10.0)
+
+
+def _row_to_dict(cur, row):
+    """Turn a fetched row into a column-keyed dict (driver-agnostic).
+
+    sqlite3.Row supports row["col"]; the `libsql` client returns plain tuples,
+    so map positional values back to names via cursor.description.
+    """
+    if row is None:
+        return None
+    if isinstance(row, dict):
+        return row
+    cols = [d[0] for d in (cur.description or [])]
+    return dict(zip(cols, row))
 
 
 def _connect() -> sqlite3.Connection:
@@ -113,7 +126,11 @@ def _connect() -> sqlite3.Connection:
             conn = sqlite3.connect(path, check_same_thread=False)
             conn.row_factory = sqlite3.Row
             conn.execute("PRAGMA busy_timeout = 5000")  # wait on locks, don't 500
-        conn.executescript(_SCHEMA)
+        # Note: use execute(), not executescript() — the official libsql client
+        # swallows network failures inside executescript, so a dead/unauthorized
+        # Turso must surface here or we'd report a "persistent" store that is
+        # silently local-only.
+        conn.execute(_SCHEMA)
         conn.commit()
         _is_file = True
         _ephemeral = False
@@ -152,10 +169,11 @@ def get_user_state(user_id: str):
     """Read a user's saved state, or None if never saved."""
     conn = _connect()
     with _lock:
-        row = conn.execute(
+        cur = conn.execute(
             "SELECT learned, quiz_best FROM user_state WHERE user_id = ?",
             (user_id,),
-        ).fetchone()
+        )
+        row = _row_to_dict(cur, cur.fetchone())
     if row is None:
         return None
     try:

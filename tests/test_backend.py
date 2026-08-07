@@ -192,6 +192,46 @@ def test_db_status_ok():
     assert "persistent" in body and "ephemeral" in body
 
 
+def test_row_to_dict_maps_tuple_via_description():
+    """The libsql client returns tuples (no Row/factory); the helper must
+    map values back to column names so db.py stays driver-agnostic."""
+    from backend import db as db_store
+
+    class Cur:
+        description = (("learned", None, None, None, None, None, None), ("quiz_best", None, None, None, None, None, None))
+
+    assert db_store._row_to_dict(Cur(), ('["ec2"]', 7)) == {"learned": '["ec2"]', "quiz_best": 7}
+    assert db_store._row_to_dict(Cur(), None) is None
+
+
+def test_turso_connect_failure_falls_back_to_memory(monkeypatch):
+    """When ATLAS_DB_URL is set but Turso is unreachable/invalid, the API must
+    keep working on an in-memory store and /api/v1/db must say why."""
+    from backend import db as db_store
+
+    monkeypatch.setenv("ATLAS_DB_URL", "libsql://127.0.0.1:1/nope")
+    monkeypatch.setenv("ATLAS_DB_AUTH_TOKEN", "test-token")
+    monkeypatch.setattr(db_store, "_conn", None)
+    monkeypatch.setattr(db_store, "_is_file", False)
+    monkeypatch.setattr(db_store, "_ephemeral", False)
+    monkeypatch.setattr(db_store, "_last_error", None)
+    try:
+        st = db_store.status()
+        assert st["driver"] == "turso"
+        assert st["persistent"] is False
+        assert st["ephemeral"] is True
+        assert st["token_set"] is True
+        assert st["url_scheme"] == "libsql"
+        assert st["error"]  # redacted reason is surfaced for diagnosis
+    finally:
+        monkeypatch.delenv("ATLAS_DB_URL", raising=False)
+        monkeypatch.delenv("ATLAS_DB_AUTH_TOKEN", raising=False)
+        db_store._conn = None
+        db_store._is_file = False
+        db_store._ephemeral = False
+        db_store._last_error = None
+
+
 def test_user_state_default_empty():
     r = client.get("/api/v1/user-state", params={"user_id": TEST_UID})
     assert r.status_code == 200

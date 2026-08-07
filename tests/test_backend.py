@@ -1,6 +1,6 @@
 """Backend + data-integrity test suite for AWS Atlas Pro.
 
-Covers: every API endpoint, the 94-service dataset (no dup ids, no missing or
+Covers: every API endpoint, the 100-service dataset (no dup ids, no missing or
 empty fields), and frontend adapter compatibility (the fields the SPA's
 loadFromAPI adapter needs must be present in /api/v1/services).
 """
@@ -52,10 +52,10 @@ def test_root_contains_api_loader():
     assert b"loadFromAPI" in r.content
 
 
-def test_services_count_is_94():
+def test_services_count_is_100():
     r = client.get("/api/v1/services")
     assert r.status_code == 200
-    assert len(r.json()) == 94
+    assert len(r.json()) == 100
 
 
 def test_api_matches_dataset_ids():
@@ -112,8 +112,8 @@ def test_frontend_adapter_compat():
 
 def test_categories_total_matches():
     d = client.get("/api/v1/categories").json()
-    assert d["total"] == 94
-    assert sum(d["categories"].values()) == 94
+    assert d["total"] == 100
+    assert sum(d["categories"].values()) == 100
 
 
 def test_service_detail():
@@ -217,3 +217,34 @@ def test_user_state_learned_only_valid_service_ids():
     assert r.status_code == 200
     assert r.json()["learned"] == ["</script>"]
     client.delete("/api/v1/user-state", params={"user_id": TEST_UID})
+
+
+def test_industry_issues_list():
+    r = client.get("/api/v1/industry-issues")
+    assert r.status_code == 200
+    j = r.json()
+    assert j["count"] > 0
+    assert len(j["services"]) == j["count"]
+    ids = [s["service_id"] for s in j["services"]]
+    assert len(ids) == len(set(ids)), "duplicate industry service_ids"
+    for s in j["services"]:
+        for key in ("service_id", "scenario", "issue", "fix", "alerts"):
+            assert s.get(key), f"industry entry missing {key!r}: {s.get('service_id')}"
+    assert len(j["categories"]) > 0
+    for c in j["categories"]:
+        assert c["category"] and c["pillar"] and c["issues"]
+
+
+def test_industry_issue_by_id():
+    r = client.get("/api/v1/industry-issues/ec2")
+    assert r.status_code == 200
+    assert r.json()["service_id"] == "ec2"
+    assert client.get("/api/v1/industry-issues/does-not-exist").status_code == 404
+
+
+def test_industry_issues_reference_real_services():
+    """Every industry scenario must map to a real service in the catalog."""
+    api_ids = {s["id"] for s in SERVICES_DATA}
+    j = client.get("/api/v1/industry-issues").json()
+    for s in j["services"]:
+        assert s["service_id"] in api_ids, f"industry entry {s['service_id']} not in catalog"

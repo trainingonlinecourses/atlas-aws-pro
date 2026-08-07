@@ -111,7 +111,7 @@ try {
 setTimeout(() => {
   try {
     const p = sandbox.__probe();
-    // loadFromAPI must have replaced the embedded 94 with the live API payload (5 fixtures)
+    // loadFromAPI must have replaced the embedded 100 with the live API payload (5 fixtures)
     check(p.servicesLen === backendServices.length, `SERVICES replaced by live API data (got ${p.servicesLen})`);
 
     // server learned ids (ec2, lambda) must have been merged into the live set
@@ -131,7 +131,7 @@ setTimeout(() => {
     }
 
     if (failures) { console.error(`${failures} browser-sim test(s) failed`); process.exit(1); }
-    console.log('browser-sim: ALL PASS (94 live services, progress pull+merge+push round-trip)');
+    console.log('browser-sim: ALL PASS (100 live services, progress pull+merge+push round-trip)');
     process.exit(0); // the app registers intervals; exit explicitly so node doesn't hang
   } catch (e) {
     console.error('verification threw:', e.stack || e);

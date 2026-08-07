@@ -14,6 +14,8 @@ Base URL: `https://atlas-aws-pro.vercel.app` (or `http://localhost:8000` locally
 | GET | `/api/v1/db` | Private DB status (driver, persistence mode). No data is exposed. |
 | GET | `/api/v1/deployment-blueprints` | Get deployment blueprints |
 | GET | `/api/v1/enterprise-architectures` | Get enterprise architectures |
+| GET | `/api/v1/industry-issues` | Real-world industry scenarios & failure modes per service (teaching reference). |
+| GET | `/api/v1/industry-issues/{service_id}` | One service's industry scenario + issue + fix + alerts. |
 | GET | `/api/v1/production-playbooks` | Get production playbooks |
 | GET | `/api/v1/projects` | Get learning projects |
 | GET | `/api/v1/quiz` | Get quiz questions (static for demo) |

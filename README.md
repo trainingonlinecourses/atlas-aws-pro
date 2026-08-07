@@ -1,13 +1,13 @@
 # AWS Atlas Pro Enterprise
 
-Enterprise-grade AWS learning platform with **94 services**, interactive quizzes, learning paths, enterprise architectures, and an AI-powered career radar.
+Enterprise-grade AWS learning platform with **100 services**, interactive quizzes, learning paths, enterprise architectures, and an AI-powered career radar.
 
 - **Live demo**: https://atlas-aws-pro.vercel.app
 - **GitHub**: https://github.com/trainingonlinecourses/atlas-aws-pro
 
 ## Features
 
-- **94 AWS Services** — Complete catalog with Terraform, CDK, and Boto3 examples, expert tips, real-world case studies, and next-step learning
+- **100 AWS Services** — Complete catalog with Terraform, CDK, and Boto3 examples, expert tips, real-world case studies, and next-step learning
 - **Enterprise Architectures** — Financial services, healthcare, retail, media architectures
 - **Production Playbooks** — HA, DR, cost optimization, security hygiene
 - **AI Career Radar** — Industry AI maturity assessment and predictions
@@ -20,18 +20,20 @@ Enterprise-grade AWS learning platform with **94 services**, interactive quizzes
 
 Two kinds of data, two storage models:
 
-**1. Service catalog (94 services)** — code-defined, no database.
+**1. Service catalog (100 services)** — code-defined, no database.
 ```
 frontend/index.html (embedded 94 services = OFFLINE FALLBACK)
         │  fetch("/api/v1/services")  on load
         ▼
-backend/services_data.py   ← single source of truth (94 services, full detail)
+backend/services_data.py   ← single source of truth (100 services, full detail)
         │
         ▼
 backend/main.py (FastAPI) → /api/v1/* endpoints → JSON
 ```
 
 **2. User progress (learned services, quiz best score)** — private SQLite DB.
+
+**3. Real-world scenarios** — 30 flagship-service production incidents (failure mode, industry-standard fix, alerts) served via `/api/v1/industry-issues` and rendered on the dedicated **Real-World Scenarios** page (`#industry`).
 ```
 Browser → GET/PUT /api/v1/user-state → FastAPI → backend/db.py → SQLite file
                                     └──── JSON response back ────┘
@@ -77,7 +79,8 @@ mkdir -p dist && cp -r frontend/* dist/
 │   └── static/            # Static assets (CSS, JS, images)
 ├── docs/                  # Generated documentation
 │   ├── README.md          # Service index
-│   ├── services/          # One markdown page per service (94 pages)
+│   ├── services/          # One markdown page per service (100 pages)
+│   ├── industry-issues.md # Real-world scenarios & failure modes
 │   ├── api.md             # API reference (auto-derived)
 │   └── PRIVACY.md         # Privacy & data model
 ├── scripts/
@@ -107,6 +110,8 @@ mkdir -p dist && cp -r frontend/* dist/
 | `GET /api/v1/deployment-blueprints` | Deployment patterns |
 | `GET /api/v1/enterprise-architectures` | Enterprise reference architectures |
 | `GET /api/v1/production-playbooks` | Operational playbooks |
+| `GET /api/v1/industry-issues` | Real-world industry scenarios & failure modes |
+| `GET /api/v1/industry-issues/{id}` | One service scenario + issue + fix + alerts |
 | `GET /api/v1/ai-radar` | Industry AI maturity radar |
 | `GET /api/v1/db` | Private DB status (no data exposed) |
 | `GET /api/v1/user-state?user_id=` | Read a user's saved progress |
@@ -144,7 +149,7 @@ Or any platform supporting Python/FastAPI (AWS Lambda w/ Mangum, GCP Cloud Run, 
 
 - **Backend**: FastAPI, Uvicorn, Pydantic, SlowAPI
 - **Frontend**: Vanilla JS, CSS Grid/Flexbox, CSS Variables
-- **Data**: In-memory (80 services with full examples), served via the API
+- **Data**: 100 services (code-defined) served via the API + private SQLite for user progress + curated industry scenarios
 
 ## License
 

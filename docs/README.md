@@ -1,8 +1,9 @@
 # AWS Atlas Pro — Service Documentation
 
-**94 AWS services**, each with a full reference page: tagline, why-it-exists, when-to-use, learning checklist, Terraform / CDK / Boto3 / delete code, expert tips, a real-world example, and next-step links.
+**100 AWS services**, each with a full reference page: tagline, why-it-exists, when-to-use, learning checklist, Terraform / CDK / Boto3 / delete code, expert tips, a real-world example, and next-step links.
 
 - [API reference](api.md)
+- [Real-world industry scenarios & failure modes](industry-issues.md)
 - [Privacy & data model](PRIVACY.md)
 
 ## Analytics (8)
@@ -16,7 +17,7 @@
 - [🎛️ Managed Streaming for Apache Kafka (`msk`)](services/msk.md) — Managed Apache Kafka — the event backbone for serious streaming platforms.
 - [📉 Amazon QuickSight (`quicksight`)](services/quicksight.md) — Serverless BI dashboards — pay per session, embed anywhere, ask Q.
 
-## Compute (10)
+## Compute (11)
 
 - [🚤 AWS App Runner (`apprunner`)](services/apprunner.md) — Container to public HTTPS in one click — the simplest compute on AWS.
 - [📈 EC2 Auto Scaling (`autoscaling`)](services/autoscaling.md) — Fleets that grow with traffic and replace themselves when they break.
@@ -26,6 +27,7 @@
 - [☸️ Elastic Kubernetes Service (`eks`)](services/eks.md) — Managed Kubernetes control plane — the industry standard, minus the ops.
 - [🌱 AWS Elastic Beanstalk (`elasticbeanstalk`)](services/elasticbeanstalk.md) — Paste your app code; AWS provisions the servers, load balancer and scaling for you.
 - [🛸 AWS Fargate (`fargate`)](services/fargate.md) — Serverless compute for containers — no hosts, no patching, just tasks.
+- [🖼️ EC2 Image Builder (`imagebuilder`)](services/imagebuilder.md) — Build and maintain golden AMIs. Recipes, pipelines, automated patching on a schedule.
 - [λ AWS Lambda (`lambda`)](services/lambda.md) — Run code on events. Zero servers, pay per 128ms slice.
 - [💡 Amazon Lightsail (`lightsail`)](services/lightsail.md) — Simplest way to launch a VM or container — fixed price, predictable, zero cloud jargon.
 
@@ -58,10 +60,13 @@
 - [🛡️ AWS Trusted Advisor (`trustedadvisor`)](services/trustedadvisor.md) — AWS's built-in auditor — security, cost, performance and fault-tolerance checks across your account.
 - [🧵 AWS X-Ray (`xray`)](services/xray.md) — Distributed tracing — follow one request across every service it touched.
 
-## Application Integration (6)
+## Application Integration (9)
 
 - [🔗 AWS AppSync (`appsync`)](services/appsync.md) — Managed GraphQL API — realtime subscriptions, offline sync, many data sources.
+- [📞 Amazon Connect (`connect`)](services/connect.md) — Cloud contact center — IVR, queues, agent desktops, analytics. Pay per minute.
 - [🚌 Amazon EventBridge (`eventbridge`)](services/eventbridge.md) — The event bus every AWS service plugs into — rules react to anything.
+- [📡 AWS IoT Core (`iot`)](services/iot.md) — Connect millions of devices. MQTT pub/sub, device shadows, rules that route telemetry.
+- [📣 Amazon Pinpoint (`pinpoint`)](services/pinpoint.md) — Multi-channel engagement — email, SMS, push, in-app. Segment, send, measure.
 - [✉️ Amazon Simple Email Service (`ses`)](services/ses.md) — Transactional and bulk email at scale — deliverability handled.
 - [📢 Simple Notification Service (`sns`)](services/sns.md) — Publish once, deliver everywhere — fan-out messaging.
 - [📬 Simple Queue Service (`sqs`)](services/sqs.md) — A queue between services — spikes land here, workers drain at their pace.
@@ -103,11 +108,13 @@
 - [🔀 AWS Transit Gateway (`tgw`)](services/tgw.md) — One hub that connects every VPC, on-prem network and shared service.
 - [🕸️ Virtual Private Cloud (`vpc`)](services/vpc.md) — Your private network in AWS — the boundary every other service lives inside.
 
-## Security, Identity & Compliance (14)
+## Security, Identity & Compliance (16)
 
 - [📜 Certificate Manager (`acm`)](services/acm.md) — Free TLS certificates, issued and auto-renewed.
+- [📋 AWS Audit Manager (`auditmanager`)](services/auditmanager.md) — Automate audit evidence collection. Map controls to resources, get a ready-to-review report.
 - [👤 Amazon Cognito (`cognito`)](services/cognito.md) — Production sign-up/sign-in without building an auth server.
 - [🗼 AWS Control Tower (`controltower`)](services/controltower.md) — Landing zone as code — guardrails, account vending, baseline security.
+- [🕵️ Amazon Detective (`detective`)](services/detective.md) — Graph-based investigation of suspicious activity. Walk the blast radius of a GuardDuty finding.
 - [🚨 Amazon GuardDuty (`guardduty`)](services/guardduty.md) — ML-powered threat detection — finds the crypto-miner before finance does.
 - [🪪 Identity & Access Management (`iam`)](services/iam.md) — Who can do what, where. Learn this before literally everything else.
 - [🎫 IAM Identity Center (SSO) (`idc`)](services/idc.md) — SSO for humans — one login to every account, mapped to permission sets.

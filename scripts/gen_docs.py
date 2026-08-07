@@ -7,6 +7,7 @@ Run from the repo root:
 Outputs:
     docs/README.md            index + category breakdown
     docs/services/<id>.md     one page per service (full detail + code)
+    docs/industry-issues.md   real-world scenarios & industry failure modes
     docs/api.md               API reference (derived from FastAPI routes)
     docs/PRIVACY.md           privacy & data-storage model
 """
@@ -97,6 +98,7 @@ def index_md():
     lines.append(f"**{len(SERVICES_DATA)} AWS services**, each with a full reference page: tagline, why-it-exists, when-to-use, learning checklist, Terraform / CDK / Boto3 / delete code, expert tips, a real-world example, and next-step links.")
     lines.append("")
     lines.append("- [API reference](api.md)")
+    lines.append("- [Real-world industry scenarios & failure modes](industry-issues.md)")
     lines.append("- [Privacy & data model](PRIVACY.md)")
     lines.append("")
     by_cat = {}
@@ -108,6 +110,43 @@ def index_md():
         lines.append("")
         for s in services:
             lines.append(f"- [{s['icon']} {s['full_name']} (`{s['id']}`)](services/{s['id']}.md) — {s['tagline']}")
+        lines.append("")
+    return "\n".join(lines)
+
+
+def industry_md():
+    from industry_issues import INDUSTRY_ISSUES, CATEGORY_ISSUES
+
+    lines = []
+    lines.append("# Real-World Industry Scenarios & Issues")
+    lines.append("")
+    lines.append("Production incidents, the failure mode behind each, the industry-standard fix, and the alert that would have caught it first. Per-service teaching reference — each entry doubles as an interview answer.")
+    lines.append("")
+    lines.append(f"**{len(INDUSTRY_ISSUES)} scenarios** across compute, storage, database, networking, security, messaging, data, and ML.")
+    lines.append("")
+    lines.append("## Scenarios by service")
+    lines.append("")
+    for s in sorted(INDUSTRY_ISSUES, key=lambda x: x["service_id"]):
+        lines.append(f"### {s['service_name']} (`{s['service_id']}`)")
+        lines.append("")
+        lines.append(f"- **Category:** {CAT_NAMES.get(s['category'], s['category'])}")
+        lines.append(f"- **Scenario:** {s['scenario']}")
+        lines.append(f"- **The industry issue:** {s['issue']}")
+        if s.get("impact"):
+            lines.append(f"- **Impact:** {s['impact']}")
+        lines.append(f"- **The standard fix:** {s['fix']}")
+        lines.append(f"- **Alerts:** {', '.join(s['alerts'])}")
+        lines.append(f"- **Tags:** {', '.join(s['tags'])}")
+        lines.append("")
+    lines.append("## Per-pillar failure modes")
+    lines.append("")
+    lines.append("The recurring, industry-standard pitfalls every team should design against.")
+    lines.append("")
+    for c in CATEGORY_ISSUES:
+        lines.append(f"### {c['category']} — {c['pillar']}")
+        lines.append("")
+        for i in c["issues"]:
+            lines.append(f"- **{i['title']}** — {i['detail']}")
         lines.append("")
     return "\n".join(lines)
 
@@ -147,7 +186,7 @@ def privacy_md():
 
 ## Where the data lives
 
-- **Service catalog** (94 services): code-defined in `backend/services_data.py`, served over the API. No database involved.
+- **Service catalog** (100 services): code-defined in `backend/services_data.py`, served over the API. No database involved.
 - **User progress** (learned services, quiz best score): private **SQLite** database, `backend/db.py`. The frontend only ever calls the API — it never touches the DB.
 
 ## Data path
@@ -181,13 +220,14 @@ def main():
         written += 1
 
     (DOCS / "README.md").write_text(index_md(), encoding="utf-8")
+    (DOCS / "industry-issues.md").write_text(industry_md(), encoding="utf-8")
     (DOCS / "PRIVACY.md").write_text(privacy_md(), encoding="utf-8")
 
     sys.path.insert(0, str(ROOT))
     from backend.main import app  # noqa: E402
     (DOCS / "api.md").write_text(api_md(app), encoding="utf-8")
 
-    print(f"docs written: {written} service pages + README.md + api.md + PRIVACY.md")
+    print(f"docs written: {written} service pages + README.md + industry-issues.md + api.md + PRIVACY.md")
     print(f"total services documented: {count}")
 
 

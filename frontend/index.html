@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'nonce-awsatlaspro26'; style-src 'nonce-awsatlaspro26' 'unsafe-inline' https://cdn.jsdelivr.net; font-src https://cdn.jsdelivr.net data:; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'">
-<title>AWS Atlas Enterprise — 80 Services · Enterprise Architectures · Production Playbooks · AI Radar</title>
+<title>AWS Atlas Enterprise — 100 Services · Enterprise Architectures · Production Playbooks · AI Radar</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='10' width='80' height='80' rx='18' fill='%23ff9900'/><text x='50' y='66' font-size='52' text-anchor='middle' font-family='monospace' fill='%23131a22'>λ</text></svg>">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@5/index.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-sans@5/index.css">
@@ -343,8 +343,37 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 #totop:hover{transform:translateY(-4px);border-color:var(--acc)}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
 .reveal.in{opacity:1;transform:translateY(0)}
-@media (max-width:1020px){.hero{grid-template-columns:1fr;padding-top:106px;gap:36px}.stats{grid-template-columns:repeat(2,1fr)}.fgrid{grid-template-columns:1fr 1fr}.quiz-wrap{grid-template-columns:1fr}.modgrid{grid-template-columns:1fr}.conv-split{grid-template-columns:1fr}.bplayer{grid-template-columns:1fr}.radar-grid{grid-template-columns:1fr}.ent-cols{grid-template-columns:1fr}}
-@media (max-width:680px){nav.mainnav{display:none}.burger{display:block}.prog-pill{display:none}.hero{padding-top:94px}.m-body{padding:20px 16px 24px}.m-head{padding:20px 16px 16px}.m-tabs{padding:0 12px}section{padding:58px 18px 8px}.hwrap{padding:0 16px}.ritem{grid-template-columns:1fr}}
+.ind-filter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.indchip{font-family:var(--mono);font-size:11.5px;padding:7px 13px;border-radius:20px;border:1px solid var(--line2);background:var(--bg2);color:var(--mut);cursor:pointer;transition:.18s}
+.indchip:hover{color:var(--txt);border-color:var(--acc)}
+.indchip.on{background:linear-gradient(135deg,rgba(255,157,46,.16),rgba(61,218,215,.12));border-color:var(--acc);color:var(--txt)}
+.ind-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:34px}
+.ind-card{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:10px;transition:.2s}
+.ind-card:hover{border-color:var(--line2);transform:translateY(-2px)}
+.ind-head{display:flex;align-items:center;gap:10px;min-width:0}
+.ind-head .em{font-size:19px}
+.ind-title{min-width:0}
+.ind-title b{font-size:13.5px;color:var(--txt);cursor:pointer;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ind-title b:hover{color:var(--acc2)}
+.ind-cat{font-family:var(--mono);font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+.ind-sec{font-size:12.5px;line-height:1.55}
+.ind-sec .lb{font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;display:block;margin-bottom:3px}
+.ind-sec.scn .lb{color:#5fd68b}.ind-sec.scn{color:var(--mut)}
+.ind-sec.iss .lb{color:#ff9d2e}.ind-sec.iss{color:var(--mut)}
+.ind-sec.fix .lb{color:#3ddad7}.ind-sec.fix{color:var(--mut)}
+.ind-alerts{display:flex;flex-wrap:wrap;gap:5px}
+.ind-alrt{font-family:var(--mono);font-size:10px;color:#f0a35e;background:rgba(255,157,46,.08);border:1px solid rgba(255,157,46,.25);padding:3px 8px;border-radius:6px}
+.ind-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:2px}
+.ind-tag{font-family:var(--mono);font-size:9.5px;color:var(--dim);border:1px dashed var(--line2);padding:2px 7px;border-radius:5px}
+.ind-cats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.indcat{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:15px}
+.indcat h4{font-size:13px;font-family:var(--disp);margin-bottom:2px}
+.indcat .pillar{font-family:var(--mono);font-size:9.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:10px}
+.indcat ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+.indcat li{font-size:12px;line-height:1.5;color:var(--mut)}
+.indcat li b{color:var(--txt);font-weight:600;display:block;font-size:12px}
+@media (max-width:1020px){.hero{grid-template-columns:1fr;padding-top:106px;gap:36px}.stats{grid-template-columns:repeat(2,1fr)}.fgrid{grid-template-columns:1fr 1fr}.quiz-wrap{grid-template-columns:1fr}.modgrid{grid-template-columns:1fr}.conv-split{grid-template-columns:1fr}.bplayer{grid-template-columns:1fr}.radar-grid{grid-template-columns:1fr}.ent-cols{grid-template-columns:1fr}.ind-grid{grid-template-columns:repeat(2,1fr)}.ind-cats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:680px){nav.mainnav{display:none}.burger{display:block}.prog-pill{display:none}.hero{padding-top:94px}.m-body{padding:20px 16px 24px}.m-head{padding:20px 16px 16px}.m-tabs{padding:0 12px}section{padding:58px 18px 8px}.hwrap{padding:0 16px}.ritem{grid-template-columns:1fr}.ind-grid{grid-template-columns:1fr}.ind-cats{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.card,.reveal{opacity:1;transform:none}}
 </style>
 </head>
@@ -357,7 +386,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
       <span><b>AWS<em>Atlas</em> ENT</b><small>80 SERVICES · ENTERPRISE · AI</small></span>
     </a>
     <nav class="mainnav">
-      <a href="#services">Services</a><a href="#flows">Flows</a><a href="#blueprints">Blueprints</a><a href="#compare">Compare</a><a href="#projects">Projects</a><a href="#enterprise">Enterprise</a><a href="#iac">IaC Lab</a><a href="#playbooks">Playbooks</a><a href="#radar">AI Radar</a><a href="#paths">Paths</a><a href="#quiz">Quiz</a>
+      <a href="#services">Services</a><a href="#flows">Flows</a><a href="#blueprints">Blueprints</a><a href="#compare">Compare</a><a href="#projects">Projects</a><a href="#enterprise">Enterprise</a><a href="#iac">IaC Lab</a><a href="#playbooks">Playbooks</a><a href="#industry">Scenarios</a><a href="#radar">AI Radar</a><a href="#paths">Paths</a><a href="#quiz">Quiz</a>
     </nav>
     <div class="hright">
       <div class="prog-pill"><span><b id="progNum">0</b>/80 learned</span><span class="prog-bar"><i id="progFill"></i></span></div>
@@ -367,7 +396,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
   <div id="scrollbar"></div>
 </header>
 <div id="mnav">
-  <a href="#services">Services (80)</a><a href="#flows">Architecture Flows</a><a href="#blueprints">Deployment Blueprints</a><a href="#compare">Decision Matrix</a><a href="#projects">Projects Lab</a><a href="#enterprise">Enterprise Architectures</a><a href="#iac">Terraform &amp; YAML Lab</a><a href="#playbooks">Production Playbooks</a><a href="#radar">Industry &amp; AI Radar</a><a href="#paths">Learning Paths</a><a href="#quiz">Quiz Arena</a><a href="#interview">Interview Prep</a><a href="#setup">Day-0 Setup</a>
+  <a href="#services">Services (100)</a><a href="#flows">Architecture Flows</a><a href="#blueprints">Deployment Blueprints</a><a href="#compare">Decision Matrix</a><a href="#projects">Projects Lab</a><a href="#enterprise">Enterprise Architectures</a><a href="#iac">Terraform &amp; YAML Lab</a><a href="#playbooks">Production Playbooks</a><a href="#industry">Real-World Scenarios</a><a href="#radar">Industry &amp; AI Radar</a><a href="#paths">Learning Paths</a><a href="#quiz">Quiz Arena</a><a href="#interview">Interview Prep</a><a href="#setup">Day-0 Setup</a>
 </div>
 
 <main id="top">
@@ -375,10 +404,10 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
   <div>
     <div class="eyebrow"><span class="live-dot"></span>ENTERPRISE EDITION · IT &amp; AI CAREER TRACKS</div>
     <h1>Learn AWS the way<br>enterprises <span class="mark">actually run it.<svg viewBox="0 0 300 12" preserveAspectRatio="none"><path d="M3 9 Q 75 2 150 7 T 297 5"/></span></h1>
-    <p class="sub"><b>80 services</b> with deep documentation, <b>enterprise-grade architectures</b>, production playbooks, and an <b>Industry × AI career radar</b> — everything you need to build real systems and get hired for them.</p>
+    <p class="sub"><b>100 services</b> with deep documentation, <b>enterprise-grade architectures</b>, production playbooks, and an <b>Industry × AI career radar</b> — everything you need to build real systems and get hired for them.</p>
     <div class="cta-row">
       <a class="btn pri" href="#enterprise">See enterprise architectures 🏦</a>
-      <a class="btn gho" href="#services">Browse 80 services ↓</a>
+      <a class="btn gho" href="#services">Browse 100 services ↓</a>
     </div>
     <div class="hero-badges">
       <span class="hbadge"><i>✓</i> 240 scripts</span>
@@ -425,7 +454,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 
 <section id="services">
   <div class="sec-head reveal">
-    <div class="kick">01 / THE CATALOG — NOW 80 SERVICES</div>
+    <div class="kick">01 / THE CATALOG — 100 SERVICES</div>
     <h2>Every service, documented like you'll be on-call for it.</h2>
     <p>Each card opens: <b>why it exists + field notes</b> → <b>what to learn first</b> → <b>Terraform</b> → <b>CDK</b> → <b>Boto3</b> → <b>how it connects</b>. Includes enterprise governance (Organizations, Control Tower, IAM Identity Center, Macie, Shield) and the AI stack (Lex, Polly, Q Developer). Press <b style="font-family:var(--mono)">/</b> to search.</p>
   </div>
@@ -603,9 +632,20 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
   <div id="pbWrap" class="reveal"></div>
 </section>
 
+<section id="industry">
+  <div class="sec-head reveal">
+    <div class="kick">09 / REAL-WORLD SCENARIOS × INDUSTRY ISSUES</div>
+    <h2>What actually breaks in production — and the fix teams swear by.</h2>
+    <p>Realistic incidents across the stack, the failure mode behind each, the industry-standard remediation, and the alert that would have caught it first. Tap a service name to study it.</p>
+  </div>
+  <div class="ind-filter reveal" id="indFilter"></div>
+  <div class="ind-grid reveal" id="indGrid"></div>
+  <div class="ind-cats reveal" id="indCats"></div>
+</section>
+
 <section id="radar">
   <div class="sec-head reveal">
-    <div class="kick">09 / INDUSTRY × AI CAREER RADAR</div>
+    <div class="kick">10 / INDUSTRY × AI CAREER RADAR</div>
     <h2>What the IT industry uses — and where AI fits your role.</h2>
     <p>Pick an industry to see its core AWS stack, or pick a role to see the AI-era skill map. Click any service to study it.</p>
   </div>
@@ -627,7 +667,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 
 <section id="paths">
   <div class="sec-head reveal">
-    <div class="kick">10 / LEARNING PATHS</div>
+    <div class="kick">11 / LEARNING PATHS</div>
     <h2>Pick the job you want. Follow the order.</h2>
   </div>
   <div class="paths">
@@ -657,7 +697,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 
 <section id="quiz">
   <div class="sec-head reveal">
-    <div class="kick">11 / PROVE IT</div>
+    <div class="kick">12 / PROVE IT</div>
     <h2>Quiz Arena — 8 rapid-fire questions.</h2>
   </div>
   <div class="quiz-wrap reveal">
@@ -670,7 +710,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
     <div id="quizBox">
       <div style="margin:auto;text-align:center;color:var(--dim);font-family:var(--mono);font-size:12px;padding:36px 10px">
         <div style="font-size:38px;margin-bottom:12px">🎯</div>
-        Press <b style="color:var(--acc2)">Start a round</b> to draw 8 questions<br>from all 80 services.
+        Press <b style="color:var(--acc2)">Start a round</b> to draw 8 questions<br>from all 100 services.
       </div>
     </div>
   </div>
@@ -678,7 +718,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 
 <section id="interview">
   <div class="sec-head reveal">
-    <div class="kick">12 / INTERVIEW PREP</div>
+    <div class="kick">13 / INTERVIEW PREP</div>
     <h2>The questions you <em>will</em> get asked.</h2>
   </div>
   <div id="qaWrap" class="reveal"></div>
@@ -686,7 +726,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 
 <section id="setup">
   <div class="sec-head reveal">
-    <div class="kick">13 / DAY-0 SETUP</div>
+    <div class="kick">14 / DAY-0 SETUP</div>
     <h2>Four tools away from your first deploy.</h2>
   </div>
   <div class="setup-grid" id="setupGrid"></div>
@@ -704,7 +744,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
         <p class="fabout">The enterprise AWS stack — governance, platforms, data, DevOps and the full AI/AgentOps surface — with deep docs, production playbooks and career radar. All rendering is escaped; a CSP guards the page.</p>
       </div>
       <div><h5>Catalog</h5><a data-jump="compute">Compute</a><a data-jump="database">Databases</a><a data-jump="networking">Networking</a><a data-jump="security">Security &amp; Governance</a><a data-jump="ml">AI / ML / AgentOps</a></div>
-      <div><h5>Build</h5><a href="#projects">Projects Lab</a><a href="#enterprise">Enterprise architectures</a><a href="#playbooks">Production playbooks</a><a href="#iac">Terraform &amp; YAML</a></div>
+      <div><h5>Build</h5><a href="#projects">Projects Lab</a><a href="#enterprise">Enterprise architectures</a><a href="#playbooks">Production playbooks</a><a href="#industry">Real-world scenarios</a><a href="#iac">Terraform &amp; YAML</a></div>
       <div><h5>Career</h5><a href="#radar">Industry radar</a><a href="#radar">AI role maps</a><a href="#paths">Learning paths</a><a href="#interview">Interview prep</a></div>
     </div>
     <div class="fbottom">
@@ -738,7 +778,7 @@ const store={get:function(k,f){try{const v=JSON.parse(localStorage.getItem(k));r
 
 const CATS={compute:{label:"Compute",c:"#ff9d2e"},storage:{label:"Storage",c:"#5fd68b"},database:{label:"Databases",c:"#5aa7ff"},networking:{label:"Networking",c:"#b79bff"},security:{label:"Security & Governance",c:"#ff7b72"},messaging:{label:"Messaging & Async",c:"#ffd75e"},analytics:{label:"Analytics & Data",c:"#3ddad7"},migration:{label:"Migration",c:"#f2a06c"},devops:{label:"DevOps & Mgmt",c:"#53d1ec"},ml:{label:"AI · ML · AgentOps",c:"#f07be0"}};
 
-/* ===== 80 SERVICES ===== */
+/* ===== 100 SERVICES ===== */
 let SERVICES=[
 {id:"ec2",n:"EC2",f:"Elastic Compute Cloud",c:"compute",i:"🖥️",t:"Rent virtual servers by the second — the original building block of the cloud.",w:"You need a machine you fully control: any OS, any software. EC2 launches one in 30 seconds and bills per second.",u:"Web servers, CI runners, batch workers, GPU hosts.",b:["Linux basics & SSH","Security groups = firewalls","AMIs & instance families","On-Demand vs Spot vs Reserved"],
 tf:`resource "aws_instance" "web" {
@@ -3373,7 +3413,127 @@ for item in resp["itemList"][:5]: print(item["itemId"])`,
 dl:`# Delete campaign, then solution, then datasets, then the group.`,
 x:["You need a steady stream of interaction events — no data, no personalization.","Start with the SIMS recipe for 'related items', HRNN for user recommendations."],
 r:["E-commerce","10-30% click-through lifts from personalized feeds."],
-nt:[["Pinpoint","Deliver personalized emails."],["Kinesis","Stream interaction events in."]]}
+nt:[["Pinpoint","Deliver personalized emails."],["Kinesis","Stream interaction events in."]]},
+{id:"iot",n:"IoT Core",f:"AWS IoT Core",c:"messaging",i:"📡",t:"Connect millions of devices. MQTT pub/sub, device shadows, rules that route telemetry.",w:"Devices aren't reliable HTTP clients. IoT Core speaks MQTT, manages device identity with certificates, and routes telemetry to the services that matter.",u:"Device telemetry, fleet OTA updates, smart products, predictive maintenance.",b:["MQTT vs HTTPS","Thing registry & certificates","Device Shadows","IoT Rules → services"],
+tf:`resource "aws_iot_thing" "sensor" {
+  name = "temp-sensor-01"
+}
+resource "aws_iot_topic_rule" "route" {
+  name     = "temp_to_s3"
+  sql      = "SELECT * FROM 'devices/+/temp'"
+  sql_version = "2016-03-23"
+  s3 {
+    role_arn = aws_iam_role.iot_s3.arn
+    bucket   = aws_s3_bucket.telemetry.id
+    key      = "\${topic()}/\${timestamp()}"
+  }
+}`,
+ck:`// L1 construct only — manage via CfnThing + CfnTopicRule.`,
+sd:`import boto3
+iot = boto3.client("iot-data", region_name="us-east-1")
+iot.publish(topic="devices/garage-01/temp",
+    qos=1, payload=b'{"celsius": 22.4}')`,
+dl:`# Delete things, certs, and policies; delete rules separately.`,
+x:["Every device needs its own certificate — a shared key is a fleet-wide breach.","Device Shadows cache state so a device can report offline and the cloud still serves it."],
+r:["Fleet operators","Predictive maintenance by streaming engine telemetry to anomaly detection."],
+nt:[["S3","Store raw telemetry."],["Kinesis","High-throughput device streams."],["IoT Analytics","Analyze device data."]]},
+{id:"connect",n:"Connect",f:"Amazon Connect",c:"messaging",i:"📞",t:"Cloud contact center — IVR, queues, agent desktops, analytics. Pay per minute.",w:"Building a call center means PBX, IVR, CTI, and reporting. Connect replaces that hardware with a managed service wired to Lambda and Lex.",u:"Customer support, IVR flows, agent routing, voice analytics.",b:["Contact flows = the IVR","Queues & routing profiles","Lambda integration","Contact Lens analytics"],
+tf:`resource "aws_connect_instance" "cc" {
+  identity_management_type = "CONNECT_MANAGED"
+  inbound_calls_enabled    = true
+  outbound_calls_enabled   = true
+}
+resource "aws_connect_queue" "support" {
+  instance_id = aws_connect_instance.cc.id
+  name        = "support"
+  hours_of_operation_id = aws_connect_hours_of_operation.work.id
+}`,
+ck:`// L1 only — CfnInstance + CfnQueue.`,
+sd:`import boto3
+con = boto3.client("connect", region_name="us-east-1")
+con.start_outbound_voice_contact(
+    DestinationPhoneNumber="+15551234567",
+    ContactFlowId="arn:aws:connect:...:contact-flow/main",
+    InstanceId="arn:aws:connect:...:instance/cc")`,
+dl:`# Delete queues, flows, then the instance.`,
+x:["Contact Lens transcribes + scores every call — turn it on before auditors ask.","Test flows with the softphone simulator before cutting over."],
+r:["Contact centers","Cut telephony costs ~60% while adding AI-powered call scoring."],
+nt:[["Lex","Voice bots for self-service."],["Lambda","Custom flow logic."],["QuickSight","Live contact analytics."]]},
+{id:"pinpoint",n:"Pinpoint",f:"Amazon Pinpoint",c:"messaging",i:"📣",t:"Multi-channel engagement — email, SMS, push, in-app. Segment, send, measure.",w:"Sending a campaign to 100k people across email/SMS/push needs channel plumbing plus deliverability tooling. Pinpoint wraps it all with segmentation and analytics.",u:"Transactional email/SMS, marketing campaigns, push notifications.",b:["Channels & endpoints","Segments & journeys","Deliverability & bounce handling","Templates"],
+tf:`resource "aws_pinpoint_app" "campaigns" {
+  name = "customer-engagement"
+}
+resource "aws_pinpoint_sms_channel" "sms" {
+  application_id = aws_pinpoint_app.campaigns.application_id
+}`,
+ck:`// L1 only — CfnApp + CfnSmsChannel.`,
+sd:`import boto3
+pin = boto3.client("pinpoint", region_name="us-east-1")
+pin.send_messages(ApplicationId="app-id",
+    MessageRequest={ "Addresses": {"user@example.com": {"ChannelType": "EMAIL"}},
+        "MessageConfiguration": {"EmailMessage": {
+            "FromAddress": "no-reply@example.com",
+            "SimpleEmail": {"Subject": {"Data": "Sale!"}, "HtmlPart": {"Data": "<b>50% off</b>"}}}}})`,
+dl:`# Delete journeys, campaigns, then the app.`,
+x:["Track bounces and complaints — providers throttle a bad sending reputation.","Use journeys for lifecycle campaigns, not raw sends."],
+r:["E-commerce","Abandoned-cart recovery measurably lifts checkout conversion."],
+nt:[["SES","Raw email engine underneath."],["SNS","Push + SMS fallback."],["QuickSight","Campaign analytics."]]},
+{id:"detective",n:"Detective",f:"Amazon Detective",c:"security",i:"🕵️",t:"Graph-based investigation of suspicious activity. Walk the blast radius of a GuardDuty finding.",w:"A GuardDuty alert says something happened — not who or how. Detective builds a resource graph so you trace related API calls and entities in one view.",u:"Incident investigation, root-cause on findings, forensics.",b:["Graph: entities, IPs, roles","Linked GuardDuty findings","Investigation timelines","Findings → entity graphs"],
+tf:`resource "aws_detective_graph" "soc" {}
+resource "aws_detective_member" "child" {
+  account_id = "123456789012"
+  graph_arn  = aws_detective_graph.soc.id
+}`,
+ck:`// L1 only — CfnGraph.`,
+sd:`import boto3
+det = boto3.client("detective", region_name="us-east-1")
+graphs = det.list_graphs()["GraphList"]
+resp = det.get_graph(GraphArn=graphs[0]["Arn"])
+print(resp["GraphArn"])`,
+dl:`# Remove members, then delete the graph.`,
+x:["Enable Detective before the incident — it ingests ~2 weeks of history.","Pair with GuardDuty + Security Hub for the full SOC loop."],
+r:["Security teams","Cutting MTTR from hours to minutes by tracing a finding to its source."],
+nt:[["GuardDuty","Feeds the findings."],["Security Hub","Aggregates alerts."],["CloudTrail","API call evidence."]]},
+{id:"auditmanager",n:"Audit Manager",f:"AWS Audit Manager",c:"security",i:"📋",t:"Automate audit evidence collection. Map controls to resources, get a ready-to-review report.",w:"SOC 2 / ISO prep means collecting evidence screenshots for weeks. Audit Manager maps AWS resources to control frameworks and continuously gathers the evidence.",u:"Compliance prep, evidence collection, control mapping.",b:["Frameworks (SOC 2, ISO, CIS)","Control mappings","Evidence folders","Assessment reports"],
+tf:`resource "aws_auditmanager_account_registration" "reg" {}
+resource "aws_auditmanager_control" "enc" {
+  name = "encrypt-at-rest"
+  control_mapping_sources {
+    source_name = "KMS CMK enabled"
+    source_set_up_option = "Procedural_Controls_Mapping"
+    source_type = "MANUAL"
+  }
+}`,
+ck:`// L1 only — CfnAssessment / CfnControl.`,
+sd:`import boto3
+am = boto3.client("auditmanager", region_name="us-east-1")
+resp = am.create_assessment(
+    name="soc2-cycle-1",
+    assessment_reports_destination={ "destination": "S3",
+        "destination_s3_bucket": "audit-evidence",
+        "destination_s3_prefix": "soc2" })`,
+dl:`# Delete assessments, then controls.`,
+x:["Run a trial assessment before the real audit window opens.","Custom controls cover non-AWS evidence."],
+r:["Fintech","Shrinking SOC 2 evidence gathering from weeks to days."],
+nt:[["Config","Rules as controls."],["CloudTrail","API evidence."],["Security Hub","Findings as evidence."]]},
+{id:"imagebuilder",n:"Image Builder",f:"EC2 Image Builder",c:"compute",i:"🖼️",t:"Build and maintain golden AMIs. Recipes, pipelines, automated patching on a schedule.",w:"Hand-built AMIs drift and rot. Image Builder codifies the bake — base image + components + tests — rebuilt on a schedule so every instance starts hardened and patched.",u:"Golden AMIs, patching pipelines, CIS-hardened bases.",b:["Recipes & components","Build/schedule pipelines","AMI + EC2 tests","Distributions (regions, accounts)"],
+tf:`resource "aws_imagebuilder_image_pipeline" "golden" {
+  name     = "golden-amazonlinux"
+  image_recipe_arn = aws_imagebuilder_image_recipe.al2023.arn
+  distribution_configuration_arn = aws_imagebuilder_distribution_configuration.dist.arn
+  schedule {
+    schedule_expression = "cron(0 3 ? * SUN *)"
+  }
+}`,
+ck:`// L1 only — CfnImagePipeline + CfnImageRecipe.`,
+sd:`import boto3
+ib = boto3.client("imagebuilder", region_name="us-east-1")
+resp = ib.list_image_pipelines()["imagePipelineList"]
+print([p["name"] for p in resp])`,
+dl:`# Delete the image, recipe, then the pipeline.`,
+x:["Attach EC2 test components so a build that fails smoke tests fails the pipeline.","Schedule a weekly rebuild so AMIs are never more than a week stale."],
+r:["Platform teams","Every new EC2 instance booting from a patched, approved golden AMI."],
+nt:[["EC2","The AMIs you bake."],["Systems Manager","Patch baselines as components."],["Inspector","Scan the baked image."]]}
 ];
 if(Object.freeze){SERVICES.forEach(function(s){Object.freeze(s);});Object.freeze(SERVICES);}
 
@@ -4069,6 +4229,58 @@ function renderPlaybooks(){$("#pbWrap").innerHTML=PLAYBOOKS.map(function(p,i){
   return '<div class="qa"><button class="qa-q"><span class="qn">PB'+(i+1)+'</span>'+esc(p[0])+'<span class="pl">+</span></button><div class="qa-a"><div><ul>'+p[1]+'</ul></div></div></div>';}).join("");
   $$("#pbWrap .qa-q").forEach(function(btn){btn.addEventListener("click",function(){btn.parentElement.classList.toggle("open");});});}
 
+/* ===== real-world industry scenarios & issues ===== */
+/* Offline fallback (compact). Full 27-service set loads from the API. */
+let INDUSTRY_ACTIVE="all";
+let INDUSTRY={count:8,services:[
+  {service_id:"ec2",service_name:"EC2",category:"compute",scenario:"A single large instance handles the whole app. Traffic spikes, CPU pins at 100%, every request times out for 40 minutes.",issue:"Vertical scaling has a hard ceiling and a single point of failure.",fix:"Run behind an ALB in an Auto Scaling Group with mixed-instances and target-tracking; scheduled scaling for known peaks.",alerts:["CPU > 85% for 5 min","StatusCheckFailed > 0"],tags:["compute","scaling"]},
+  {service_id:"lambda",service_name:"Lambda",category:"compute",scenario:"Payment callback times out at peak. Cold starts hit 9s after a busy rollout; gateway returns 504s.",issue:"Cold starts + no reserved concurrency saturate the account concurrency limit.",fix:"Provisioned concurrency on critical paths, timeouts/retries per function, reserved concurrency to protect core flows.",alerts:["Duration p99 > 80% of timeout","Throttles > 0"],tags:["serverless","latency"]},
+  {service_id:"s3",service_name:"S3",category:"storage",scenario:"A recursive delete removes the only copy of customer exports. No backups exist.",issue:"Bucket treated as backup target; no versioning, no lifecycle, no MFA delete.",fix:"Versioning + MFA Delete, cross-region replication, Object Lock for immutable archives, IAM deny on delete.",alerts:["DeleteObject from prod role","Bucket size drop > 20% in 1 h"],tags:["data-loss","backup"]},
+  {service_id:"rds",service_name:"RDS",category:"database",scenario:"Nightly ETL grows 40 min past its window and locks a critical table. Team 'fixes' it by upsizing the box.",issue:"Scaling the box instead of the query; no insights, no statement timeouts.",fix:"Performance Insights, statement timeouts, slow-query review weekly, read replicas for reporting.",alerts:["CPU > 80% sustained","Storage > 90%"],tags:["database","performance"]},
+  {service_id:"vpc",service_name:"VPC",category:"networking",scenario:"A subnet runs out of IPs mid-deploy. New instances fail with 'Insufficient IP addresses' at 2am.",issue:"Sparse subnets sized once, no IPAM, no capacity alerting.",fix:"Plan CIDR for 2-3x growth, use VPC IPAM, alert on free-IP threshold.",alerts:["Subnet free IPs < 10%","EC2-InsufficientIP-Address"],tags:["networking","capacity"]},
+  {service_id:"iam",service_name:"IAM",category:"security",scenario:"A leaked dev-laptop key spins up bitcoin miners in 20 minutes. The key had full admin.",issue:"Long-lived static keys with over-privileged policies; no rotation, no boundaries.",fix:"Prefer roles, least privilege + Access Analyzer, permission boundaries, auto-rotate, GuardDuty + CloudTrail.",alerts:["Root sign-in","GuardDuty CryptoCurrency finding"],tags:["security","identity"]},
+  {service_id:"dynamodb",service_name:"DynamoDB",category:"database",scenario:"A promo campaign makes one hot partition absorb all reads, throttling the whole table during checkout.",issue:"Low-cardinality partition key plus reactive capacity = hot-key throttle at peak.",fix:"High-cardinality keys or hot-key sharding, aggressive autoscaling, DAX for read bursts, backoff + jitter.",alerts:["ThrottledRequests > 0","DAX CPU > 70%"],tags:["database","scaling"]},
+  {service_id:"cloudwatch",service_name:"CloudWatch",category:"management",scenario:"On-call pages at 3am for a p99 spike. Team digs 90 min before finding a stale test-env metric.",issue:"No tagging, no structured logs, alerts without routing — noise kills the signal.",fix:"Tag everything, structured JSON logs, per-service SLO burn alerts, route by severity.",alerts:["SLO burn-rate windows","Alarm in ALARM > 30 min"],tags:["observability","sre"]}
+],categories:[
+  {category:"compute",pillar:"Reliability",issues:[{title:"Single-instance everything",detail:"One box, one AZ, no ASG — the #1 cause of preventable outages."},{title:"Scaling the box, not the code",detail:"Upsizing masks root cause and doubles the bill."}]},
+  {category:"database",pillar:"Performance",issues:[{title:"Missing indexes in prod",detail:"Slow queries hit exactly when traffic grows."},{title:"Hot partitions",detail:"Low-cardinality keys throttle at peak."}]},
+  {category:"security",pillar:"Security",issues:[{title:"Static keys with admin",detail:"Leaked key = full account compromise."},{title:"Secrets in git",detail:"Rotate immediately, scan history."}]},
+  {category:"storage",pillar:"Data Protection",issues:[{title:"No versioning",detail:"Accidental deletes are irreversible."},{title:"Single copy of truth",detail:"One bucket, one region, no replication."}]}
+]};
+function renderIndustry(){
+  const svcs=INDUSTRY.services||[];
+  const uniq=Array.from(new Set(svcs.map(function(s){return s.category;})));
+  const all=["all"].concat(uniq);
+  const filter=$("#indFilter");
+  filter.innerHTML=all.map(function(c){
+    const label=c==="all"?"All scenarios":(CATS[c]?CATS[c].label:c);
+    const n=c==="all"?svcs.length:svcs.filter(function(s){return s.category===c;}).length;
+    return '<button class="indchip'+(INDUSTRY_ACTIVE===c?" on":"")+'" data-indc="'+escAttr(c)+'">'+esc(label)+' <span style="opacity:.6">'+n+'</span></button>';}).join("");
+  $$("#indFilter .indchip").forEach(function(b){b.addEventListener("click",function(){INDUSTRY_ACTIVE=b.dataset.indc;renderIndustry();});});
+  const list=INDUSTRY_ACTIVE==="all"?svcs:svcs.filter(function(s){return s.category===INDUSTRY_ACTIVE;});
+  $("#indGrid").innerHTML=list.map(function(s){
+    const sv=svc(s.service_id),icon=sv?sv.i:"🧩",name=sv?sv.n:s.service_name;
+    const cat=CATS[s.category]?CATS[s.category].label:s.category;
+    return '<div class="ind-card"><div class="ind-head"><span class="em">'+icon+'</span><div class="ind-title"><b data-open="'+escAttr(s.service_id)+'">'+esc(name)+'</b><span class="ind-cat">'+esc(cat)+' · '+esc(s.service_id)+'</span></div></div>'
+      +'<div class="ind-sec scn"><span class="lb">📌 Scenario</span>'+esc(s.scenario)+'</div>'
+      +'<div class="ind-sec iss"><span class="lb">⚠️ The industry issue</span>'+esc(s.issue)+'</div>'
+      +'<div class="ind-sec fix"><span class="lb">✅ The standard fix</span>'+esc(s.fix)+'</div>'
+      +'<div class="ind-alerts">'+(s.alerts||[]).map(function(a){return '<span class="ind-alrt">🔔 '+esc(a)+'</span>';}).join("")+'</div>'
+      +'<div class="ind-tags">'+(s.tags||[]).map(function(t){return '<span class="ind-tag">'+esc(t)+'</span>';}).join("")+'</div></div>';}).join("");
+  $$("#indGrid [data-open]").forEach(function(el){el.addEventListener("click",function(){openService(el.dataset.open);});});
+  $("#indCats").innerHTML='<h3 style="font-family:var(--disp);font-size:17px;margin:6px 0 14px">🏗️ Per-pillar failure modes every team should know</h3>'
+    +'<div class="ind-cats">'+(INDUSTRY.categories||[]).map(function(c){
+      const cc=CATS[c.category]?CATS[c.category].c:"#53d1ec";
+      return '<div class="indcat" style="border-top:2px solid '+cc+'"><h4>'+esc(c.category)+'</h4><span class="pillar">'+esc(c.pillar)+'</span><ul>'
+        +(c.issues||[]).map(function(i){return '<li><b>'+esc(i.title)+'</b>'+esc(i.detail)+'</li>';}).join("")
+        +'</ul></div>';}).join("")+'</div>';
+}
+function loadIndustryFromAPI(){
+  fetch("/api/v1/industry-issues",{headers:{Accept:"application/json"},cache:"no-cache"})
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(j){if(!j||!j.services||!j.services.length)return;INDUSTRY=j;renderIndustry();})
+    .catch(function(){});}
+
 /* ===== industry & AI radar ===== */
 const INDUSTRIES=[
 {k:"fintech",name:"🏦 Fintech",rc:"#ff9d2e",items:[["organizations","Multi-account isolation; auditors ask for it first"],["kms","PCI-DSS encryption for card data"],["dynamodb","Ledger-style event streams at scale"],["waf","Fraud bots & account takeover defense"],["guardduty","Detect compromised trading infra"],["cloudtrail","Every API call = audit evidence"]],},
@@ -4292,8 +4504,9 @@ function syncPull(){ /* merge server progress in, then push the merged state bac
 }
 
 /* ===== init ===== */
-renderChips();renderGrid();renderTracks();renderBlueprintTabs();renderBlueprints();renderProjects();renderEnterprise();renderModuleLab();renderConverter();renderPlaybooks();renderRadarTabs();renderRadarLists();renderPathChips();renderQA();renderSetup();refreshBest();updateProgress();checkPathCompletion();
+renderChips();renderGrid();renderTracks();renderBlueprintTabs();renderBlueprints();renderProjects();renderEnterprise();renderModuleLab();renderConverter();renderPlaybooks();renderIndustry();renderRadarTabs();renderRadarLists();renderPathChips();renderQA();renderSetup();refreshBest();updateProgress();checkPathCompletion();
 loadFromAPI(); /* fetch live services from backend; embedded stays as fallback */
+loadIndustryFromAPI(); /* fetch full 27-service industry set; embedded stays as fallback */
 syncPull();    /* merge any server-saved progress into the UI (private DB via API) */
 </script>
 </body>

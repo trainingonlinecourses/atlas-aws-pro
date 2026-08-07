@@ -2,7 +2,7 @@
 
 ## Where the data lives
 
-- **Service catalog** (94 services): code-defined in `backend/services_data.py`, served over the API. No database involved.
+- **Service catalog** (100 services): code-defined in `backend/services_data.py`, served over the API. No database involved.
 - **User progress** (learned services, quiz best score): private **SQLite** database, `backend/db.py`. The frontend only ever calls the API — it never touches the DB.
 
 ## Data path

@@ -60,6 +60,12 @@ try:
 except ImportError:  # imported as backend.main
     from backend import db as db_store
 
+# Real-world industry scenarios & issues (see backend/industry_issues.py)
+try:
+    import industry_issues as industry
+except ImportError:  # imported as backend.main
+    from backend import industry_issues as industry
+
 # ============================================================
 # Pydantic Models
 # ============================================================
@@ -196,6 +202,19 @@ async def delete_user_state(user_id: str = Query(..., min_length=1, max_length=1
     except Exception:
         traceback.print_exc()
         return JSONResponse(status_code=503, content={"error": "storage unavailable"})
+
+@app.get("/api/v1/industry-issues")
+async def get_industry_issues():
+    """Real-world industry scenarios & failure modes per service (teaching reference)."""
+    return industry.get_all()
+
+@app.get("/api/v1/industry-issues/{service_id}")
+async def get_industry_issue(service_id: str):
+    """One service's industry scenario + issue + fix + alerts."""
+    issue = industry.get_by_service(service_id)
+    if issue is None:
+        raise HTTPException(status_code=404, detail=f"no industry entry for '{service_id}'")
+    return issue
 
 @app.get("/api/v1/projects")
 async def get_projects():

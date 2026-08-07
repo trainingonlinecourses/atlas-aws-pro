@@ -5,6 +5,7 @@ Full-stack API with 80 AWS services, quizzes, learning paths, and enterprise arc
 import os
 import copy
 from pathlib import Path
+from fastapi.responses import FileResponse
 from typing import List, Optional, Dict, Any
 from functools import lru_cache
 
@@ -837,7 +838,7 @@ async def serve_frontend():
     """Serve frontend index.html"""
     index_path = FRONTEND_DIR / "index.html"
     if index_path.exists():
-        return index_path
+        return FileResponse(index_path)
     return {"error": "Frontend not built yet"}
 
 @app.get("/{full_path:path}")
@@ -848,7 +849,7 @@ async def serve_spa(full_path: str):
         # These are handled by other routes
         raise HTTPException(status_code=404)
     if index_path.exists():
-        return index_path
+        return FileResponse(index_path)
     return {"error": "Frontend not built yet"}
 
 if __name__ == "__main__":

@@ -314,6 +314,12 @@ section{max-width:1340px;margin:0 auto;padding:72px 28px 8px}
 .checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:9px}
 .check{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--line);border-radius:9px;padding:11px 13px;font-size:13px;color:#c3d0de;background:var(--panel)}
 .check .bx{flex:none;width:18px;height:18px;border:1.5px solid var(--cc,var(--acc));border-radius:5px;margin-top:2px}
+.env-note{border:1px dashed rgba(125,211,252,.35);border-radius:10px;padding:12px 15px;background:rgba(125,211,252,.06);font-size:13px;color:var(--mut);margin-bottom:14px}
+.env-block{border:1px solid var(--line);border-left:3px solid var(--acc2);border-radius:10px;padding:13px 16px;margin-bottom:11px;background:var(--panel)}
+.env-block .env-head{font-weight:700;font-size:13.5px;letter-spacing:.02em;margin-bottom:7px;color:var(--txt)}
+.env-block p{font-size:13px;color:var(--mut);margin:0 0 9px}
+.env-block ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.env-block li{font-size:13px;color:var(--dim);line-height:1.5}
 .net-row{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:12px 15px;margin-bottom:9px;background:var(--panel)}
 .net-row .ntag{flex:none;font-family:var(--mono);font-size:11px;color:var(--acc2);border:1px solid rgba(255,153,0,.35);border-radius:6px;padding:4px 10px;min-width:112px;text-align:center}
 .net-row p{font-size:13px;color:var(--mut)}
@@ -410,7 +416,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
       <a class="btn gho" href="#services">Browse 100 services ↓</a>
     </div>
     <div class="hero-badges">
-      <span class="hbadge"><i>✓</i> 240 scripts</span>
+      <span class="hbadge"><i>✓</i> 300 scripts</span>
       <span class="hbadge"><i>✓</i> 3 enterprise builds</span>
       <span class="hbadge"><i>✓</i> 8 production playbooks</span>
       <span class="hbadge"><i>✓</i> CSP-hardened UI</span>
@@ -446,9 +452,9 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 </div>
 
 <div class="stats">
-  <div class="stat reveal" style="--sc:#ff9d2e"><b class="count" data-n="80">0</b><span>Services documented</span></div>
+  <div class="stat reveal" style="--sc:#ff9d2e"><b class="count" data-n="100">0</b><span>Services documented</span></div>
   <div class="stat reveal" style="--sc:#f07be0"><b class="count" data-n="3">0</b><span>Enterprise architectures</span></div>
-  <div class="stat reveal" style="--sc:#5fd68b"><b class="count" data-n="240">0</b><span>TF + CDK + SDK scripts</span></div>
+  <div class="stat reveal" style="--sc:#5fd68b"><b class="count" data-n="300">0</b><span>TF + CDK + SDK scripts</span></div>
   <div class="stat reveal" style="--sc:#3ddad7"><b class="count" data-n="8">0</b><span>Production playbooks</span></div>
 </div>
 
@@ -3586,7 +3592,7 @@ function updateProgress(){$("#progNum").textContent=learned.size;$("#progFill").
 function openService(id){const idx=SERVICES.findIndex(function(s){return s.id===id;});if(idx<0)return;currentIdx=idx;currentTab="overview";renderModal();$("#overlay").classList.add("open");document.body.style.overflow="hidden";}
 function closeService(){$("#overlay").classList.remove("open");document.body.style.overflow="";}
 function renderModal(){const s=SERVICES[currentIdx],c=CATS[s.c].c,m=$("#modal");m.style.setProperty("--cc",c);
-  const tabs=[["overview","Overview"],["learn","Learn First"],["tf","Terraform"],["cdk","CDK"],["sdk","Python SDK"],["net","How It Connects"]];const id=escAttr(s.id);
+  const tabs=[["overview","Overview"],["learn","Learn First"],["tf","Terraform"],["cdk","CDK"],["sdk","Python SDK"],["net","How It Connects"],["env","Env Ops"]];const id=escAttr(s.id);
   m.innerHTML='<div class="m-head"><button class="m-close" data-mclose>✕</button>'
     +'<div class="m-nav"><button data-prev title="previous">‹</button><button data-next title="next">›</button></div>'
     +'<div class="m-title-row"><div class="m-tile">'+esc(s.i)+'</div><div><h2>'+esc(s.n)+'</h2><div class="mfull">'+esc(s.f)+'</div>'
@@ -3604,7 +3610,15 @@ function tabContent(s){
   if(currentTab==="cdk")return '<h4>Infrastructure as code — AWS CDK (TypeScript)</h4><div class="mini-note">cdk synth → CloudFormation YAML · always cdk diff before deploy</div>'+codeBlock(s.ck,"lib/acme-stack.ts","CDK · TYPESCRIPT","ts")+'<h4 style="color:#ff7b72">Deploy / Delete</h4><div class="cmd-row"><span class="dollar">$</span><code>cdk synth && cdk diff && cdk deploy</code><button class="copybtn" data-copyraw="cdk synth && cdk diff && cdk deploy">⧉ Copy</button></div><div class="cmd-row"><span class="dollar">$</span><code>cdk destroy   # ⚠ tears the whole stack down</code><button class="copybtn" data-copyraw="cdk destroy">⧉ Copy</button></div>';
   if(currentTab==="sdk")return '<h4>Provision & use with Boto3 (Python SDK)</h4>'+codeBlock(s.sd,s.id.replace(/[^a-z0-9]/g,"_")+"_demo.py","PYTHON · BOTO3","py")+'<h4 style="color:#ff7b72">Cleanup / Delete via SDK</h4>'+codeBlock(s.dl,"cleanup.py","PYTHON","py");
   if(currentTab==="net")return '<h4>How '+esc(s.n)+' talks to other services</h4>'+s.nt.map(function(x){return '<div class="net-row"><span class="ntag">'+esc(x[0])+'</span><p>'+esc(x[1])+'</p></div>';}).join("")+'<div class="real-box" style="margin-top:18px"><div class="co">⚑ In production · '+esc(s.r[0])+'</div><p>'+esc(s.r[1])+'</p></div>';
+  if(currentTab==="env")return envContent(s);
   return "";}
+function envContent(s){
+  if(!s.env||!s.env.length)return '<div class="tips-box"><div class="co">✦ Environment operating model</div><p>Offline mode — the full per-environment operating model (Dev → Staging → Production → DR → Lifecycle) loads from the backend API. Connect to the live app to see it.</p></div>';
+  return '<div class="env-note">Industry-standard operating model — how '+esc(s.n)+' runs at each stage of the lifecycle.</div>'
+    +s.env.map(function(b){return '<div class="env-block"><div class="env-head">'+b.icon+' '+esc(b.env)+'</div>'
+      +'<p>'+esc(b.desc)+'</p><ul>'+b.points.map(function(p){return '<li>'+esc(p)+'</li>';}).join("")+'</ul></div>';}).join("")
+    +'<div class="real-box" style="margin-top:18px"><div class="co">⚑ Industry practice</div><p>The environment split above is how enterprise teams actually run '+esc(s.n)+'. Start in dev, prove the release path in staging, harden in prod, and drill the DR + teardown path before you ever need it.</p></div>';
+}
 function bindModal(){const m=$("#modal");
   m.querySelector("[data-mclose]").addEventListener("click",closeService);
   m.querySelector("[data-prev]").addEventListener("click",function(){currentIdx=(currentIdx-1+SERVICES.length)%SERVICES.length;renderModal();});
@@ -4463,7 +4477,8 @@ function adaptService(s){
   return {id:s.id,n:s.name,f:s.full_name,c:s.category,i:s.icon,t:s.tagline,
     w:s.why_it_exists,u:s.use_cases,b:s.learn_first,
     tf:s.terraform,ck:s.cdk,sd:s.boto3,dl:s.delete,
-    x:s.expert_tips,r:s.real_world,nt:s.next_steps};
+    x:s.expert_tips,r:s.real_world,nt:s.next_steps,
+    env:s.env_model};
 }
 async function loadFromAPI(){
   try{

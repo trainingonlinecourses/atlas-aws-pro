@@ -22,7 +22,7 @@ Two kinds of data, two storage models:
 
 **1. Service catalog (100 services)** — code-defined, no database.
 ```
-frontend/index.html (embedded 94 services = OFFLINE FALLBACK)
+frontend/index.html (embedded 100 services = OFFLINE FALLBACK)
         │  fetch("/api/v1/services")  on load
         ▼
 backend/services_data.py   ← single source of truth (100 services, full detail)
@@ -38,7 +38,9 @@ backend/main.py (FastAPI) → /api/v1/* endpoints → JSON
 Browser → GET/PUT /api/v1/user-state → FastAPI → backend/db.py → SQLite file
                                     └──── JSON response back ────┘
 ```
-The browser **never touches the database** — it only calls the API. The SQLite file is private (gitignored, never served, no credentials). `backend/db.py` uses Python's stdlib `sqlite3`, with an in-memory fallback on read-only filesystems (e.g. Vercel serverless) so every endpoint keeps working. Path is configurable via the `ATLAS_DB_PATH` env var; swapping to a serverless-persistent store (Turso/libSQL) later is a one-line change. See [docs/PRIVACY.md](docs/PRIVACY.md).
+The browser **never touches the database** — it only calls the API. `backend/db.py` is driver-agnostic: local SQLite by default (gitignored, never served, no credentials), or **Turso/libSQL** for durable serverless persistence. Set `ATLAS_DB_URL` (+ `ATLAS_DB_AUTH_TOKEN`) to switch to Turso; the schema and API layer are unchanged. On read-only filesystems without Turso it falls back to in-memory so every endpoint keeps working. The token is an env var on the host only — never in the repo. See [docs/PRIVACY.md](docs/PRIVACY.md) for the Turso setup steps.
+
+**4. Environment operating model** — every service carries its industry-standard operating model for **Development → Staging → Production → Multi-region/DR → Lifecycle & IaC**, served as `env_model` on `/api/v1/services` and rendered in the service modal (**Env Ops** tab) and in each `docs/services/<id>.md` page under *Operating across environments*.
 
 - The frontend calls `loadFromAPI()` on startup: it fetches `/api/v1/services`, adapts the backend schema to its render schema, and re-renders. If the API is unreachable, the embedded copy keeps the site fully functional.
 - Browser `localStorage` keeps a local cache of progress and a generated `user_id`; the server copy is synced through the API so progress can survive across browsers.
@@ -71,7 +73,8 @@ mkdir -p dist && cp -r frontend/* dist/
 ```
 ├── backend/
 │   ├── main.py            # FastAPI application with all endpoints
-│   ├── services_data.py   # 94 services dataset (generated, single source of truth)
+│   ├── services_data.py   # 100 services dataset (generated, single source of truth)
+│   ├── env_model.py       # Per-service environment operating model (dev→DR→lifecycle)
 │   ├── db.py              # Private SQLite persistence (user progress)
 │   └── requirements.txt   # Python dependencies
 ├── frontend/
@@ -100,7 +103,7 @@ mkdir -p dist && cp -r frontend/* dist/
 
 | Endpoint | Description |
 |----------|-------------|
-| `GET /api/v1/services` | List all 94 services (full detail) |
+| `GET /api/v1/services` | List all 100 services (full detail + env model) |
 | `GET /api/v1/services/{id}` | Get a single service by ID |
 | `GET /api/v1/categories` | Categories with service counts |
 | `GET /api/v1/services/search?q=` | Search services |

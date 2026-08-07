@@ -7,3 +7,4 @@ slowapi==0.1.9
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
 boto3==1.34.72
+libsql-client==0.3.1  # durable Turso/libSQL persistence (optional; used only when ATLAS_DB_URL is set)

@@ -110,6 +110,29 @@ def test_frontend_adapter_compat():
             assert s[be] is not None, f"{s['id']} missing {be!r} (frontend key {fe!r})"
 
 
+def test_every_service_has_env_model():
+    """Every service exposes the per-environment operating model (dev->DR->lifecycle)."""
+    for s in client.get("/api/v1/services").json():
+        em = s.get("env_model")
+        assert em, f"{s['id']} missing env_model"
+        assert len(em) == 5, f"{s['id']} env_model should have 5 blocks"
+        labels = [b["env"] for b in em]
+        for need in ("Development", "Staging", "Production", "Multi-region / DR", "Lifecycle"):
+            assert any(need in l for l in labels), f"{s['id']} env_model missing {need!r}"
+        for b in em:
+            assert b["desc"] and b["points"], f"{s['id']} env_model block has empty content"
+            assert all(isinstance(p, str) and p for p in b["points"])
+
+
+def test_env_model_interpolates_service_name():
+    """The service's own name (short or full) must appear in its environment model text."""
+    for s in client.get("/api/v1/services").json():
+        em = s.get("env_model") or []
+        joined = " ".join(b["desc"] for b in em).lower()
+        found = (s["name"].lower() in joined) or (s["full_name"].lower() in joined)
+        assert found, f"{s['id']} neither name nor full_name interpolated into env_model"
+
+
 def test_categories_total_matches():
     d = client.get("/api/v1/categories").json()
     assert d["total"] == 100

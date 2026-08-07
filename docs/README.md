@@ -1,6 +1,6 @@
 # AWS Atlas Pro — Service Documentation
 
-**100 AWS services**, each with a full reference page: tagline, why-it-exists, when-to-use, learning checklist, Terraform / CDK / Boto3 / delete code, expert tips, a real-world example, and next-step links.
+**100 AWS services**, each with a full reference page: tagline, why-it-exists, when-to-use, learning checklist, Terraform / CDK / Boto3 / delete code, expert tips, a real-world example, the environment operating model (Dev → Staging → Production → DR → Lifecycle), and next-step links.
 
 - [API reference](api.md)
 - [Real-world industry scenarios & failure modes](industry-issues.md)

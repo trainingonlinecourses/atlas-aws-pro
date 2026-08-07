@@ -89,6 +89,50 @@ dms.delete_replication_instance(ReplicationInstanceArn=arn)
 
 **Enterprises** — Oracle → Aurora with CDC: cutover in minutes, not a frozen weekend.
 
+## Operating across environments
+
+The industry-standard way this service is run at each stage of the lifecycle — from a throwaway dev box to a hardened, multi-region production system.
+
+### 🛠️ Development
+
+In dev, Database Migration Service is used to prove the migration path on a sample: small data, same tooling.
+
+- Set up the replication/migration job in dev against a subset of records.
+- Validate checksums and row counts on the sample before widening the net.
+- Keep the dev source isolated so trial runs can't touch real systems.
+
+### 🧪 Staging / Pre-prod
+
+Staging is the dress rehearsal: a full dry-run migration with a rollback plan.
+
+- Run the full migration on staging data and compare record counts end-to-end.
+- Time it and log throughput; the staging number is your prod forecast.
+- Write and test the rollback script before you ever need it.
+
+### 🚀 Production
+
+In production Database Migration Service executes the cutover: incremental sync, a short frozen window, and verification.
+
+- Use continuous sync to near-zero downtime, then a brief cutover window.
+- Verify with a reconciliation query, not vibes, before traffic is re-routed.
+- Keep the old system available for rollback until the new one is proven stable.
+
+### 🌍 Multi-region / DR
+
+DR for a migration is the ability to re-run or roll back: source is intact until cutover is complete.
+
+- Snapshot the source before cutover so rollback is instant if verification fails.
+- Store the migration plan and runbook in the repo, not in one engineer's head.
+- Define the 'abort criteria' — the exact metric that stops the cutover.
+
+### ♻️ Lifecycle & IaC
+
+Lifecycle formalizes the migration as a project: plan, dry-run, execute, decommission.
+
+- Track the migration as an IaC-driven project with the source and target in Terraform.
+- After a stable period, decommission the source and archive its final snapshot.
+- Post-incident: document what was learned and fold it into the next migration.
+
 ## Next steps
 
 - **RDS / Aurora** (The usual targets.) — see `rds---aurora`

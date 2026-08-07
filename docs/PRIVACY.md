@@ -22,4 +22,16 @@ Browser (frontend)  --GET/PUT /api/v1/user-state-->  FastAPI backend  --sqlite--
 
 ## Serverless note (Vercel)
 
-Vercel serverless filesystems are ephemeral. On Vercel the SQLite store falls back to **in-memory** so every endpoint keeps working, but data does not persist across cold starts. For durable persistence on Vercel, point `ATLAS_DB_PATH` at a serverless-friendly SQLite service (e.g. Turso/libSQL) — the API layer and schema do not change.
+Vercel serverless filesystems are ephemeral. On Vercel the SQLite store falls back to **in-memory** so every endpoint keeps working, but data does not persist across cold starts. For durable persistence, use **Turso/libSQL** — the API layer and schema do not change.
+
+## Making it durable with Turso (recommended)
+
+1. Create a database: `turso db create atlas-pro`
+2. Get your URL + token: `turso db show atlas-pro --url` and `turso db tokens create atlas-pro`
+3. Set the env vars on the host (Vercel: *Settings → Environment Variables*):
+   - `ATLAS_DB_URL` = `libsql://<db>.turso.io`
+   - `ATLAS_DB_AUTH_TOKEN` = the token from step 2
+
+When `ATLAS_DB_URL` is set, `backend/db.py` uses the `libsql_client` driver (a drop-in `sqlite3` replacement) so the schema and queries are identical. Without it, the app runs on local SQLite (or in-memory on serverless).
+
+> **Tokens are secret.** Set them as environment variables on the host only — never in the repo. Neither `ATLAS_DB_URL` nor `ATLAS_DB_AUTH_TOKEN` is committed.

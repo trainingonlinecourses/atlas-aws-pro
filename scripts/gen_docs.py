@@ -19,6 +19,8 @@ sys.path.insert(0, str(ROOT / "backend"))
 
 from services_data import SERVICES_DATA  # noqa: E402
 
+from env_model import for_service  # noqa: E402
+
 DOCS = ROOT / "docs"
 SVC_DIR = DOCS / "services"
 SVC_DIR.mkdir(parents=True, exist_ok=True)
@@ -82,6 +84,18 @@ def service_md(s):
         lines.append("")
         lines.append(f"**{rw[0]}** — {rw[1]}")
         lines.append("")
+    lines.append("## Operating across environments")
+    lines.append("")
+    lines.append("The industry-standard way this service is run at each stage of the lifecycle — from a throwaway dev box to a hardened, multi-region production system.")
+    lines.append("")
+    for block in for_service(s):
+        lines.append(f"### {block['icon']} {block['env']}")
+        lines.append("")
+        lines.append(block["desc"])
+        lines.append("")
+        for point in block["points"]:
+            lines.append(f"- {point}")
+        lines.append("")
     lines.append("## Next steps")
     lines.append("")
     for name, desc in s["next_steps"]:
@@ -95,7 +109,7 @@ def index_md():
     lines = []
     lines.append("# AWS Atlas Pro — Service Documentation")
     lines.append("")
-    lines.append(f"**{len(SERVICES_DATA)} AWS services**, each with a full reference page: tagline, why-it-exists, when-to-use, learning checklist, Terraform / CDK / Boto3 / delete code, expert tips, a real-world example, and next-step links.")
+    lines.append(f"**{len(SERVICES_DATA)} AWS services**, each with a full reference page: tagline, why-it-exists, when-to-use, learning checklist, Terraform / CDK / Boto3 / delete code, expert tips, a real-world example, the environment operating model (Dev → Staging → Production → DR → Lifecycle), and next-step links.")
     lines.append("")
     lines.append("- [API reference](api.md)")
     lines.append("- [Real-world industry scenarios & failure modes](industry-issues.md)")
@@ -206,7 +220,19 @@ Browser (frontend)  --GET/PUT /api/v1/user-state-->  FastAPI backend  --sqlite--
 
 ## Serverless note (Vercel)
 
-Vercel serverless filesystems are ephemeral. On Vercel the SQLite store falls back to **in-memory** so every endpoint keeps working, but data does not persist across cold starts. For durable persistence on Vercel, point `ATLAS_DB_PATH` at a serverless-friendly SQLite service (e.g. Turso/libSQL) — the API layer and schema do not change.
+Vercel serverless filesystems are ephemeral. On Vercel the SQLite store falls back to **in-memory** so every endpoint keeps working, but data does not persist across cold starts. For durable persistence, use **Turso/libSQL** — the API layer and schema do not change.
+
+## Making it durable with Turso (recommended)
+
+1. Create a database: `turso db create atlas-pro`
+2. Get your URL + token: `turso db show atlas-pro --url` and `turso db tokens create atlas-pro`
+3. Set the env vars on the host (Vercel: *Settings → Environment Variables*):
+   - `ATLAS_DB_URL` = `libsql://<db>.turso.io`
+   - `ATLAS_DB_AUTH_TOKEN` = the token from step 2
+
+When `ATLAS_DB_URL` is set, `backend/db.py` uses the `libsql_client` driver (a drop-in `sqlite3` replacement) so the schema and queries are identical. Without it, the app runs on local SQLite (or in-memory on serverless).
+
+> **Tokens are secret.** Set them as environment variables on the host only — never in the repo. Neither `ATLAS_DB_URL` nor `ATLAS_DB_AUTH_TOKEN` is committed.
 """
 
 

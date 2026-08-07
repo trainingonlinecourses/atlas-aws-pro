@@ -66,6 +66,19 @@ try:
 except ImportError:  # imported as backend.main
     from backend import industry_issues as industry
 
+# Per-service environment operating model (see backend/env_model.py)
+try:
+    import env_model as env_model_store
+except ImportError:  # imported as backend.main
+    from backend import env_model as env_model_store
+
+
+def _with_env(service: dict) -> dict:
+    """Attach the environment operating model (dev -> staging -> prod -> DR -> lifecycle)."""
+    enriched = dict(service)
+    enriched["env_model"] = env_model_store.for_service(service)
+    return enriched
+
 # ============================================================
 # Pydantic Models
 # ============================================================
@@ -97,6 +110,7 @@ class ServiceDetail(BaseModel):
     next_steps: List[List[str]]
     enterprise: bool = False
     ai_enabled: bool = False
+    env_model: Optional[List[Dict[str, Any]]] = None
 
 class CategoryStats(BaseModel):
     total: int
@@ -121,7 +135,7 @@ class UserState(BaseModel):
 @app.get("/api/v1/services", response_model=List[ServiceDetail])
 async def get_services():
     """Get all services"""
-    return SERVICES_DATA
+    return [_with_env(s) for s in SERVICES_DATA]
 
 @app.get("/api/v1/services/search")
 async def search_services(q: str = Query(..., min_length=1), limit: int = 50):
@@ -132,14 +146,14 @@ async def search_services(q: str = Query(..., min_length=1), limit: int = 50):
         or q.lower() in s["tagline"].lower()
         or q.lower() in s.get("why_it_exists", "").lower()
     ][:limit]
-    return results
+    return [_with_env(s) for s in results]
 
 @app.get("/api/v1/services/{service_id}", response_model=ServiceDetail)
 async def get_service(service_id: str):
     """Get a single service by ID"""
     for service in SERVICES_DATA:
         if service["id"] == service_id:
-            return service
+            return _with_env(service)
     raise HTTPException(status_code=404, detail="Service not found")
 
 @app.get("/api/v1/categories")

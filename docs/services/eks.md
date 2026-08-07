@@ -68,6 +68,50 @@ eks.delete_cluster(name="core")
 
 **Lyft** — Runs marketplace services on EKS.
 
+## Operating across environments
+
+The industry-standard way this service is run at each stage of the lifecycle — from a throwaway dev box to a hardened, multi-region production system.
+
+### 🛠️ Development
+
+In development, run EKS at the smallest valid size. Provision with IaC so the box you test on is the same shape as the one that ships.
+
+- Use spot or the cheapest instance class for throwaway workloads; never the production size.
+- Keep a dev AMI/image that's rebuilt from the same recipe as staging, so drift stays zero.
+- Secrets in dev come from a dev-only store — never copy prod credentials down.
+
+### 🧪 Staging / Pre-prod
+
+Staging is where Elastic Kubernetes Service gets load-tested and the deploy path is proven. It must mirror prod's topology, not its size.
+
+- Run the same instance types and subnets as prod so performance surprises surface here.
+- Run a load test that reaches prod's projected peak before every release.
+- Test the scaling policy (CPU or request target) against synthetic traffic, not vibes.
+
+### 🚀 Production
+
+In production Elastic Kubernetes Service runs hardened and elastic: at least two AZs, an autoscaling policy with sane min/max, and immutable images.
+
+- Put instances behind a load balancer inside an Auto Scaling Group with a target-tracking policy.
+- Enable detailed monitoring, schedule a weekly security scan of the image, and never SSH in to hand-fix.
+- Apply least-privilege instance roles; store config in SSM/Secrets Manager, not in the image.
+
+### 🌍 Multi-region / DR
+
+For disaster recovery, the industry standard is 're-apply IaC, re-sync data' in a secondary region within a tested RTO.
+
+- Replicate images/AMIs to the DR region on a schedule, or rebuild them from the pipeline.
+- Decide RTO/RPO upfront (e.g. 1h/15min) and drill the failover quarterly.
+- Keep a runbook: promote the DR stack, flip DNS or Global Accelerator, verify, then backfill.
+
+### ♻️ Lifecycle & IaC
+
+Lifecycle is code-first: the EKS stack lives in git, deploys through CI, and tears down cleanly.
+
+- One Terraform module or CDK stack per environment; promote the same artifact, don't drift.
+- Protect prod with a manual approval + `terraform plan` diff posted to the PR.
+- Tag every resource (env, team, cost-center) and alert the owning team on spend.
+
 ## Next steps
 
 - **VPC** (Pods get real VPC IPs via the CNI.) — see `vpc`

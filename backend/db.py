@@ -143,6 +143,8 @@ def status() -> dict:
         "ephemeral": _ephemeral,
         "path": "(in-memory)" if not _is_file else db_path(),
         "error": _last_error,
+        "token_set": bool(os.getenv(TURSO_TOKEN_ENV)),
+        "url_scheme": os.getenv(TURSO_URL_ENV, "").split(":")[0],
     }
 
 

@@ -50,6 +50,15 @@ _lock = threading.Lock()
 _conn = None
 _is_file = False
 _ephemeral = False
+_last_error = None
+
+
+def _redact(text: str) -> str:
+    """Never let a token leak into the public /api/v1/db status."""
+    token = os.getenv(TURSO_TOKEN_ENV)
+    if token and token in text:
+        text = text.replace(token, "***")
+    return text
 
 
 def db_path() -> str:
@@ -69,10 +78,19 @@ def db_path() -> str:
 
 
 def _turso_connect(url: str) -> sqlite3.Connection:
-    """Open a durable Turso/libSQL connection (drop-in sqlite3 replacement)."""
+    """Open a durable Turso/libSQL connection (drop-in sqlite3 replacement).
+
+    libsql_client.dbapi2.connect() only routes to the Hrana (wss) driver for
+    `libsql://`, `wss://` or `ws://` URLs; anything else takes the stdlib
+    sqlite3 path, where `auth_token` is an invalid kwarg and connect blows up.
+    Normalise the common Turso `https://` form to `libsql://` so a console
+    copy-paste still works.
+    """
     from libsql_client import dbapi2 as libsql  # lazy: optional dependency
 
     token = os.getenv(TURSO_TOKEN_ENV)
+    if url.startswith("https://"):
+        url = "libsql://" + url[len("https://"):]
     conn = libsql.connect(url, auth_token=token or None, check_same_thread=False, timeout=10.0)
     conn.row_factory = libsql.Row
     return conn
@@ -80,7 +98,7 @@ def _turso_connect(url: str) -> sqlite3.Connection:
 
 def _connect() -> sqlite3.Connection:
     """Open (once) the configured store, falling back to in-memory."""
-    global _conn, _is_file, _ephemeral
+    global _conn, _is_file, _ephemeral, _last_error
     if _conn is not None:
         return _conn
 
@@ -99,10 +117,12 @@ def _connect() -> sqlite3.Connection:
         conn.commit()
         _is_file = True
         _ephemeral = False
+        _last_error = None
     except Exception as exc:
         # Read-only / unwritable filesystem (Vercel serverless) or Turso
         # unreachable: keep the API alive with an in-memory DB. Data resets
         # between cold starts.
+        _last_error = _redact(repr(exc))
         logger.warning("db unavailable at %s (%r); falling back to in-memory", path, exc)
         conn = sqlite3.connect(":memory:", check_same_thread=False)
         conn.row_factory = sqlite3.Row
@@ -122,6 +142,7 @@ def status() -> dict:
         "persistent": _is_file,
         "ephemeral": _ephemeral,
         "path": "(in-memory)" if not _is_file else db_path(),
+        "error": _last_error,
     }
 
 

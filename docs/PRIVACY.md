@@ -32,6 +32,6 @@ Vercel serverless filesystems are ephemeral. On Vercel the SQLite store falls ba
    - `ATLAS_DB_URL` = `libsql://<db>.turso.io`
    - `ATLAS_DB_AUTH_TOKEN` = the token from step 2
 
-When `ATLAS_DB_URL` is set, `backend/db.py` uses the `libsql_client` driver (a drop-in `sqlite3` replacement) so the schema and queries are identical. Without it, the app runs on local SQLite (or in-memory on serverless).
+When `ATLAS_DB_URL` is set, `backend/db.py` uses the official `libsql` client (sqlite3-compatible, qmark params) over **HTTPS**. (The older `libsql-client` package only speaks WebSocket Hrana, which Turso no longer accepts — it fails with HTTP 400 `protocol upgrade not supported`.) The schema and queries are identical. Without it, the app runs on local SQLite (or in-memory on serverless).
 
 > **Tokens are secret.** Set them as environment variables on the host only — never in the repo. Neither `ATLAS_DB_URL` nor `ATLAS_DB_AUTH_TOKEN` is committed.

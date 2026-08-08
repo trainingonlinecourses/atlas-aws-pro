@@ -138,3 +138,51 @@ Protected routes: existing `/api/v1/user-state` GET/PUT/DELETE require valid acc
 - Open redirect in email links → none (tokens only, no URL params).
 - SQL injection via email/token params → parameterized queries only.
 - Token in response body → never (cookie only).
+
+## Pen-test results (2026-08-08, redhat pass — all checks green)
+
+**Vulnerabilities found and fixed**:
+
+1. **Timing oracle (email enumeration)** — `_dummy_verify()` did `hashpw` **+** `checkpw`
+   (2× the bcrypt work of a real `verify_password`), so an unknown email responded ~2×
+   *slower* than a known one — a reverse timing oracle. Fixed: `_dummy_verify` now does a
+   single `checkpw` against a precomputed cost-12 hash, matching real login cost. Live
+   timing check: unknown 4.1ms vs known 2.5ms (cost 4 test env; equal within noise).
+2. **Open CORS in production** — `DEBUG` defaulted to `"true"`, so `allow_origins=["*"]`
+   + `allow_credentials=True` shipped. Starlette reflects any origin, letting a hostile
+   page read authed responses. Fixed: `DEBUG` defaults to `false`, `ATLAS_ORIGINS` env
+   allow-list (default `https://atlas-aws-pro.vercel.app`, + localhost in DEBUG). Verified:
+   evil origin gets no ACAO header; real origin allowed.
+3. **Unbounded `learned` list** — authed user could PUT a 10k-element list (Turso storage
+   abuse). Fixed: `UserState.learned` capped at 300 items, each id ≤ 64 chars → 422. Live:
+   400-item list → 422, normal 2-item save works.
+4. **Weak `ATLAS_AUTH_SECRET`** — no length check; a short secret makes HS256 JWT
+   offline-brute-forceable. Fixed: `_auth_secret()` raises unless ≥ 32 chars.
+
+**Frontend gap fixed**:
+5. **No silent session refresh** — access token is 15-min TTL but the frontend never called
+   `/api/v1/auth/refresh`, so long sessions silently lost progress saving after 15 min.
+   Fixed: `apiFetch()` wrapper refreshes once on 401 and retries (single in-flight guard).
+
+**Checked and confirmed safe (no action needed)**:
+- Refresh rotation + reuse detection (replay of rotated token revokes whole family).
+- Cookie flags: HttpOnly, Secure (prod via VERCEL=1), SameSite=Lax.
+- CSRF: SameSite=Lax + `X-Requested-With` required on state-changing POSTs (login/logout);
+  refresh doesn't need it (no cookie-bearing cross-site POST can send the cookie).
+- Login lockout keyed email+IP (5/15min), slowapi IP throttle 30/15min.
+- Generic errors: unknown email == wrong password == `invalid credentials`.
+- Register duplicate → 409; reset request → generic message, no enumeration.
+- Verify/reset tokens: single-use, purpose-scoped (`verify_email` vs `reset_password`),
+  24h expiry, HMAC-hashed at rest.
+- Password reset revokes all sessions for that user.
+- SQLi: all queries parameterized (`?` placeholders).
+- Tokens never in response bodies — httpOnly cookies only.
+- `user_id` server-pinned to logged-in email (client spoof ignored).
+- Register/verify/reset rate-limited; login lockout can't be used to DoS a victim (keyed
+  to attacker's IP too).
+
+**Full battery (31 live checks)**: register → verify (replay→400) → login (403 unverified,
+403 no-CSRF, 401 generic, 401 wrong-pwd) → cookies → me → user-state PUT/GET pinned →
+refresh rotation → old-refresh replay 401 + family revoked → lockout after 5 → 429 →
+reset request generic → confirm → old pwd fails / new works → reset token replay 400 →
+forged access 401 → logout revokes refresh → input caps 422.

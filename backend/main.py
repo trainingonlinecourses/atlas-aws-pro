@@ -7,21 +7,22 @@ import copy
 import traceback
 from pathlib import Path
 from fastapi.responses import FileResponse, JSONResponse
-from typing import List, Optional, Dict, Any
+from typing import Annotated, List, Optional, Dict, Any
 from functools import lru_cache
 
 from fastapi import FastAPI, HTTPException, Request, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, StringConstraints
 from slowapi import Limiter
 from slowapi.util import get_remote_address
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
 # Configuration
 PROJECT_ROOT = Path(__file__).parent.parent
 FRONTEND_DIR = PROJECT_ROOT / "dist"
-DEBUG = os.getenv("DEBUG", "true").lower() == "true"
+# DEBUG must be explicit; NEVER default on in production (it widens CORS).
+DEBUG = os.getenv("DEBUG", "false").lower() == "true"
 
 # Initialize app
 app = FastAPI(
@@ -33,13 +34,20 @@ app = FastAPI(
     redoc_url=None,
 )
 
-# CORS
+# CORS — the frontend is served same-origin from dist/ at the app root, so
+# cross-origin only matters for local dev / Vercel preview. Never "*".
+# In DEBUG (local) allow localhost; otherwise the explicit ATLAS_ORIGINS list.
+_ATLAS_ORIGINS = [o.strip() for o in os.getenv("ATLAS_ORIGINS", "").split(",") if o.strip()]
+if not _ATLAS_ORIGINS:
+    _ATLAS_ORIGINS = ["https://atlas-aws-pro.vercel.app"]
+if DEBUG:
+    _ATLAS_ORIGINS += ["http://localhost:8000", "http://127.0.0.1:8000"]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"] if DEBUG else ["https://yourdomain.com"],
+    allow_origins=_ATLAS_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["Content-Type", "X-Requested-With", "Accept"],
 )
 
 # Rate limiting
@@ -59,6 +67,12 @@ try:
     import db as db_store
 except ImportError:  # imported as backend.main
     from backend import db as db_store
+
+# Auth core (email+password, bcrypt, JWT cookies, Turso persistence)
+try:
+    import auth as auth_core
+except ImportError:  # imported as backend.main
+    from backend import auth as auth_core
 
 # Real-world industry scenarios & issues (see backend/industry_issues.py)
 try:
@@ -125,8 +139,31 @@ class QuizQuestion(BaseModel):
 
 class UserState(BaseModel):
     user_id: str = Field(min_length=1, max_length=128)
-    learned: List[str] = []
+    # each item a bounded service id; list itself capped (~100 services exist)
+    learned: List[Annotated[str, StringConstraints(max_length=64)]] = Field(default=[], max_length=300)
     quiz_best: int = Field(default=0, ge=0, le=100)
+
+# ---- Auth models ----
+class RegisterRequest(BaseModel):
+    email: str = Field(min_length=3, max_length=254)
+    password: str = Field(min_length=8, max_length=72)
+
+class LoginRequest(BaseModel):
+    email: str = Field(min_length=3, max_length=254)
+    password: str = Field(min_length=1, max_length=128)
+
+class TokenRequest(BaseModel):
+    token: str = Field(min_length=10, max_length=512)
+
+class EmailRequest(BaseModel):
+    email: str = Field(min_length=3, max_length=254)
+
+class ResetConfirmRequest(BaseModel):
+    token: str = Field(min_length=10, max_length=512)
+    new_password: str = Field(min_length=8, max_length=72)
+
+_EMAIL_RE = r"^[^@\s]+@[^@\s]+\.[^@\s]+$"
+import re as _re
 
 # ============================================================
 # API ROUTES
@@ -186,33 +223,210 @@ async def get_db_status():
         traceback.print_exc()
         return JSONResponse(status_code=503, content={"error": "storage unavailable"})
 
-@app.get("/api/v1/user-state")
-async def get_user_state(user_id: str = Query(..., min_length=1, max_length=128)):
-    """Read a user's saved progress. Returns empty state if none saved."""
+# ============================================================
+# AUTH (see backend/auth.py + spec docs/superpowers/specs/)
+# ============================================================
+def _client_ip(request: Request) -> str:
+    """Client IP honoring X-Forwarded-For (Vercel) with fallback."""
+    xff = request.headers.get("x-forwarded-for")
+    if xff:
+        return xff.split(",")[0].strip()
+    return request.client.host if request.client else "unknown"
+
+
+def _current_email(request: Request) -> str:
+    """Email from the httpOnly access cookie, or raise 401."""
+    token = request.cookies.get(auth_core.access_cookie_name())
+    if not token:
+        raise HTTPException(status_code=401, detail="not authenticated")
+    email = auth_core.verify_access_token(token)
+    if not email:
+        raise HTTPException(status_code=401, detail="session expired")
+    return email
+
+
+def _require_csrf_header(request: Request) -> None:
+    """SameSite=Lax blocks cross-site POSTs; belt-and-suspenders header check."""
+    if request.headers.get("x-requested-with", "").lower() != "xmlhttprequest":
+        raise HTTPException(status_code=403, detail="forbidden")
+
+
+@app.get("/api/v1/auth/me")
+async def auth_me(request: Request):
+    """Current logged-in user profile (progress read from user_state)."""
+    email = _current_email(request)
+    user = db_store.get_user(email)
+    state = db_store.get_user_state(email) or {"user_id": email, "learned": [], "quiz_best": 0}
+    return {
+        "email": email,
+        "email_verified": bool(user["email_verified"]) if user else False,
+        "progress": state,
+    }
+
+
+@app.post("/api/v1/auth/register")
+@limiter.limit("5/hour")
+async def auth_register(request: Request, body: RegisterRequest):
+    """Create account, send email-verification link."""
+    email = body.email.strip().lower()
+    if not _re.fullmatch(_EMAIL_RE, email):
+        raise HTTPException(status_code=400, detail="invalid email")
+    if len(body.password) < 8 or not any(c.isdigit() for c in body.password) or not any(c.isalpha() for c in body.password):
+        raise HTTPException(status_code=400, detail="password must be 8+ chars with letters and numbers")
+    if db_store.get_user(email):
+        raise HTTPException(status_code=409, detail="email already registered")
+    password_hash = auth_core.hash_password(body.password)
     try:
-        state = db_store.get_user_state(user_id)
+        db_store.create_user(email, password_hash)
+    except Exception:
+        raise HTTPException(status_code=409, detail="email already registered")
+    raw = auth_core.new_raw_token()
+    db_store.delete_user_verify_tokens(email, "verify_email")
+    db_store.create_verify_token(
+        auth_core.hash_token(raw), email, "verify_email",
+        (datetime.now(timezone.utc) + timedelta(hours=auth_core.VERIFY_TOKEN_TTL_HOURS)).isoformat(),
+    )
+    auth_core.send_verify_email(email, raw)
+    return {"email": email, "message": "registered; check your email to verify"}
+
+
+@app.post("/api/v1/auth/verify-email")
+@limiter.limit("10/10minute")
+async def auth_verify_email(request: Request, body: TokenRequest):
+    """Verify email with the single-use token from the email link."""
+    row = db_store.get_verify_token(auth_core.hash_token(body.token))
+    if row is None or row["purpose"] != "verify_email" or row["used"]:
+        raise HTTPException(status_code=400, detail="invalid or expired token")
+    expires = datetime.fromisoformat(row["expires_at"])
+    if expires < datetime.now(timezone.utc):
+        raise HTTPException(status_code=400, detail="invalid or expired token")
+    db_store.mark_email_verified(row["email"])
+    db_store.mark_verify_token_used(row["token_hash"])
+    return {"email": row["email"], "message": "email verified"}
+
+
+@app.post("/api/v1/auth/login")
+@limiter.limit("30/15minute")  # coarse IP throttle; per-email lockout is the real gate
+async def auth_login(request: Request, body: LoginRequest):
+    """Login: bcrypt check, lockout, issue httpOnly cookie session."""
+    _require_csrf_header(request)
+    email = body.email.strip().lower()
+    ip = _client_ip(request)
+    if not _re.fullmatch(_EMAIL_RE, email):
+        raise HTTPException(status_code=401, detail="invalid credentials")
+    user = db_store.get_user(email)
+    if user is None:
+        auth_core._dummy_verify()  # equalize timing against unknown email
+        auth_core.record_failed_login(email, ip)
+        raise HTTPException(status_code=401, detail="invalid credentials")
+    if auth_core._is_locked_out(email, ip):
+        raise HTTPException(status_code=429, detail="too many attempts; try again later")
+    if not auth_core.verify_password(body.password, user["password_hash"]):
+        auth_core.record_failed_login(email, ip)
+        raise HTTPException(status_code=401, detail="invalid credentials")
+    if not user["email_verified"]:
+        raise HTTPException(status_code=403, detail="email_not_verified")
+    auth_core.clear_login_failures(email, ip)
+    response = JSONResponse({"email": email, "email_verified": True})
+    auth_core.issue_session(email, response)
+    return response
+
+
+@app.post("/api/v1/auth/logout")
+@limiter.limit("30/minute")
+async def auth_logout(request: Request):
+    """Revoke refresh session family and clear cookies."""
+    _require_csrf_header(request)
+    raw = request.cookies.get(auth_core.refresh_cookie_name())
+    if raw:
+        auth_core.revoke_session(raw)
+    response = JSONResponse({"message": "logged out"})
+    auth_core._clear_auth_cookies(response)
+    return response
+
+
+@app.post("/api/v1/auth/refresh")
+@limiter.limit("30/minute")
+async def auth_refresh(request: Request):
+    """Rotate refresh token; reuse detection revokes family on replay."""
+    raw = request.cookies.get(auth_core.refresh_cookie_name())
+    if not raw:
+        raise HTTPException(status_code=401, detail="no session")
+    response = JSONResponse({"message": "refreshed"})
+    if not auth_core.refresh_session(raw, response):
+        auth_core._clear_auth_cookies(response)
+        raise HTTPException(status_code=401, detail="session expired")
+    return response
+
+
+@app.post("/api/v1/auth/reset-password")
+@limiter.limit("3/hour")
+async def auth_reset_request(request: Request, body: EmailRequest):
+    """Send password-reset link if account exists (no enumeration on response)."""
+    email = body.email.strip().lower()
+    user = db_store.get_user(email)
+    if user is not None:
+        raw = auth_core.new_raw_token()
+        db_store.delete_user_verify_tokens(email, "reset_password")
+        db_store.create_verify_token(
+            auth_core.hash_token(raw), email, "reset_password",
+            (datetime.now(timezone.utc) + timedelta(hours=auth_core.VERIFY_TOKEN_TTL_HOURS)).isoformat(),
+        )
+        auth_core.send_reset_email(email, raw)
+    return {"message": "if that email exists, a reset link was sent"}
+
+
+@app.post("/api/v1/auth/reset-password/confirm")
+@limiter.limit("10/10minute")
+async def auth_reset_confirm(request: Request, body: ResetConfirmRequest):
+    """Set a new password with a valid reset token; revoke all sessions."""
+    row = db_store.get_verify_token(auth_core.hash_token(body.token))
+    if row is None or row["purpose"] != "reset_password" or row["used"]:
+        raise HTTPException(status_code=400, detail="invalid or expired token")
+    expires = datetime.fromisoformat(row["expires_at"])
+    if expires < datetime.now(timezone.utc):
+        raise HTTPException(status_code=400, detail="invalid or expired token")
+    if len(body.new_password) < 8 or not any(c.isdigit() for c in body.new_password) or not any(c.isalpha() for c in body.new_password):
+        raise HTTPException(status_code=400, detail="password must be 8+ chars with letters and numbers")
+    db_store.update_password(row["email"], auth_core.hash_password(body.new_password))
+    db_store.mark_verify_token_used(row["token_hash"])
+    db_store.revoke_all_user_sessions(row["email"])
+    return {"message": "password updated"}
+
+
+# ---- user-state (auth-protected; user_id pinned to logged-in email) ----
+@app.get("/api/v1/user-state")
+async def get_user_state(request: Request, user_id: str = Query(None, min_length=1, max_length=128)):
+    """Read the logged-in user's saved progress."""
+    email = _current_email(request)
+    try:
+        state = db_store.get_user_state(email)
         if state is not None:
             return state
-        return {"user_id": user_id, "learned": [], "quiz_best": 0}
+        return {"user_id": email, "learned": [], "quiz_best": 0}
     except Exception:
         traceback.print_exc()
-        return {"user_id": user_id, "learned": [], "quiz_best": 0}
+        return {"user_id": email, "learned": [], "quiz_best": 0}
+
 
 @app.put("/api/v1/user-state", response_model=UserState)
-async def put_user_state(state: UserState):
-    """Persist a user's progress (learned services + quiz best score)."""
+async def put_user_state(request: Request, state: UserState):
+    """Persist the logged-in user's progress. user_id is server-pinned."""
+    email = _current_email(request)
     try:
-        return db_store.upsert_user_state(state.user_id, state.learned, state.quiz_best)
+        return db_store.upsert_user_state(email, state.learned, state.quiz_best)
     except Exception:
         traceback.print_exc()
         return JSONResponse(status_code=503, content={"error": "storage unavailable"})
 
+
 @app.delete("/api/v1/user-state")
-async def delete_user_state(user_id: str = Query(..., min_length=1, max_length=128)):
-    """Delete a user's saved progress (privacy: full wipe on request)."""
+async def delete_user_state(request: Request, user_id: str = Query(None, min_length=1, max_length=128)):
+    """Delete the logged-in user's saved progress (privacy: full wipe)."""
+    email = _current_email(request)
     try:
-        removed = db_store.delete_user_state(user_id)
-        return {"deleted": removed, "user_id": user_id}
+        removed = db_store.delete_user_state(email)
+        return {"deleted": removed, "user_id": email}
     except Exception:
         traceback.print_exc()
         return JSONResponse(status_code=503, content={"error": "storage unavailable"})

@@ -181,8 +181,6 @@ def test_data_endpoints_ok():
 
 # --- private DB (SQLite user state) ---
 
-TEST_UID = "test-user-001"
-
 
 def test_db_status_ok():
     r = client.get("/api/v1/db")
@@ -232,54 +230,111 @@ def test_turso_connect_failure_falls_back_to_memory(monkeypatch):
         db_store._last_error = None
 
 
+# --- Auth-aware helper for user-state tests (user-state now requires login) ---
+import re as _re
+import uuid as _uuid
+
+
+def _authed_client():
+    """Create a verified + logged-in TestClient for a throwaway user."""
+    from backend import auth as auth_core
+    email = f"bt-{_uuid.uuid4().hex[:10]}@example.com"
+    captured = {}
+
+    def fake_send(to_email, subject, html, text):
+        m = _re.search(r"token=([A-Za-z0-9_-]+)", text)
+        if m:
+            captured["raw"] = m.group(1)
+    orig = auth_core.send_email
+    auth_core.send_email = fake_send
+    try:
+        r = client.post(
+            "/api/v1/auth/register",
+            json={"email": email, "password": "BackendPass1"},
+            headers={"X-Requested-With": "XMLHttpRequest"},
+        )
+        assert r.status_code == 200, r.text
+    finally:
+        auth_core.send_email = orig
+    r = client.post(
+        "/api/v1/auth/verify-email",
+        json={"token": captured["raw"]},
+        headers={"X-Requested-With": "XMLHttpRequest"},
+    )
+    assert r.status_code == 200, r.text
+    r = client.post(
+        "/api/v1/auth/login",
+        json={"email": email, "password": "BackendPass1"},
+        headers={"X-Requested-With": "XMLHttpRequest"},
+    )
+    assert r.status_code == 200, r.text
+    c = TestClient(app)
+    c.cookies.set("atlas_access", r.cookies["atlas_access"])
+    c.cookies.set("atlas_refresh", r.cookies["atlas_refresh"])
+    return c, email
+
+
+def test_user_state_requires_auth():
+    assert client.get("/api/v1/user-state").status_code == 401
+
+
 def test_user_state_default_empty():
-    r = client.get("/api/v1/user-state", params={"user_id": TEST_UID})
+    c, email = _authed_client()
+    r = c.get("/api/v1/user-state")
     assert r.status_code == 200
-    assert r.json() == {"user_id": TEST_UID, "learned": [], "quiz_best": 0}
+    assert r.json() == {"user_id": email, "learned": [], "quiz_best": 0}
 
 
 def test_user_state_roundtrip():
-    payload = {"user_id": TEST_UID, "learned": ["ec2", "s3", "lambda"], "quiz_best": 8}
-    r = client.put("/api/v1/user-state", json=payload)
+    c, email = _authed_client()
+    payload = {"user_id": email, "learned": ["ec2", "s3", "lambda"], "quiz_best": 8}
+    r = c.put("/api/v1/user-state", json=payload)
     assert r.status_code == 200
     assert r.json() == payload
-    got = client.get("/api/v1/user-state", params={"user_id": TEST_UID}).json()
+    got = c.get("/api/v1/user-state").json()
     assert got == payload
     # cleanup
-    client.delete("/api/v1/user-state", params={"user_id": TEST_UID})
+    c.delete("/api/v1/user-state")
 
 
 def test_user_state_overwrite():
-    a = {"user_id": TEST_UID, "learned": ["ec2"], "quiz_best": 3}
-    b = {"user_id": TEST_UID, "learned": ["ec2", "rds"], "quiz_best": 5}
-    client.put("/api/v1/user-state", json=a)
-    client.put("/api/v1/user-state", json=b)
-    got = client.get("/api/v1/user-state", params={"user_id": TEST_UID}).json()
+    c, email = _authed_client()
+    a = {"user_id": email, "learned": ["ec2"], "quiz_best": 3}
+    b = {"user_id": email, "learned": ["ec2", "rds"], "quiz_best": 5}
+    c.put("/api/v1/user-state", json=a)
+    c.put("/api/v1/user-state", json=b)
+    got = c.get("/api/v1/user-state").json()
     assert got == b
-    client.delete("/api/v1/user-state", params={"user_id": TEST_UID})
+    c.delete("/api/v1/user-state")
 
 
 def test_user_state_delete():
-    client.put("/api/v1/user-state", json={"user_id": TEST_UID, "learned": ["ec2"], "quiz_best": 1})
-    r = client.delete("/api/v1/user-state", params={"user_id": TEST_UID})
+    c, email = _authed_client()
+    c.put("/api/v1/user-state", json={"user_id": email, "learned": ["ec2"], "quiz_best": 1})
+    r = c.delete("/api/v1/user-state")
     assert r.status_code == 200
     assert r.json()["deleted"] is True
-    r = client.delete("/api/v1/user-state", params={"user_id": TEST_UID})
+    r = c.delete("/api/v1/user-state")
     assert r.json()["deleted"] is False
 
 
-def test_user_state_requires_user_id():
-    assert client.get("/api/v1/user-state").status_code == 422
-    assert client.put("/api/v1/user-state", json={"learned": ["ec2"], "quiz_best": 1}).status_code == 422
+def test_user_state_ignores_client_user_id():
+    """Server pins user_id to the logged-in email; spoofed ids are ignored."""
+    c, email = _authed_client()
+    r = c.put("/api/v1/user-state", json={"user_id": "hacker@evil.com", "learned": ["ec2"], "quiz_best": 1})
+    assert r.status_code == 200
+    assert r.json()["user_id"] == email
+    c.delete("/api/v1/user-state")
 
 
 def test_user_state_learned_only_valid_service_ids():
     """Learned entries that aren't real service ids must be rejected client-side, but the
     API stays safe: it stores strings only (no code execution, no injection)."""
-    r = client.put("/api/v1/user-state", json={"user_id": TEST_UID, "learned": ["</script>"], "quiz_best": 0})
+    c, email = _authed_client()
+    r = c.put("/api/v1/user-state", json={"user_id": email, "learned": ["</script>"], "quiz_best": 0})
     assert r.status_code == 200
     assert r.json()["learned"] == ["</script>"]
-    client.delete("/api/v1/user-state", params={"user_id": TEST_UID})
+    c.delete("/api/v1/user-state")
 
 
 def test_industry_issues_list():

@@ -36,6 +36,24 @@ nav.mainnav a:hover{color:var(--txt);background:rgba(255,153,0,.09)}
 .prog-bar{width:56px;height:5px;background:#1b2836;border-radius:99px;overflow:hidden}
 .prog-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));width:0%;transition:width .5s}
 .burger{display:none;background:none;border:1px solid var(--line);color:var(--txt);width:38px;height:38px;border-radius:8px;cursor:pointer;font-size:16px}
+.auth-btn{background:linear-gradient(135deg,var(--acc),var(--acc2));border:none;color:#06121a;font-weight:700;font-size:12.5px;padding:9px 16px;border-radius:99px;cursor:pointer;letter-spacing:.02em;white-space:nowrap;box-shadow:0 2px 12px rgba(255,153,0,.28)}
+.auth-btn.logged{background:var(--panel2);border:1px solid var(--line);color:var(--txt);box-shadow:none;font-weight:600}
+.auth-btn small{display:block;font-size:10px;color:var(--mut);font-weight:500;letter-spacing:.06em}
+.auth-card{min-width:330px;max-width:420px}
+.auth-tabs{display:flex;gap:6px;background:var(--bg2);padding:5px;border-radius:11px;margin:0 0 20px}
+.auth-tabs button{flex:1;background:none;border:none;color:var(--mut);padding:9px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px}
+.auth-tabs button.on{background:var(--panel);color:var(--txt);box-shadow:0 1px 4px rgba(0,0,0,.35)}
+.auth-field{display:block;margin:0 0 14px}
+.auth-field label{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--mut);margin:0 0 6px}
+.auth-field input{width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--txt);padding:11px 13px;border-radius:9px;font-size:14px;box-sizing:border-box}
+.auth-field input:focus{outline:none;border-color:var(--acc)}
+.auth-err{color:#ff7a6b;font-size:12.5px;min-height:18px;margin:0 0 10px;font-family:var(--mono)}
+.auth-msg{color:#5fd68b;font-size:12.5px;min-height:18px;margin:0 0 10px;font-family:var(--mono)}
+.auth-sub{background:none;border:none;color:var(--acc);cursor:pointer;font-size:12px;padding:0;text-decoration:underline;margin-top:10px}
+.auth-progress{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px;margin:0 0 16px}
+.auth-progress h4{margin:0 0 10px;font-size:14px;color:var(--acc2);letter-spacing:.04em}
+.auth-progress .ap-row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;color:var(--txt)}
+.auth-progress .ap-row span{color:var(--mut)}
 #mnav{display:none;position:fixed;top:64px;left:0;right:0;z-index:99;background:var(--bg2);border-bottom:1px solid var(--line);padding:14px 28px;flex-direction:column;max-height:70vh;overflow-y:auto}
 #mnav a{color:var(--mut);text-decoration:none;padding:9px 8px;border-radius:8px;font-weight:500}
 #mnav.open{display:flex}
@@ -396,6 +414,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
     </nav>
     <div class="hright">
       <div class="prog-pill"><span><b id="progNum">0</b>/80 learned</span><span class="prog-bar"><i id="progFill"></i></span></div>
+      <button class="auth-btn" id="authBtn" aria-label="account">Login</button>
       <button class="burger" id="burger" aria-label="menu">☰</button>
     </div>
   </div>
@@ -772,6 +791,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
   </div>
 </div>
 <div class="overlay" id="overlay"><div class="modal" id="modal" role="dialog" aria-modal="true"></div></div>
+<div class="overlay" id="authOverlay"><div class="modal auth-card" id="authModal" role="dialog" aria-modal="true"></div></div>
 
 <script nonce="awsatlaspro26">
 "use strict";
@@ -4346,14 +4366,18 @@ function startQuiz(){const pool=shuffle(SERVICES.slice());const qs=[];
   quiz={qs:qs,i:0,score:0,missed:[]};renderQuiz();}
 function renderQuiz(){const box=$("#quizBox");if(!quiz)return;
   if(quiz.i>=quiz.qs.length){const pct=Math.round(quiz.score/quiz.qs.length*100);
-    if(quiz.score>bestGet()){localStorage.setItem("awsAtlasBest",quiz.score);refreshBest();syncPush();}
+    const isBest=quiz.score>bestGet();
+    if(isBest){localStorage.setItem("awsAtlasBest",quiz.score);refreshBest();syncPush();}
+    const saveCta=(isBest&&!authUser)?'<button class="btn gho" id="quizSave">🔐 Save progress →</button>':"";
     box.innerHTML='<div class="qmeta"><span>ROUND COMPLETE</span><span>SCORE</span></div>'
       +'<div style="margin:auto;text-align:center;width:100%"><div class="qscore-big">'+quiz.score+'<span style="font-size:24px;color:var(--dim)"> / '+quiz.qs.length+'</span></div>'
       +'<p style="color:var(--mut);margin:14px 0 22px">'+(pct===100?"Flawless. You clearly ship on AWS. 🔥":pct>=60?"Solid — review the ones you missed below.":"Good start — the catalog above is your gym. 💪")+'</p>'
       +'<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">'
       +'<button class="btn pri" id="quizAgain">Play another round →</button>'
+      +saveCta
       +(quiz.missed.length?'<button class="btn gho" id="quizStudy">Study first miss</button>':"")+'</div></div>';
     $("#quizAgain").addEventListener("click",startQuiz);
+    const sv=$("#quizSave");if(sv)sv.addEventListener("click",openAuth);
     const st=$("#quizStudy");if(st)st.addEventListener("click",function(){openService(quiz.missed[0]);});return;}
   const q=quiz.qs[quiz.i];
   box.innerHTML='<div class="qmeta"><span>QUESTION '+(quiz.i+1)+' / '+quiz.qs.length+'</span><span>SCORE '+quiz.score+'</span></div>'
@@ -4493,6 +4517,134 @@ async function loadFromAPI(){
   }catch(e){/* keep embedded data as offline fallback */}
 }
 
+/* ===== auth (email+password, httpOnly cookie sessions) ===== */
+let authUser=null;               // {email, email_verified, progress} or null
+const authBtn=$("#authBtn");
+const API_HDR={"Accept":"application/json","Content-Type":"application/json","X-Requested-With":"XMLHttpRequest"};
+
+function openAuth(){renderAuth("login");$("#authOverlay").classList.add("open");document.body.style.overflow="hidden";}
+function closeAuth(){$("#authOverlay").classList.remove("open");document.body.style.overflow="";}
+function renderAuth(view,extra){
+  const v=view||"login";
+  const tabs=[["login","Login"],["register","Register"]].map(function(t){
+    return '<button class="'+(v===t[0]?"on":"")+'" data-aview="'+t[0]+'">'+t[1]+'</button>';}).join("");
+  let body="";
+  if(v==="login"){
+    body='<form id="af" data-view="login" autocomplete="on">'
+      +'<div class="auth-field"><label>EMAIL</label><input id="aEmail" type="email" required autocomplete="email" placeholder="you@example.com"></div>'
+      +'<div class="auth-field"><label>PASSWORD</label><input id="aPass" type="password" required autocomplete="current-password" placeholder="••••••••"></div>'
+      +'<div class="auth-err" id="aErr"></div><div class="auth-msg" id="aMsg"></div>'
+      +'<button class="btn pri" style="width:100%" type="submit">Sign in →</button>'
+      +'<button class="auth-sub" type="button" data-aview="forgot">Forgot password?</button></form>';
+  }else if(v==="register"){
+    body='<form id="af" data-view="register" autocomplete="on">'
+      +'<div class="auth-field"><label>EMAIL</label><input id="aEmail" type="email" required autocomplete="email" placeholder="you@example.com"></div>'
+      +'<div class="auth-field"><label>PASSWORD (8+ chars, letters + numbers)</label><input id="aPass" type="password" required minlength="8" autocomplete="new-password" placeholder="••••••••"></div>'
+      +'<div class="auth-err" id="aErr"></div><div class="auth-msg" id="aMsg"></div>'
+      +'<button class="btn pri" style="width:100%" type="submit">Create account →</button>'
+      +'<div class="auth-msg" style="margin-top:10px">Verification link sent to your email — click it once, then sign in.</div></form>';
+  }else{ // forgot
+    body='<form id="af" data-view="forgot" autocomplete="on">'
+      +'<div class="auth-field"><label>EMAIL</label><input id="aEmail" type="email" required autocomplete="email" placeholder="you@example.com"></div>'
+      +'<div class="auth-err" id="aErr"></div><div class="auth-msg" id="aMsg"></div>'
+      +'<button class="btn pri" style="width:100%" type="submit">Send reset link →</button>'
+      +'<button class="auth-sub" type="button" data-aview="login">← Back to login</button></form>';
+  }
+  const m=extra&&extra.heading?'<h3 style="margin:0 0 14px;font-family:var(--disp)">'+extra.heading+'</h3>':"";
+  $("#authModal").innerHTML=m+'<div class="auth-tabs">'+tabs+'</div>'+body;
+  $$("#authModal [data-aview]").forEach(function(b){b.addEventListener("click",function(){renderAuth(b.dataset.aview);});});
+  $("#authOverlay").addEventListener("click",function(e){if(e.target===$("#authOverlay"))closeAuth();});
+  const form=$("#af");
+  form.addEventListener("submit",function(ev){ev.preventDefault();submitAuth(form.dataset.view);});
+  if(extra&&extra.msg)$("#aMsg").textContent=extra.msg;
+}
+function renderAccount(){ /* logged-in state: progress + logout */
+  const p=authUser&&authUser.progress||{learned:[],quiz_best:0};
+  const total=SERVICES.length||100;
+  const pct=Math.round((p.learned||[]).length/total*100);
+  $("#authModal").innerHTML='<h3 style="margin:0 0 14px;font-family:var(--disp)">👤 '+esc(authUser.email)+'</h3>'
+    +'<div class="auth-progress"><h4>YOUR PROGRESS</h4>'
+    +'<div class="ap-row"><span>Services learned</span><b>'+(p.learned||[]).length+' / '+total+' ('+pct+'%)</b></div>'
+    +'<div class="ap-row"><span>Best quiz score</span><b>'+p.quiz_best+' / 8</b></div></div>'
+    +'<button class="btn pri" style="width:100%;margin-bottom:10px" id="aManage">View progress →</button>'
+    +'<button class="btn gho" style="width:100%" id="aLogout">Sign out</button>';
+  $("#aLogout").addEventListener("click",logout);
+  $("#aManage").addEventListener("click",function(){closeAuth();document.querySelector('a[href="#services"]').click();});
+}
+function submitAuth(view){
+  const email=$("#aEmail").value.trim();const pass=$("#aPass").value;
+  const err=$("#aErr"),msg=$("#aMsg");err.textContent="";msg.textContent="";
+  const url=view==="login"?"/api/v1/auth/login":view==="register"?"/api/v1/auth/register":"/api/v1/auth/reset-password";
+  const body=view==="forgot"?{email:email}:{email:email,password:pass};
+  fetch(url,{method:"POST",headers:API_HDR,body:JSON.stringify(body),credentials:"include",cache:"no-cache"})
+    .then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {ok:r.ok,status:r.status,j:j};});})
+    .then(function(res){
+      if(res.ok){
+        if(view==="register"){msg.textContent="Registered! Verify your email, then sign in.";return;}
+        if(view==="forgot"){msg.textContent=res.j.message||"If that email exists, a reset link was sent.";return;}
+        // login success
+        authUser=res.j;
+        refreshAuthUI();closeAuth();loadMyProgress();toast("✓ Signed in as "+res.j.email);
+      }else{
+        if(res.status===403&&res.j.detail==="email_not_verified"){err.textContent="Email not verified yet — check your inbox and click the link.";return;}
+        err.textContent=res.j.detail||"Request failed";
+      }
+    }).catch(function(){err.textContent="Network error";});
+}
+function logout(){
+  fetch("/api/v1/auth/logout",{method:"POST",headers:API_HDR,credentials:"include",cache:"no-cache"})
+    .then(function(){authUser=null;refreshAuthUI();toast("Signed out");}).catch(function(){authUser=null;refreshAuthUI();});
+}
+function refreshAuthUI(){
+  if(authUser){authBtn.innerHTML="<small>"+esc(authUser.email)+"</small>Account";authBtn.classList.add("logged");
+    authBtn.onclick=function(){renderAccount();$("#authOverlay").classList.add("open");document.body.style.overflow="hidden";};}
+  else{authBtn.textContent="Login";authBtn.classList.remove("logged");authBtn.onclick=openAuth;}
+}
+let _refreshing=null; /* single in-flight refresh (avoid stampede) */
+function refreshSession(){ /* rotate httpOnly refresh cookie on 401 */
+  if(_refreshing)return _refreshing;
+  _refreshing=fetch("/api/v1/auth/refresh",{method:"POST",headers:API_HDR,credentials:"include",cache:"no-cache"})
+    .then(function(r){return r.ok;}).catch(function(){return false;})
+    .then(function(ok){_refreshing=null;return ok;});
+  return _refreshing;
+}
+/* fetch wrapper: on 401, rotate the session once and retry. Access token is
+ * 15-min TTL; without this, long sessions silently stop saving progress. */
+function apiFetch(url,opts){
+  opts=opts||{};opts.credentials="include";
+  return fetch(url,opts).then(function(r){
+    if(r.status===401){
+      return refreshSession().then(function(ok){
+        if(ok){opts.cache="no-cache";return fetch(url,opts);} /* retry once */
+        return r;
+      });
+    }
+    return r;
+  });
+}
+function loadMyProgress(){ /* after login, merge server progress into the UI */
+  apiFetch("/api/v1/user-state",{headers:{Accept:"application/json"}})
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(st){
+      if(!st)return;
+      let changed=false;
+      const valid=new Set(SERVICES.map(function(s){return s.id;}));
+      (st.learned||[]).forEach(function(id){if(!learned.has(id)&&valid.has(id)){learned.add(id);changed=true;}});
+      if(st.quiz_best>bestGet()){localStorage.setItem("awsAtlasBest",st.quiz_best);refreshBest();changed=true;}
+      if(changed){store.set("awsAtlasLearned",Array.from(learned));updateProgress();if($("#overlay").classList.contains("open"))renderModal();}
+      syncPush(); /* persist any local-only progress to the account too */
+    }).catch(function(){});
+}
+function restoreSession(){ /* on load: silently restore an httpOnly session, if any */
+  return apiFetch("/api/v1/auth/me",{headers:{Accept:"application/json"}})
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(me){
+      if(me){authUser=me;refreshAuthUI();loadMyProgress();}
+    }).catch(function(){});
+}
+authBtn.addEventListener("click",openAuth);
+$("#authOverlay").addEventListener("click",function(e){if(e.target===$("#authOverlay"))closeAuth();});
+
 /* ===== private progress sync (backend SQLite via API) ===== */
 let uid=store.get("atlas_user_id","");
 if(!uid){uid="u_"+Math.random().toString(36).slice(2,10)+Date.now().toString(36);store.set("atlas_user_id",uid);}
@@ -4500,12 +4652,18 @@ let syncTimer=null;
 function syncPush(){ /* debounced PUT of progress to the private backend store */
   clearTimeout(syncTimer);
   syncTimer=setTimeout(function(){
-    fetch("/api/v1/user-state",{method:"PUT",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({user_id:uid,learned:Array.from(learned),quiz_best:bestGet()})}).catch(function(){});
+    apiFetch("/api/v1/user-state",{method:"PUT",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({user_id:uid,learned:Array.from(learned),quiz_best:bestGet()})})
+      .then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {ok:r.ok,status:r.status,j:j};});})
+      .then(function(res){
+        if(res.ok){return;}
+        if(res.status===401){return;} /* signed out: keep local-only */
+        if(res.status===403&&res.j.detail==="email_not_verified"){toast("Verify your email to save progress");}
+      }).catch(function(){});
   },700);
 }
 function syncPull(){ /* merge server progress in, then push the merged state back */
-  fetch("/api/v1/user-state?user_id="+encodeURIComponent(uid),{headers:{Accept:"application/json"},cache:"no-cache"})
+  apiFetch("/api/v1/user-state",{headers:{Accept:"application/json"}})
     .then(function(r){return r.ok?r.json():null;})
     .then(function(st){
       if(!st)return;
@@ -4522,7 +4680,43 @@ function syncPull(){ /* merge server progress in, then push the merged state bac
 renderChips();renderGrid();renderTracks();renderBlueprintTabs();renderBlueprints();renderProjects();renderEnterprise();renderModuleLab();renderConverter();renderPlaybooks();renderIndustry();renderRadarTabs();renderRadarLists();renderPathChips();renderQA();renderSetup();refreshBest();updateProgress();checkPathCompletion();
 loadFromAPI(); /* fetch live services from backend; embedded stays as fallback */
 loadIndustryFromAPI(); /* fetch full 27-service industry set; embedded stays as fallback */
-syncPull();    /* merge any server-saved progress into the UI (private DB via API) */
+restoreSession(); /* silently restore any httpOnly session (progress auto-merged) */
+handleAuthDeepLink(); /* /verify-email?token= or /reset-password?token= */
+
+/* verify/reset deep links (tokens ride in the URL from the emailed link) */
+function handleAuthDeepLink(){
+  if(typeof location==="undefined"||typeof URLSearchParams==="undefined")return; /* e.g. browser-sim harness */
+  const q=new URLSearchParams(location.search);
+  const vt=q.get("token");
+  if(!vt)return;
+  if(location.pathname.indexOf("verify-email")>=0||location.search.indexOf("verify-email")>=0||
+     (q.get("purpose")==="verify"&&vt)){
+    fetch("/api/v1/auth/verify-email",{method:"POST",headers:API_HDR,body:JSON.stringify({token:vt}),credentials:"include"})
+      .then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {ok:r.ok,j:j};});})
+      .then(function(res){toast(res.ok?"✓ Email verified — sign in!":("Verification failed: "+(res.j.detail||"bad token")));
+        if(typeof history!=="undefined")history.replaceState({},"",location.pathname);});
+    return;
+  }
+  if(location.pathname.indexOf("reset-password")>=0){
+    renderAuth("login",{msg:"Enter your new password to reset it."});
+    $("#authOverlay").classList.add("open");document.body.style.overflow="hidden";
+    $("#authModal").innerHTML='<h3 style="margin:0 0 14px;font-family:var(--disp)">Reset password</h3>'
+      +'<form id="af" data-view="reset-confirm">'
+      +'<div class="auth-field"><label>NEW PASSWORD (8+ chars, letters + numbers)</label><input id="aPass" type="password" required minlength="8"></div>'
+      +'<div class="auth-err" id="aErr"></div><div class="auth-msg" id="aMsg"></div>'
+      +'<button class="btn pri" style="width:100%" type="submit">Set new password →</button></form>';
+    const form=$("#af");
+    form.addEventListener("submit",function(ev){ev.preventDefault();
+      fetch("/api/v1/auth/reset-password/confirm",{method:"POST",headers:API_HDR,
+        body:JSON.stringify({token:vt,new_password:$("#aPass").value}),credentials:"include"})
+        .then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {ok:r.ok,j:j};});})
+        .then(function(res){if(res.ok){toast("✓ Password updated — sign in!");$("#aPass").value="";
+          history.replaceState({},"",location.pathname);setTimeout(function(){renderAuth("login");},400);}
+          else{$("#aErr").textContent=res.j.detail||"Request failed";}})
+        .catch(function(){$("#aErr").textContent="Network error";});
+    });
+  }
+}
 </script>
 </body>
 </html>

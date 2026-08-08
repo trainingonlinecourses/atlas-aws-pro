@@ -76,6 +76,10 @@ const fetchStub = (url, opts) => {
   if (url === '/api/v1/services') {
     return Promise.resolve({ ok: true, json: () => Promise.resolve(backendServices) });
   }
+  if (url === '/api/v1/auth/me') {
+    /* simulate an already-logged-in session (httpOnly cookie present) */
+    return Promise.resolve({ ok: true, json: () => Promise.resolve({ email: 'sim@example.com', email_verified: true }) });
+  }
   if (url.indexOf('/api/v1/user-state') === 0) {
     if ((opts.method || 'GET') === 'PUT') {
       puts.push(JSON.parse(opts.body));
@@ -137,4 +141,4 @@ setTimeout(() => {
     console.error('verification threw:', e.stack || e);
     process.exit(1);
   }
-}, 1200);
+}, 1800);

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'nonce-awsatlaspro26'; style-src 'nonce-awsatlaspro26' 'unsafe-inline' https://cdn.jsdelivr.net; font-src https://cdn.jsdelivr.net data:; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'">
-<title>AWS Atlas Enterprise — 80 Services · Enterprise Architectures · Production Playbooks · AI Radar</title>
+<title>AWS Atlas Enterprise — 100 Services · Enterprise Architectures · Production Playbooks · AI Radar</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='10' width='80' height='80' rx='18' fill='%23ff9900'/><text x='50' y='66' font-size='52' text-anchor='middle' font-family='monospace' fill='%23131a22'>λ</text></svg>">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@5/index.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-sans@5/index.css">
@@ -36,6 +36,24 @@ nav.mainnav a:hover{color:var(--txt);background:rgba(255,153,0,.09)}
 .prog-bar{width:56px;height:5px;background:#1b2836;border-radius:99px;overflow:hidden}
 .prog-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));width:0%;transition:width .5s}
 .burger{display:none;background:none;border:1px solid var(--line);color:var(--txt);width:38px;height:38px;border-radius:8px;cursor:pointer;font-size:16px}
+.auth-btn{background:linear-gradient(135deg,var(--acc),var(--acc2));border:none;color:#06121a;font-weight:700;font-size:12.5px;padding:9px 16px;border-radius:99px;cursor:pointer;letter-spacing:.02em;white-space:nowrap;box-shadow:0 2px 12px rgba(255,153,0,.28)}
+.auth-btn.logged{background:var(--panel2);border:1px solid var(--line);color:var(--txt);box-shadow:none;font-weight:600}
+.auth-btn small{display:block;font-size:10px;color:var(--mut);font-weight:500;letter-spacing:.06em}
+.auth-card{min-width:330px;max-width:420px}
+.auth-tabs{display:flex;gap:6px;background:var(--bg2);padding:5px;border-radius:11px;margin:0 0 20px}
+.auth-tabs button{flex:1;background:none;border:none;color:var(--mut);padding:9px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px}
+.auth-tabs button.on{background:var(--panel);color:var(--txt);box-shadow:0 1px 4px rgba(0,0,0,.35)}
+.auth-field{display:block;margin:0 0 14px}
+.auth-field label{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--mut);margin:0 0 6px}
+.auth-field input{width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--txt);padding:11px 13px;border-radius:9px;font-size:14px;box-sizing:border-box}
+.auth-field input:focus{outline:none;border-color:var(--acc)}
+.auth-err{color:#ff7a6b;font-size:12.5px;min-height:18px;margin:0 0 10px;font-family:var(--mono)}
+.auth-msg{color:#5fd68b;font-size:12.5px;min-height:18px;margin:0 0 10px;font-family:var(--mono)}
+.auth-sub{background:none;border:none;color:var(--acc);cursor:pointer;font-size:12px;padding:0;text-decoration:underline;margin-top:10px}
+.auth-progress{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px;margin:0 0 16px}
+.auth-progress h4{margin:0 0 10px;font-size:14px;color:var(--acc2);letter-spacing:.04em}
+.auth-progress .ap-row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;color:var(--txt)}
+.auth-progress .ap-row span{color:var(--mut)}
 #mnav{display:none;position:fixed;top:64px;left:0;right:0;z-index:99;background:var(--bg2);border-bottom:1px solid var(--line);padding:14px 28px;flex-direction:column;max-height:70vh;overflow-y:auto}
 #mnav a{color:var(--mut);text-decoration:none;padding:9px 8px;border-radius:8px;font-weight:500}
 #mnav.open{display:flex}
@@ -314,6 +332,12 @@ section{max-width:1340px;margin:0 auto;padding:72px 28px 8px}
 .checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:9px}
 .check{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--line);border-radius:9px;padding:11px 13px;font-size:13px;color:#c3d0de;background:var(--panel)}
 .check .bx{flex:none;width:18px;height:18px;border:1.5px solid var(--cc,var(--acc));border-radius:5px;margin-top:2px}
+.env-note{border:1px dashed rgba(125,211,252,.35);border-radius:10px;padding:12px 15px;background:rgba(125,211,252,.06);font-size:13px;color:var(--mut);margin-bottom:14px}
+.env-block{border:1px solid var(--line);border-left:3px solid var(--acc2);border-radius:10px;padding:13px 16px;margin-bottom:11px;background:var(--panel)}
+.env-block .env-head{font-weight:700;font-size:13.5px;letter-spacing:.02em;margin-bottom:7px;color:var(--txt)}
+.env-block p{font-size:13px;color:var(--mut);margin:0 0 9px}
+.env-block ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.env-block li{font-size:13px;color:var(--dim);line-height:1.5}
 .net-row{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:12px 15px;margin-bottom:9px;background:var(--panel)}
 .net-row .ntag{flex:none;font-family:var(--mono);font-size:11px;color:var(--acc2);border:1px solid rgba(255,153,0,.35);border-radius:6px;padding:4px 10px;min-width:112px;text-align:center}
 .net-row p{font-size:13px;color:var(--mut)}
@@ -343,8 +367,37 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 #totop:hover{transform:translateY(-4px);border-color:var(--acc)}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
 .reveal.in{opacity:1;transform:translateY(0)}
-@media (max-width:1020px){.hero{grid-template-columns:1fr;padding-top:106px;gap:36px}.stats{grid-template-columns:repeat(2,1fr)}.fgrid{grid-template-columns:1fr 1fr}.quiz-wrap{grid-template-columns:1fr}.modgrid{grid-template-columns:1fr}.conv-split{grid-template-columns:1fr}.bplayer{grid-template-columns:1fr}.radar-grid{grid-template-columns:1fr}.ent-cols{grid-template-columns:1fr}}
-@media (max-width:680px){nav.mainnav{display:none}.burger{display:block}.prog-pill{display:none}.hero{padding-top:94px}.m-body{padding:20px 16px 24px}.m-head{padding:20px 16px 16px}.m-tabs{padding:0 12px}section{padding:58px 18px 8px}.hwrap{padding:0 16px}.ritem{grid-template-columns:1fr}}
+.ind-filter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.indchip{font-family:var(--mono);font-size:11.5px;padding:7px 13px;border-radius:20px;border:1px solid var(--line2);background:var(--bg2);color:var(--mut);cursor:pointer;transition:.18s}
+.indchip:hover{color:var(--txt);border-color:var(--acc)}
+.indchip.on{background:linear-gradient(135deg,rgba(255,157,46,.16),rgba(61,218,215,.12));border-color:var(--acc);color:var(--txt)}
+.ind-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:34px}
+.ind-card{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:10px;transition:.2s}
+.ind-card:hover{border-color:var(--line2);transform:translateY(-2px)}
+.ind-head{display:flex;align-items:center;gap:10px;min-width:0}
+.ind-head .em{font-size:19px}
+.ind-title{min-width:0}
+.ind-title b{font-size:13.5px;color:var(--txt);cursor:pointer;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ind-title b:hover{color:var(--acc2)}
+.ind-cat{font-family:var(--mono);font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+.ind-sec{font-size:12.5px;line-height:1.55}
+.ind-sec .lb{font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;display:block;margin-bottom:3px}
+.ind-sec.scn .lb{color:#5fd68b}.ind-sec.scn{color:var(--mut)}
+.ind-sec.iss .lb{color:#ff9d2e}.ind-sec.iss{color:var(--mut)}
+.ind-sec.fix .lb{color:#3ddad7}.ind-sec.fix{color:var(--mut)}
+.ind-alerts{display:flex;flex-wrap:wrap;gap:5px}
+.ind-alrt{font-family:var(--mono);font-size:10px;color:#f0a35e;background:rgba(255,157,46,.08);border:1px solid rgba(255,157,46,.25);padding:3px 8px;border-radius:6px}
+.ind-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:2px}
+.ind-tag{font-family:var(--mono);font-size:9.5px;color:var(--dim);border:1px dashed var(--line2);padding:2px 7px;border-radius:5px}
+.ind-cats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.indcat{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:15px}
+.indcat h4{font-size:13px;font-family:var(--disp);margin-bottom:2px}
+.indcat .pillar{font-family:var(--mono);font-size:9.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:10px}
+.indcat ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+.indcat li{font-size:12px;line-height:1.5;color:var(--mut)}
+.indcat li b{color:var(--txt);font-weight:600;display:block;font-size:12px}
+@media (max-width:1020px){.hero{grid-template-columns:1fr;padding-top:106px;gap:36px}.stats{grid-template-columns:repeat(2,1fr)}.fgrid{grid-template-columns:1fr 1fr}.quiz-wrap{grid-template-columns:1fr}.modgrid{grid-template-columns:1fr}.conv-split{grid-template-columns:1fr}.bplayer{grid-template-columns:1fr}.radar-grid{grid-template-columns:1fr}.ent-cols{grid-template-columns:1fr}.ind-grid{grid-template-columns:repeat(2,1fr)}.ind-cats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:680px){nav.mainnav{display:none}.burger{display:block}.prog-pill{display:none}.hero{padding-top:94px}.m-body{padding:20px 16px 24px}.m-head{padding:20px 16px 16px}.m-tabs{padding:0 12px}section{padding:58px 18px 8px}.hwrap{padding:0 16px}.ritem{grid-template-columns:1fr}.ind-grid{grid-template-columns:1fr}.ind-cats{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.card,.reveal{opacity:1;transform:none}}
 </style>
 </head>
@@ -357,17 +410,18 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
       <span><b>AWS<em>Atlas</em> ENT</b><small>80 SERVICES · ENTERPRISE · AI</small></span>
     </a>
     <nav class="mainnav">
-      <a href="#services">Services</a><a href="#flows">Flows</a><a href="#blueprints">Blueprints</a><a href="#compare">Compare</a><a href="#projects">Projects</a><a href="#enterprise">Enterprise</a><a href="#iac">IaC Lab</a><a href="#playbooks">Playbooks</a><a href="#radar">AI Radar</a><a href="#paths">Paths</a><a href="#quiz">Quiz</a>
+      <a href="#services">Services</a><a href="#flows">Flows</a><a href="#blueprints">Blueprints</a><a href="#compare">Compare</a><a href="#projects">Projects</a><a href="#enterprise">Enterprise</a><a href="#iac">IaC Lab</a><a href="#playbooks">Playbooks</a><a href="#industry">Scenarios</a><a href="#radar">AI Radar</a><a href="#paths">Paths</a><a href="#quiz">Quiz</a>
     </nav>
     <div class="hright">
       <div class="prog-pill"><span><b id="progNum">0</b>/80 learned</span><span class="prog-bar"><i id="progFill"></i></span></div>
+      <button class="auth-btn" id="authBtn" aria-label="account">Login</button>
       <button class="burger" id="burger" aria-label="menu">☰</button>
     </div>
   </div>
   <div id="scrollbar"></div>
 </header>
 <div id="mnav">
-  <a href="#services">Services (80)</a><a href="#flows">Architecture Flows</a><a href="#blueprints">Deployment Blueprints</a><a href="#compare">Decision Matrix</a><a href="#projects">Projects Lab</a><a href="#enterprise">Enterprise Architectures</a><a href="#iac">Terraform &amp; YAML Lab</a><a href="#playbooks">Production Playbooks</a><a href="#radar">Industry &amp; AI Radar</a><a href="#paths">Learning Paths</a><a href="#quiz">Quiz Arena</a><a href="#interview">Interview Prep</a><a href="#setup">Day-0 Setup</a>
+  <a href="#services">Services (100)</a><a href="#flows">Architecture Flows</a><a href="#blueprints">Deployment Blueprints</a><a href="#compare">Decision Matrix</a><a href="#projects">Projects Lab</a><a href="#enterprise">Enterprise Architectures</a><a href="#iac">Terraform &amp; YAML Lab</a><a href="#playbooks">Production Playbooks</a><a href="#industry">Real-World Scenarios</a><a href="#radar">Industry &amp; AI Radar</a><a href="#paths">Learning Paths</a><a href="#quiz">Quiz Arena</a><a href="#interview">Interview Prep</a><a href="#setup">Day-0 Setup</a>
 </div>
 
 <main id="top">
@@ -375,13 +429,13 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
   <div>
     <div class="eyebrow"><span class="live-dot"></span>ENTERPRISE EDITION · IT &amp; AI CAREER TRACKS</div>
     <h1>Learn AWS the way<br>enterprises <span class="mark">actually run it.<svg viewBox="0 0 300 12" preserveAspectRatio="none"><path d="M3 9 Q 75 2 150 7 T 297 5"/></span></h1>
-    <p class="sub"><b>80 services</b> with deep documentation, <b>enterprise-grade architectures</b>, production playbooks, and an <b>Industry × AI career radar</b> — everything you need to build real systems and get hired for them.</p>
+    <p class="sub"><b>100 services</b> with deep documentation, <b>enterprise-grade architectures</b>, production playbooks, and an <b>Industry × AI career radar</b> — everything you need to build real systems and get hired for them.</p>
     <div class="cta-row">
       <a class="btn pri" href="#enterprise">See enterprise architectures 🏦</a>
-      <a class="btn gho" href="#services">Browse 80 services ↓</a>
+      <a class="btn gho" href="#services">Browse 100 services ↓</a>
     </div>
     <div class="hero-badges">
-      <span class="hbadge"><i>✓</i> 240 scripts</span>
+      <span class="hbadge"><i>✓</i> 300 scripts</span>
       <span class="hbadge"><i>✓</i> 3 enterprise builds</span>
       <span class="hbadge"><i>✓</i> 8 production playbooks</span>
       <span class="hbadge"><i>✓</i> CSP-hardened UI</span>
@@ -417,15 +471,15 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 </div>
 
 <div class="stats">
-  <div class="stat reveal" style="--sc:#ff9d2e"><b class="count" data-n="80">0</b><span>Services documented</span></div>
+  <div class="stat reveal" style="--sc:#ff9d2e"><b class="count" data-n="100">0</b><span>Services documented</span></div>
   <div class="stat reveal" style="--sc:#f07be0"><b class="count" data-n="3">0</b><span>Enterprise architectures</span></div>
-  <div class="stat reveal" style="--sc:#5fd68b"><b class="count" data-n="240">0</b><span>TF + CDK + SDK scripts</span></div>
+  <div class="stat reveal" style="--sc:#5fd68b"><b class="count" data-n="300">0</b><span>TF + CDK + SDK scripts</span></div>
   <div class="stat reveal" style="--sc:#3ddad7"><b class="count" data-n="8">0</b><span>Production playbooks</span></div>
 </div>
 
 <section id="services">
   <div class="sec-head reveal">
-    <div class="kick">01 / THE CATALOG — NOW 80 SERVICES</div>
+    <div class="kick">01 / THE CATALOG — 100 SERVICES</div>
     <h2>Every service, documented like you'll be on-call for it.</h2>
     <p>Each card opens: <b>why it exists + field notes</b> → <b>what to learn first</b> → <b>Terraform</b> → <b>CDK</b> → <b>Boto3</b> → <b>how it connects</b>. Includes enterprise governance (Organizations, Control Tower, IAM Identity Center, Macie, Shield) and the AI stack (Lex, Polly, Q Developer). Press <b style="font-family:var(--mono)">/</b> to search.</p>
   </div>
@@ -603,9 +657,20 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
   <div id="pbWrap" class="reveal"></div>
 </section>
 
+<section id="industry">
+  <div class="sec-head reveal">
+    <div class="kick">09 / REAL-WORLD SCENARIOS × INDUSTRY ISSUES</div>
+    <h2>What actually breaks in production — and the fix teams swear by.</h2>
+    <p>Realistic incidents across the stack, the failure mode behind each, the industry-standard remediation, and the alert that would have caught it first. Tap a service name to study it.</p>
+  </div>
+  <div class="ind-filter reveal" id="indFilter"></div>
+  <div class="ind-grid reveal" id="indGrid"></div>
+  <div class="ind-cats reveal" id="indCats"></div>
+</section>
+
 <section id="radar">
   <div class="sec-head reveal">
-    <div class="kick">09 / INDUSTRY × AI CAREER RADAR</div>
+    <div class="kick">10 / INDUSTRY × AI CAREER RADAR</div>
     <h2>What the IT industry uses — and where AI fits your role.</h2>
     <p>Pick an industry to see its core AWS stack, or pick a role to see the AI-era skill map. Click any service to study it.</p>
   </div>
@@ -627,7 +692,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 
 <section id="paths">
   <div class="sec-head reveal">
-    <div class="kick">10 / LEARNING PATHS</div>
+    <div class="kick">11 / LEARNING PATHS</div>
     <h2>Pick the job you want. Follow the order.</h2>
   </div>
   <div class="paths">
@@ -657,7 +722,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 
 <section id="quiz">
   <div class="sec-head reveal">
-    <div class="kick">11 / PROVE IT</div>
+    <div class="kick">12 / PROVE IT</div>
     <h2>Quiz Arena — 8 rapid-fire questions.</h2>
   </div>
   <div class="quiz-wrap reveal">
@@ -670,7 +735,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
     <div id="quizBox">
       <div style="margin:auto;text-align:center;color:var(--dim);font-family:var(--mono);font-size:12px;padding:36px 10px">
         <div style="font-size:38px;margin-bottom:12px">🎯</div>
-        Press <b style="color:var(--acc2)">Start a round</b> to draw 8 questions<br>from all 80 services.
+        Press <b style="color:var(--acc2)">Start a round</b> to draw 8 questions<br>from all 100 services.
       </div>
     </div>
   </div>
@@ -678,7 +743,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 
 <section id="interview">
   <div class="sec-head reveal">
-    <div class="kick">12 / INTERVIEW PREP</div>
+    <div class="kick">13 / INTERVIEW PREP</div>
     <h2>The questions you <em>will</em> get asked.</h2>
   </div>
   <div id="qaWrap" class="reveal"></div>
@@ -686,7 +751,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
 
 <section id="setup">
   <div class="sec-head reveal">
-    <div class="kick">13 / DAY-0 SETUP</div>
+    <div class="kick">14 / DAY-0 SETUP</div>
     <h2>Four tools away from your first deploy.</h2>
   </div>
   <div class="setup-grid" id="setupGrid"></div>
@@ -704,7 +769,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
         <p class="fabout">The enterprise AWS stack — governance, platforms, data, DevOps and the full AI/AgentOps surface — with deep docs, production playbooks and career radar. All rendering is escaped; a CSP guards the page.</p>
       </div>
       <div><h5>Catalog</h5><a data-jump="compute">Compute</a><a data-jump="database">Databases</a><a data-jump="networking">Networking</a><a data-jump="security">Security &amp; Governance</a><a data-jump="ml">AI / ML / AgentOps</a></div>
-      <div><h5>Build</h5><a href="#projects">Projects Lab</a><a href="#enterprise">Enterprise architectures</a><a href="#playbooks">Production playbooks</a><a href="#iac">Terraform &amp; YAML</a></div>
+      <div><h5>Build</h5><a href="#projects">Projects Lab</a><a href="#enterprise">Enterprise architectures</a><a href="#playbooks">Production playbooks</a><a href="#industry">Real-world scenarios</a><a href="#iac">Terraform &amp; YAML</a></div>
       <div><h5>Career</h5><a href="#radar">Industry radar</a><a href="#radar">AI role maps</a><a href="#paths">Learning paths</a><a href="#interview">Interview prep</a></div>
     </div>
     <div class="fbottom">
@@ -726,6 +791,7 @@ footer{margin-top:84px;border-top:1px solid var(--line);background:var(--bg2)}
   </div>
 </div>
 <div class="overlay" id="overlay"><div class="modal" id="modal" role="dialog" aria-modal="true"></div></div>
+<div class="overlay" id="authOverlay"><div class="modal auth-card" id="authModal" role="dialog" aria-modal="true"></div></div>
 
 <script nonce="awsatlaspro26">
 "use strict";
@@ -738,7 +804,7 @@ const store={get:function(k,f){try{const v=JSON.parse(localStorage.getItem(k));r
 
 const CATS={compute:{label:"Compute",c:"#ff9d2e"},storage:{label:"Storage",c:"#5fd68b"},database:{label:"Databases",c:"#5aa7ff"},networking:{label:"Networking",c:"#b79bff"},security:{label:"Security & Governance",c:"#ff7b72"},messaging:{label:"Messaging & Async",c:"#ffd75e"},analytics:{label:"Analytics & Data",c:"#3ddad7"},migration:{label:"Migration",c:"#f2a06c"},devops:{label:"DevOps & Mgmt",c:"#53d1ec"},ml:{label:"AI · ML · AgentOps",c:"#f07be0"}};
 
-/* ===== 80 SERVICES ===== */
+/* ===== 100 SERVICES ===== */
 let SERVICES=[
 {id:"ec2",n:"EC2",f:"Elastic Compute Cloud",c:"compute",i:"🖥️",t:"Rent virtual servers by the second — the original building block of the cloud.",w:"You need a machine you fully control: any OS, any software. EC2 launches one in 30 seconds and bills per second.",u:"Web servers, CI runners, batch workers, GPU hosts.",b:["Linux basics & SSH","Security groups = firewalls","AMIs & instance families","On-Demand vs Spot vs Reserved"],
 tf:`resource "aws_instance" "web" {
@@ -3126,7 +3192,374 @@ sd:`# Q lives in the IDE/console, not boto3 — but validate everything it
 dl:`# Disable per user in IAM Identity Center; nothing to delete in AWS.`,
 x:["Use Q to draft, humans to approve — that's the enterprise pattern.","Its best trick: generating the IAM/TF boilerplate you'd copy-paste."],
 r:["Platform teams","Cut boilerplate IaC writing time and onboard juniors faster."],
-nt:[["IAM Identity Center","Licensing & access control."],["CodePipeline","Q-generated code flows through your normal CI."],["Every service","Q knows the docs — ask it about any of the 80."]]}
+nt:[["IAM Identity Center","Licensing & access control."],["CodePipeline","Q-generated code flows through your normal CI."],["Every service","Q knows the docs — ask it about any of the 80."]]},
+{id:"lightsail",n:"Lightsail",f:"Amazon Lightsail",c:"compute",i:"💡",t:"Simplest way to launch a VM or container — fixed price, predictable, zero cloud jargon.",w:"For most small projects you don't need twelve networking services. Lightsail bundles compute + disk + DNS + firewall into one monthly plan a junior can manage.",u:"Personal sites, dev/test boxes, small SaaS, WordPress.",b:["Monthly plans vs usage-based","Static IPs & DNS","Firewall = security group","Snapshots"],
+tf:`resource "aws_lightsail_instance" "web" {
+  name           = "web"
+  availability_zone = "us-east-1a"
+  blueprint_id   = "amazon_linux_2023"
+  bundle_id      = "small_2_0"
+}`,
+ck:`// CDK's Lightsail support is thin — manage via Terraform or the console.
+// The bundles (small_2_0 etc.) are the pricing unit; pick one, not specs.`,
+sd:`import boto3
+ls = boto3.client("lightsail", region_name="us-east-1")
+insts = ls.get_instances()["instances"]
+for i in insts: print(i["name"], i["blueprintName"])`,
+dl:`ls.delete_instance(instanceName="web")`,
+x:["Blueprints are pre-baked OS/app images — pick 'WordPress', not 'install everything'.","Snapshots let you clone a whole instance into another region."],
+r:["Indie hackers & small agencies","Stand up client sites with a fixed, predictable monthly bill."],
+nt:[["EC2","Full control when you outgrow the bundles."],["Route 53","DNS beyond the Lightsail console."],["S3","Offload files and backups."]]},
+{id:"elasticbeanstalk",n:"Elastic Beanstalk",f:"AWS Elastic Beanstalk",c:"compute",i:"🌱",t:"Paste your app code; AWS provisions the servers, load balancer and scaling for you.",w:"Before containers took over, Beanstalk was how you deployed without a DevOps team — it still handles health checks, rollbacks and capacity automatically.",u:"Prototypes, internal tools, lift-and-shift web apps.",b:["Prebuilt runtimes (Node, Python, Java...)","Single vs load-balanced environments","Deploy = version + configuration","Health monitoring"],
+tf:`resource "aws_elastic_beanstalk_application" "app" {
+  name = "myapp"
+}
+resource "aws_elastic_beanstalk_environment" "prod" {
+  name                = "myapp-prod"
+  application         = aws_elastic_beanstalk_application.app.name
+  solution_stack_name = "64bit Amazon Linux 2023 v4.0.1 running Python 3.11"
+}`,
+ck:`// No first-class CDK construct — Beanstalk is AWS-managed; manage with TF.`,
+sd:`import boto3
+eb = boto3.client("elasticbeanstalk", region_name="us-east-1")
+envs = eb.describe_environments()["Environments"]
+for e in envs: print(e["EnvironmentName"], e["Status"])`,
+dl:`eb.terminate_environment(EnvironmentName="myapp-prod")`,
+x:["Treat it as a bridge, not a destination — modern apps outgrow it.","Swap to a newer platform version by launching a fresh environment and cutting over."],
+r:["Early-stage startups","Shipped MVPs in days without hiring DevOps."],
+nt:[["ECS","Container-native replacement when you mature."],["CodePipeline","Blue/green deploys with Beanstalk."]]},
+{id:"fsx",n:"FSx",f:"Amazon FSx",c:"storage",i:"🗂️",t:"Fully managed, high-performance file systems — Lustre, NetApp ONTAP, OpenZFS, Windows File Server.",w:"High-performance compute (HPC, EDA, video) needs parallel file systems, and Windows shops need SMB. FSx runs those without you operating the infrastructure.",u:"HPC workloads, Windows file shares, replacing on-prem NAS.",b:["Windows vs Lustre vs OpenZFS types","SMB/NFS vs POSIX clients","Backups & replication","Data compression tier"],
+tf:`resource "aws_fsx_lustre_file_system" "hpc" {
+  storage_capacity = 1200
+  deployment_type  = "PERSISTENT_1"
+  per_unit_storage_throughput = 200
+}`,
+ck:`import * as fsx from "aws-cdk-lib/aws-fsx";
+new fsx.LustreFileSystem(this, "Hpc", {
+  vpc, storageCapacityGiB: 1200,
+  deploymentType: fsx.LustreDeploymentType.PERSISTENT_1,
+});`,
+sd:`import boto3
+fsx = boto3.client("fsx", region_name="us-east-1")
+for fs in fsx.describe_file_systems()["FileSystems"]:
+    print(fs["FileSystemId"], fs["FileSystemType"], fs["Lifecycle"])`,
+dl:`fsx.delete_file_system(FileSystemId="fs-0abc123")`,
+x:["Match the type to the workload — Lustre for HPC, Windows for SMB, OpenZFS for NFS at scale.","Enable the data-compression tier on Lustre to cut storage cost 50%+."],
+r:["Media & VFX studios","Shared storage for rendering farms."],
+nt:[["EFS","Cheaper network FS for generic Linux."],["S3","Lifecycle cold data off FSx."]]},
+{id:"storagegateway",n:"Storage Gateway",f:"AWS Storage Gateway",c:"storage",i:"🚪",t:"Bridge your on-premises storage to AWS — cache, backup and archive without re-architecting.",w:"Hybrid cloud starts here: a virtual appliance gives on-prem apps low-latency cached access to S3 and lands backups in AWS.",u:"NAS migration, tape replacement, disaster recovery, cloud-backed file shares.",b:["File vs Volume vs Tape gateway","The on-prem appliance","SMB/NFS protocol mapping","Bandwidth throttling"],
+tf:`resource "aws_storagegateway_gateway" "gw" {
+  gateway_name = "site-a-gw"
+  gateway_ip_address = "10.0.0.20"
+  gateway_type = "FILE_S3"
+  gateway_timezone = "GMT"
+}`,
+ck:`// No first-class CDK construct — the gateway is an on-prem appliance.`,
+sd:`import boto3
+sgw = boto3.client("storagegateway", region_name="us-east-1")
+for g in sgw.list_gateways()["Gateways"]:
+    print(g["GatewayARN"], g["GatewayType"])`,
+dl:`sgw.delete_gateway(GatewayARN="arn:aws:storagegateway:...")`,
+x:["Files are always eventually in S3 — the gateway is a cache in front.","Use Tape Gateway to retire physical tapes for backup compliance."],
+r:["Enterprise IT","Backup tools like Veeam send copies to AWS."],
+nt:[["S3","The target of every gateway upload."],["DMS","Related migration paths."],["Snowball","Bulk data transfer for big migrations."]]},
+{id:"documentdb",n:"DocumentDB",f:"Amazon DocumentDB",c:"database",i:"🍃",t:"MongoDB-compatible, fully managed document database.",w:"Teams with MongoDB skills shouldn't have to run MongoDB servers. DocumentDB speaks the MongoDB wire protocol while AWS handles clusters, failover and backups.",u:"Content/catalog systems, user profiles, JSON-heavy workloads.",b:["MongoDB compatibility level","Cluster = instance + replicas","Change streams","TLS/connection strings"],
+tf:`resource "aws_docdb_cluster" "app" {
+  cluster_identifier = "app-cluster"
+  engine             = "docdb"
+  master_username    = "admin"
+  master_password    = "CHANGE_ME_STRONG"
+  skip_final_snapshot = true
+}
+resource "aws_docdb_cluster_instance" "primary" {
+  cluster_identifier = aws_docdb_cluster.app.id
+  instance_class     = "db.r5.large"
+}`,
+ck:`import * as docdb from "aws-cdk-lib/aws-docdb";
+new docdb.DatabaseCluster(this, "AppDb", {
+  vpc, masterUser: { username: "admin", password: "CHANGE_ME_STRONG" },
+  instanceType: ec2.InstanceType.of(ec2.InstanceClass.R5, ec2.InstanceSize.LARGE),
+});`,
+sd:`import boto3
+docdb = boto3.client("docdb", region_name="us-east-1")
+for c in docdb.describe_db_clusters()["DBClusters"]:
+    print(c["DBClusterIdentifier"], c["Status"])`,
+dl:`docdb.delete_db_cluster(DBClusterIdentifier="app-cluster", SkipFinalSnapshot=True)`,
+x:["Use the driver version matching the engine — compatibility is real but not 1:1.","Replicas are read-only; all writes go to the primary."],
+r:["Edtech & media companies","Profiles and catalogs too flexible for SQL."],
+nt:[["DynamoDB","Managed NoSQL if you don't need Mongo semantics."],["RDS","When the data is relational after all."]]},
+{id:"memorydb",n:"MemoryDB",f:"Amazon MemoryDB",c:"database",i:"⚡",t:"Redis-compatible, durable in-memory database — for when losing data is not an option.",w:"Plain ElastiCache is a cache: restart and it's empty. MemoryDB keeps a write-ahead log so data survives restarts, making it a true database.",u:"Leaderboards, sessions, real-time counters, durable pub/sub.",b:["Durable vs ephemeral in-memory","Cluster + shards + replicas","Redis data types","Eviction vs persistence"],
+tf:`resource "aws_memorydb_cluster" "live" {
+  name         = "live-scores"
+  node_type    = "db.t4g.small"
+  num_shards   = 1
+  num_replicas_per_shard = 1
+}`,
+ck:`// No first-class CDK construct (L1 only) — manage with Terraform.`,
+sd:`import boto3
+mdb = boto3.client("memorydb", region_name="us-east-1")
+for c in mdb.describe_clusters()["Clusters"]:
+    print(c["Name"], c["Status"])`,
+dl:`mdb.delete_cluster(ClusterName="live-scores")`,
+x:["Pick MemoryDB when the data must survive; ElastiCache when it's just a cache.","Scale writes with multiple shards."],
+r:["Gaming companies","Live leaderboards that must not wipe on deploy."],
+nt:[["ElastiCache","Cheaper when you truly only need a cache."],["DAX","In-memory acceleration for DynamoDB."]]},
+{id:"timestream",n:"Timestream",f:"Amazon Timestream",c:"database",i:"⏱️",t:"Serverless time-series database for IoT, telemetry and metrics.",w:"Time-series data grows forever and is queried differently than rows. Timestream separates hot in-memory from cold storage automatically and scales to billions of points.",u:"IoT sensor streams, industrial telemetry, stock tickers, app metrics.",b:["Time-series vs relational modeling","Memory vs magnetic store","Automatic retention tiers","SQL with time functions"],
+tf:`resource "aws_timestreamwrite_database" "metrics" {
+  database_name = "metrics"
+}
+resource "aws_timestreamwrite_table" "sensors" {
+  database_name = aws_timestreamwrite_database.metrics.database_name
+  table_name    = "sensors"
+}`,
+ck:`// No first-class CDK construct (L1 only) — manage with Terraform.`,
+sd:`from boto3.session import Session
+w = Session().client("timestream-write", region_name="us-east-1")
+recs = [{"Dimensions": [{"Name": "sensor", "Value": "s1"}],
+         "MeasureName": "temp", "MeasureValue": "22.5",
+         "MeasureValueType": "DOUBLE", "Time": str(int(__import__('time').time()*1000))}]
+w.write_records(DatabaseName="metrics", TableName="sensors", Records=recs)`,
+dl:`# Delete tables first, then the database
+w.delete_table(DatabaseName="metrics", TableName="sensors")
+w.delete_database(DatabaseName="metrics")`,
+x:["Model one 'measure' per row with tags — not one column per sensor.","Use scheduled queries to roll raw ticks up into 5-minute aggregates."],
+r:["Industrial IoT vendors","Millions of sensor readings per day at low cost."],
+nt:[["Kinesis","Ingest streams into Timestream."],["QuickSight","Dashboards over time series."]]},
+{id:"ses",n:"SES",f:"Amazon Simple Email Service",c:"messaging",i:"✉️",t:"Transactional and bulk email at scale — deliverability handled.",w:"Sending email reliably means SPF/DKIM/DMARC, bounces, complaints and warmup. SES packages all of it at the lowest per-message price in the market.",u:"Transactional email (receipts, password resets), newsletters, automated alerts.",b:["Verified identities & domains","DKIM/SPF/DMARC setup","Suppression & bounces","Sending limits & warmup"],
+tf:`resource "aws_ses_domain_identity" "example" {
+  domain = "example.com"
+}
+resource "aws_ses_domain_dkim" "example" {
+  domain = aws_ses_domain_identity.example.domain
+}`,
+ck:`import * as ses from "aws-cdk-lib/aws-ses";
+new ses.EmailIdentity(this, "Identity", { identity: ses.Identity.domain("example.com") });`,
+sd:`import boto3
+ses = boto3.client("sesv2", region_name="us-east-1")
+ses.send_email(FromEmailAddress="noreply@example.com",
+    Destination={"ToAddresses": ["user@example.com"]},
+    Content={"Simple": {"Subject": {"Data": "Hello"},
+             "Body": {"Text": {"Data": "Welcome!"}}}})`,
+dl:`ses.delete_email_identity(EmailIdentity="example.com")`,
+x:["Always attach a configuration set with a bounce SNS topic — you will get bounces.","Auto-suppress hard bounces via SNS + Lambda."],
+r:["SaaS companies","Send millions of receipts and notifications monthly."],
+nt:[["SNS","Push notifications + email fan-out."],["Pinpoint","Marketing campaigns."]]},
+{id:"costexplorer",n:"Cost Explorer",f:"AWS Cost Explorer",c:"analytics",i:"📊",t:"See, filter and forecast what you spend on AWS — by service, account, tag or day.",w:"Cloud bills spiral quietly. Cost Explorer turns billing data into dashboards and forecasts so you notice the runaway cluster before the invoice.",u:"Monthly cost review, anomaly detection, chargeback by team/tag.",b:["Cost categories & tags","Forecasting","Anomaly detection alerts","RI/SP coverage reports"],
+tf:`# Nothing to provision — Cost Explorer is a built-in AWS service.
+# Tag resources so you can slice spend by project/team.`,
+ck:`// No construct needed — Cost Explorer is AWS-managed. Tag resources instead.`,
+sd:`import boto3
+ce = boto3.client("ce", region_name="us-east-1")
+r = ce.get_cost_and_usage(TimePeriod={"Start": "2026-07-01", "End": "2026-08-01"},
+    Granularity="MONTHLY", Metrics=["UnblendedCost"])
+print(r["ResultsByTime"])`,
+dl:`# Nothing to delete — built-in console service.`,
+x:["Tag everything, then report by tag — untagged spend is 'orphan' cost.","Pair with Budgets for alerting, not just dashboards."],
+r:["Every AWS customer","FinOps teams run the show on Cost Explorer."],
+nt:[["Budgets","Alerts before you overspend."],["CloudWatch","Resource-level metrics."]]},
+{id:"budgets",n:"Budgets",f:"AWS Budgets",c:"devops",i:"🎯",t:"Set spend limits and get alerted before the invoice surprises you.",w:"Costs climb daily but invoices come monthly. Budgets watches actual vs forecasted spend and pings you at thresholds — cost control as a safety net.",u:"Monthly cost budgets, RI/SP utilization budgets, usage budgets.",b:["Cost vs usage budgets","Thresholds & notifications","RI & Savings Plans budgets","Budget actions"],
+tf:`resource "aws_budgets_budget" "monthly" {
+  name         = "monthly-spend"
+  budget_type  = "COST"
+  limit_amount = "5000"
+  limit_unit   = "USD"
+  time_unit    = "MONTHLY"
+  notification {
+    comparison_operator = "GREATER_THAN"
+    threshold           = 80
+    notification_type   = "ACTUAL"
+    subscriber_email_addresses = ["team@example.com"]
+  }
+}`,
+ck:`// No first-class CDK construct (L1 only) — manage with Terraform.`,
+sd:`import boto3
+bud = boto3.client("budgets", region_name="us-east-1")
+bud.describe_budgets(AccountId="123456789012")`,
+dl:`bud.delete_budget(AccountId="123456789012", BudgetName="monthly-spend")`,
+x:["Set a 50%/90%/100% threshold chain, not a single alert.","Budget actions can auto-stop or scale resources when a limit is hit."],
+r:["Finance teams","Catch runaway spend before month-end."],
+nt:[["Cost Explorer","Deep-dive the numbers behind the alert."],["CloudWatch","Alarm on resource metrics too."]]},
+{id:"trustedadvisor",n:"Trusted Advisor",f:"AWS Trusted Advisor",c:"devops",i:"🛡️",t:"AWS's built-in auditor — security, cost, performance and fault-tolerance checks across your account.",w:"You can't manually check 100+ best practices. Trusted Advisor runs the checklists and flags underutilized instances, open security groups and single-AZ risks.",u:"Well-Architected reviews, cost-savings discovery, security posture checks.",b:["Cost / security / performance / fault tolerance / limits","Full checks vs Business+ tier","Weekly report emails","Pairing with AWS Config"],
+tf:`# Nothing to provision — Trusted Advisor audits what already exists.`,
+ck:`// Nothing to build — it's a managed auditing service.`,
+sd:`import boto3
+support = boto3.client("support", region_name="us-east-1")
+for c in support.describe_trusted_advisor_checks(language="en")["checks"][:5]:
+    print(c["id"], c["name"])`,
+dl:`# Nothing to delete — built-in console service.`,
+x:["Business+ plans unlock the full check set — budget for the tier.","Act on 'idle RDS' and 'unused EC2' checks first: fastest savings."],
+r:["Enterprise accounts","Central cloud teams run monthly TA reviews."],
+nt:[["Config","Custom rules beyond TA's checklist."],["Cost Explorer","Verify the cost flags."]]},
+{id:"kendra",n:"Kendra",f:"Amazon Kendra",c:"ml",i:"🔍",t:"Enterprise search powered by ML — answers from your documents, not a keyword list.",w:"Keyword search returns 1,000 docs; people want an answer. Kendra indexes your docs, wikis and SharePoint and returns relevant answers with sources.",u:"Internal knowledge bases, help centers, HR/IT self-service search.",b:["Indexes, data sources, connectors","Document metadata & access control","FAQs & question answering","S3/SharePoint/Confluence connectors"],
+tf:`resource "aws_kendra_index" "kb" {
+  name     = "company-kb"
+  edition  = "DEVELOPER_EDITION"
+  role_arn = aws_iam_role.kendra.arn
+}
+resource "aws_kendra_data_source" "s3_docs" {
+  index_id = aws_kendra_index.kb.id
+  name     = "s3-docs"
+  type     = "S3"
+  role_arn = aws_iam_role.kendra.arn
+}`,
+ck:`// No first-class CDK construct (L1 only) — manage with Terraform.`,
+sd:`import boto3
+kendra = boto3.client("kendra", region_name="us-east-1")
+resp = kendra.query(IndexId="<index-id>", QueryText="how to reset my password")
+for r in resp["ResultItems"][:3]:
+    print(r.get("DocumentTitle", {}).get("Text"), "-", r.get("DocumentURI"))`,
+dl:`kendra.delete_index(Id="<index-id>")`,
+x:["Feed it metadata-rich docs; relevance depends on structure.","Use FAQ + document-answer query modes for better responses."],
+r:["Large enterprises","Cut support tickets with internal answer search."],
+nt:[["Bedrock + OpenSearch","Build a custom RAG pipeline instead."],["Textract","Extract text from PDFs before indexing."]]},
+{id:"forecast",n:"Forecast",f:"Amazon Forecast",c:"ml",i:"📈",t:"Time-series forecasting with ML — demand, staffing, capacity — without building models.",w:"Forecasting is a solved problem when you have clean data and the right library. Forecast automates model selection and tuning behind the scenes.",u:"Demand planning, staffing, inventory, energy-load forecasting.",b:["Dataset groups & time series","Predictors (models)","What-if scenarios","Accuracy metrics"],
+tf:`resource "aws_forecast_dataset_group" "demand" {
+  dataset_group_name = "demand"
+  domain             = "RETAIL"
+}`,
+ck:`// No first-class CDK construct (L1 only) — manage with Terraform.`,
+sd:`import boto3
+fc = boto3.client("forecast", region_name="us-east-1")
+for p in fc.list_predictors()["Predictors"]:
+    print(p["PredictorArn"], p["Status"])`,
+dl:`fc.delete_forecast(ForecastArn="...")
+fc.delete_predictor(PredictorArn="...")`,
+x:["Historical-data quality beats fancy models — clean the spikes first.","Backtest before trusting a forecast; pick the right horizon."],
+r:["Retailers","Demand planning across thousands of SKUs."],
+nt:[["Personalize","The recommendation cousin."],["QuickSight","Plot forecast vs actual."]]},
+{id:"personalize",n:"Personalize",f:"Amazon Personalize",c:"ml",i:"🎯",t:"ML-based recommendations — 'customers also bought' — without a data-science team.",w:"Recommendation engines are table stakes for ecommerce but hard to build. Personalize trains models on your users' interactions and serves ranked recommendations via API.",u:"Product recommendations, content ranking, personalized emails.",b:["Interaction datasets (views, clicks, purchases)","Solutions & campaigns","Recipes (HRNN, SIMS, etc.)","Real-time vs batch recommendations"],
+tf:`# Personalize support in the AWS TF provider is still maturing.
+# Model: dataset-group -> dataset -> solution -> campaign.`,
+ck:`// No first-class CDK construct (L1 only) — manage via the console or SDK.`,
+sd:`import boto3
+pr = boto3.client("personalize-runtime", region_name="us-east-1")
+resp = pr.get_recommendations(campaignArn="arn:aws:personalize:...:campaign/demo",
+    userId="user-42")
+for item in resp["itemList"][:5]: print(item["itemId"])`,
+dl:`# Delete campaign, then solution, then datasets, then the group.`,
+x:["You need a steady stream of interaction events — no data, no personalization.","Start with the SIMS recipe for 'related items', HRNN for user recommendations."],
+r:["E-commerce","10-30% click-through lifts from personalized feeds."],
+nt:[["Pinpoint","Deliver personalized emails."],["Kinesis","Stream interaction events in."]]},
+{id:"iot",n:"IoT Core",f:"AWS IoT Core",c:"messaging",i:"📡",t:"Connect millions of devices. MQTT pub/sub, device shadows, rules that route telemetry.",w:"Devices aren't reliable HTTP clients. IoT Core speaks MQTT, manages device identity with certificates, and routes telemetry to the services that matter.",u:"Device telemetry, fleet OTA updates, smart products, predictive maintenance.",b:["MQTT vs HTTPS","Thing registry & certificates","Device Shadows","IoT Rules → services"],
+tf:`resource "aws_iot_thing" "sensor" {
+  name = "temp-sensor-01"
+}
+resource "aws_iot_topic_rule" "route" {
+  name     = "temp_to_s3"
+  sql      = "SELECT * FROM 'devices/+/temp'"
+  sql_version = "2016-03-23"
+  s3 {
+    role_arn = aws_iam_role.iot_s3.arn
+    bucket   = aws_s3_bucket.telemetry.id
+    key      = "\${topic()}/\${timestamp()}"
+  }
+}`,
+ck:`// L1 construct only — manage via CfnThing + CfnTopicRule.`,
+sd:`import boto3
+iot = boto3.client("iot-data", region_name="us-east-1")
+iot.publish(topic="devices/garage-01/temp",
+    qos=1, payload=b'{"celsius": 22.4}')`,
+dl:`# Delete things, certs, and policies; delete rules separately.`,
+x:["Every device needs its own certificate — a shared key is a fleet-wide breach.","Device Shadows cache state so a device can report offline and the cloud still serves it."],
+r:["Fleet operators","Predictive maintenance by streaming engine telemetry to anomaly detection."],
+nt:[["S3","Store raw telemetry."],["Kinesis","High-throughput device streams."],["IoT Analytics","Analyze device data."]]},
+{id:"connect",n:"Connect",f:"Amazon Connect",c:"messaging",i:"📞",t:"Cloud contact center — IVR, queues, agent desktops, analytics. Pay per minute.",w:"Building a call center means PBX, IVR, CTI, and reporting. Connect replaces that hardware with a managed service wired to Lambda and Lex.",u:"Customer support, IVR flows, agent routing, voice analytics.",b:["Contact flows = the IVR","Queues & routing profiles","Lambda integration","Contact Lens analytics"],
+tf:`resource "aws_connect_instance" "cc" {
+  identity_management_type = "CONNECT_MANAGED"
+  inbound_calls_enabled    = true
+  outbound_calls_enabled   = true
+}
+resource "aws_connect_queue" "support" {
+  instance_id = aws_connect_instance.cc.id
+  name        = "support"
+  hours_of_operation_id = aws_connect_hours_of_operation.work.id
+}`,
+ck:`// L1 only — CfnInstance + CfnQueue.`,
+sd:`import boto3
+con = boto3.client("connect", region_name="us-east-1")
+con.start_outbound_voice_contact(
+    DestinationPhoneNumber="+15551234567",
+    ContactFlowId="arn:aws:connect:...:contact-flow/main",
+    InstanceId="arn:aws:connect:...:instance/cc")`,
+dl:`# Delete queues, flows, then the instance.`,
+x:["Contact Lens transcribes + scores every call — turn it on before auditors ask.","Test flows with the softphone simulator before cutting over."],
+r:["Contact centers","Cut telephony costs ~60% while adding AI-powered call scoring."],
+nt:[["Lex","Voice bots for self-service."],["Lambda","Custom flow logic."],["QuickSight","Live contact analytics."]]},
+{id:"pinpoint",n:"Pinpoint",f:"Amazon Pinpoint",c:"messaging",i:"📣",t:"Multi-channel engagement — email, SMS, push, in-app. Segment, send, measure.",w:"Sending a campaign to 100k people across email/SMS/push needs channel plumbing plus deliverability tooling. Pinpoint wraps it all with segmentation and analytics.",u:"Transactional email/SMS, marketing campaigns, push notifications.",b:["Channels & endpoints","Segments & journeys","Deliverability & bounce handling","Templates"],
+tf:`resource "aws_pinpoint_app" "campaigns" {
+  name = "customer-engagement"
+}
+resource "aws_pinpoint_sms_channel" "sms" {
+  application_id = aws_pinpoint_app.campaigns.application_id
+}`,
+ck:`// L1 only — CfnApp + CfnSmsChannel.`,
+sd:`import boto3
+pin = boto3.client("pinpoint", region_name="us-east-1")
+pin.send_messages(ApplicationId="app-id",
+    MessageRequest={ "Addresses": {"user@example.com": {"ChannelType": "EMAIL"}},
+        "MessageConfiguration": {"EmailMessage": {
+            "FromAddress": "no-reply@example.com",
+            "SimpleEmail": {"Subject": {"Data": "Sale!"}, "HtmlPart": {"Data": "<b>50% off</b>"}}}}})`,
+dl:`# Delete journeys, campaigns, then the app.`,
+x:["Track bounces and complaints — providers throttle a bad sending reputation.","Use journeys for lifecycle campaigns, not raw sends."],
+r:["E-commerce","Abandoned-cart recovery measurably lifts checkout conversion."],
+nt:[["SES","Raw email engine underneath."],["SNS","Push + SMS fallback."],["QuickSight","Campaign analytics."]]},
+{id:"detective",n:"Detective",f:"Amazon Detective",c:"security",i:"🕵️",t:"Graph-based investigation of suspicious activity. Walk the blast radius of a GuardDuty finding.",w:"A GuardDuty alert says something happened — not who or how. Detective builds a resource graph so you trace related API calls and entities in one view.",u:"Incident investigation, root-cause on findings, forensics.",b:["Graph: entities, IPs, roles","Linked GuardDuty findings","Investigation timelines","Findings → entity graphs"],
+tf:`resource "aws_detective_graph" "soc" {}
+resource "aws_detective_member" "child" {
+  account_id = "123456789012"
+  graph_arn  = aws_detective_graph.soc.id
+}`,
+ck:`// L1 only — CfnGraph.`,
+sd:`import boto3
+det = boto3.client("detective", region_name="us-east-1")
+graphs = det.list_graphs()["GraphList"]
+resp = det.get_graph(GraphArn=graphs[0]["Arn"])
+print(resp["GraphArn"])`,
+dl:`# Remove members, then delete the graph.`,
+x:["Enable Detective before the incident — it ingests ~2 weeks of history.","Pair with GuardDuty + Security Hub for the full SOC loop."],
+r:["Security teams","Cutting MTTR from hours to minutes by tracing a finding to its source."],
+nt:[["GuardDuty","Feeds the findings."],["Security Hub","Aggregates alerts."],["CloudTrail","API call evidence."]]},
+{id:"auditmanager",n:"Audit Manager",f:"AWS Audit Manager",c:"security",i:"📋",t:"Automate audit evidence collection. Map controls to resources, get a ready-to-review report.",w:"SOC 2 / ISO prep means collecting evidence screenshots for weeks. Audit Manager maps AWS resources to control frameworks and continuously gathers the evidence.",u:"Compliance prep, evidence collection, control mapping.",b:["Frameworks (SOC 2, ISO, CIS)","Control mappings","Evidence folders","Assessment reports"],
+tf:`resource "aws_auditmanager_account_registration" "reg" {}
+resource "aws_auditmanager_control" "enc" {
+  name = "encrypt-at-rest"
+  control_mapping_sources {
+    source_name = "KMS CMK enabled"
+    source_set_up_option = "Procedural_Controls_Mapping"
+    source_type = "MANUAL"
+  }
+}`,
+ck:`// L1 only — CfnAssessment / CfnControl.`,
+sd:`import boto3
+am = boto3.client("auditmanager", region_name="us-east-1")
+resp = am.create_assessment(
+    name="soc2-cycle-1",
+    assessment_reports_destination={ "destination": "S3",
+        "destination_s3_bucket": "audit-evidence",
+        "destination_s3_prefix": "soc2" })`,
+dl:`# Delete assessments, then controls.`,
+x:["Run a trial assessment before the real audit window opens.","Custom controls cover non-AWS evidence."],
+r:["Fintech","Shrinking SOC 2 evidence gathering from weeks to days."],
+nt:[["Config","Rules as controls."],["CloudTrail","API evidence."],["Security Hub","Findings as evidence."]]},
+{id:"imagebuilder",n:"Image Builder",f:"EC2 Image Builder",c:"compute",i:"🖼️",t:"Build and maintain golden AMIs. Recipes, pipelines, automated patching on a schedule.",w:"Hand-built AMIs drift and rot. Image Builder codifies the bake — base image + components + tests — rebuilt on a schedule so every instance starts hardened and patched.",u:"Golden AMIs, patching pipelines, CIS-hardened bases.",b:["Recipes & components","Build/schedule pipelines","AMI + EC2 tests","Distributions (regions, accounts)"],
+tf:`resource "aws_imagebuilder_image_pipeline" "golden" {
+  name     = "golden-amazonlinux"
+  image_recipe_arn = aws_imagebuilder_image_recipe.al2023.arn
+  distribution_configuration_arn = aws_imagebuilder_distribution_configuration.dist.arn
+  schedule {
+    schedule_expression = "cron(0 3 ? * SUN *)"
+  }
+}`,
+ck:`// L1 only — CfnImagePipeline + CfnImageRecipe.`,
+sd:`import boto3
+ib = boto3.client("imagebuilder", region_name="us-east-1")
+resp = ib.list_image_pipelines()["imagePipelineList"]
+print([p["name"] for p in resp])`,
+dl:`# Delete the image, recipe, then the pipeline.`,
+x:["Attach EC2 test components so a build that fails smoke tests fails the pipeline.","Schedule a weekly rebuild so AMIs are never more than a week stale."],
+r:["Platform teams","Every new EC2 instance booting from a patched, approved golden AMI."],
+nt:[["EC2","The AMIs you bake."],["Systems Manager","Patch baselines as components."],["Inspector","Scan the baked image."]]}
 ];
 if(Object.freeze){SERVICES.forEach(function(s){Object.freeze(s);});Object.freeze(SERVICES);}
 
@@ -3179,7 +3612,7 @@ function updateProgress(){$("#progNum").textContent=learned.size;$("#progFill").
 function openService(id){const idx=SERVICES.findIndex(function(s){return s.id===id;});if(idx<0)return;currentIdx=idx;currentTab="overview";renderModal();$("#overlay").classList.add("open");document.body.style.overflow="hidden";}
 function closeService(){$("#overlay").classList.remove("open");document.body.style.overflow="";}
 function renderModal(){const s=SERVICES[currentIdx],c=CATS[s.c].c,m=$("#modal");m.style.setProperty("--cc",c);
-  const tabs=[["overview","Overview"],["learn","Learn First"],["tf","Terraform"],["cdk","CDK"],["sdk","Python SDK"],["net","How It Connects"]];const id=escAttr(s.id);
+  const tabs=[["overview","Overview"],["learn","Learn First"],["tf","Terraform"],["cdk","CDK"],["sdk","Python SDK"],["net","How It Connects"],["env","Env Ops"]];const id=escAttr(s.id);
   m.innerHTML='<div class="m-head"><button class="m-close" data-mclose>✕</button>'
     +'<div class="m-nav"><button data-prev title="previous">‹</button><button data-next title="next">›</button></div>'
     +'<div class="m-title-row"><div class="m-tile">'+esc(s.i)+'</div><div><h2>'+esc(s.n)+'</h2><div class="mfull">'+esc(s.f)+'</div>'
@@ -3197,7 +3630,15 @@ function tabContent(s){
   if(currentTab==="cdk")return '<h4>Infrastructure as code — AWS CDK (TypeScript)</h4><div class="mini-note">cdk synth → CloudFormation YAML · always cdk diff before deploy</div>'+codeBlock(s.ck,"lib/acme-stack.ts","CDK · TYPESCRIPT","ts")+'<h4 style="color:#ff7b72">Deploy / Delete</h4><div class="cmd-row"><span class="dollar">$</span><code>cdk synth && cdk diff && cdk deploy</code><button class="copybtn" data-copyraw="cdk synth && cdk diff && cdk deploy">⧉ Copy</button></div><div class="cmd-row"><span class="dollar">$</span><code>cdk destroy   # ⚠ tears the whole stack down</code><button class="copybtn" data-copyraw="cdk destroy">⧉ Copy</button></div>';
   if(currentTab==="sdk")return '<h4>Provision & use with Boto3 (Python SDK)</h4>'+codeBlock(s.sd,s.id.replace(/[^a-z0-9]/g,"_")+"_demo.py","PYTHON · BOTO3","py")+'<h4 style="color:#ff7b72">Cleanup / Delete via SDK</h4>'+codeBlock(s.dl,"cleanup.py","PYTHON","py");
   if(currentTab==="net")return '<h4>How '+esc(s.n)+' talks to other services</h4>'+s.nt.map(function(x){return '<div class="net-row"><span class="ntag">'+esc(x[0])+'</span><p>'+esc(x[1])+'</p></div>';}).join("")+'<div class="real-box" style="margin-top:18px"><div class="co">⚑ In production · '+esc(s.r[0])+'</div><p>'+esc(s.r[1])+'</p></div>';
+  if(currentTab==="env")return envContent(s);
   return "";}
+function envContent(s){
+  if(!s.env||!s.env.length)return '<div class="tips-box"><div class="co">✦ Environment operating model</div><p>Offline mode — the full per-environment operating model (Dev → Staging → Production → DR → Lifecycle) loads from the backend API. Connect to the live app to see it.</p></div>';
+  return '<div class="env-note">Industry-standard operating model — how '+esc(s.n)+' runs at each stage of the lifecycle.</div>'
+    +s.env.map(function(b){return '<div class="env-block"><div class="env-head">'+b.icon+' '+esc(b.env)+'</div>'
+      +'<p>'+esc(b.desc)+'</p><ul>'+b.points.map(function(p){return '<li>'+esc(p)+'</li>';}).join("")+'</ul></div>';}).join("")
+    +'<div class="real-box" style="margin-top:18px"><div class="co">⚑ Industry practice</div><p>The environment split above is how enterprise teams actually run '+esc(s.n)+'. Start in dev, prove the release path in staging, harden in prod, and drill the DR + teardown path before you ever need it.</p></div>';
+}
 function bindModal(){const m=$("#modal");
   m.querySelector("[data-mclose]").addEventListener("click",closeService);
   m.querySelector("[data-prev]").addEventListener("click",function(){currentIdx=(currentIdx-1+SERVICES.length)%SERVICES.length;renderModal();});
@@ -3208,7 +3649,7 @@ function bindModal(){const m=$("#modal");
   m.querySelectorAll("[data-copyraw]").forEach(function(btn){btn.addEventListener("click",function(){copyText(btn.dataset.copyraw,btn);});});}
 function toggleLearned(id){const wasNew=!learned.has(id);
   if(learned.has(id))learned.delete(id);else learned.add(id);
-  store.set("awsAtlasLearned",Array.from(learned));
+  store.set("awsAtlasLearned",Array.from(learned));syncPush();
   if(wasNew)toast("✓ "+id.toUpperCase()+" marked as learned");
   updateProgress();checkPathCompletion();
   const card=document.querySelector('.card[data-open="'+id+'"] .done');if(card)card.classList.toggle("learned",learned.has(id));
@@ -3822,6 +4263,58 @@ function renderPlaybooks(){$("#pbWrap").innerHTML=PLAYBOOKS.map(function(p,i){
   return '<div class="qa"><button class="qa-q"><span class="qn">PB'+(i+1)+'</span>'+esc(p[0])+'<span class="pl">+</span></button><div class="qa-a"><div><ul>'+p[1]+'</ul></div></div></div>';}).join("");
   $$("#pbWrap .qa-q").forEach(function(btn){btn.addEventListener("click",function(){btn.parentElement.classList.toggle("open");});});}
 
+/* ===== real-world industry scenarios & issues ===== */
+/* Offline fallback (compact). Full 27-service set loads from the API. */
+let INDUSTRY_ACTIVE="all";
+let INDUSTRY={count:8,services:[
+  {service_id:"ec2",service_name:"EC2",category:"compute",scenario:"A single large instance handles the whole app. Traffic spikes, CPU pins at 100%, every request times out for 40 minutes.",issue:"Vertical scaling has a hard ceiling and a single point of failure.",fix:"Run behind an ALB in an Auto Scaling Group with mixed-instances and target-tracking; scheduled scaling for known peaks.",alerts:["CPU > 85% for 5 min","StatusCheckFailed > 0"],tags:["compute","scaling"]},
+  {service_id:"lambda",service_name:"Lambda",category:"compute",scenario:"Payment callback times out at peak. Cold starts hit 9s after a busy rollout; gateway returns 504s.",issue:"Cold starts + no reserved concurrency saturate the account concurrency limit.",fix:"Provisioned concurrency on critical paths, timeouts/retries per function, reserved concurrency to protect core flows.",alerts:["Duration p99 > 80% of timeout","Throttles > 0"],tags:["serverless","latency"]},
+  {service_id:"s3",service_name:"S3",category:"storage",scenario:"A recursive delete removes the only copy of customer exports. No backups exist.",issue:"Bucket treated as backup target; no versioning, no lifecycle, no MFA delete.",fix:"Versioning + MFA Delete, cross-region replication, Object Lock for immutable archives, IAM deny on delete.",alerts:["DeleteObject from prod role","Bucket size drop > 20% in 1 h"],tags:["data-loss","backup"]},
+  {service_id:"rds",service_name:"RDS",category:"database",scenario:"Nightly ETL grows 40 min past its window and locks a critical table. Team 'fixes' it by upsizing the box.",issue:"Scaling the box instead of the query; no insights, no statement timeouts.",fix:"Performance Insights, statement timeouts, slow-query review weekly, read replicas for reporting.",alerts:["CPU > 80% sustained","Storage > 90%"],tags:["database","performance"]},
+  {service_id:"vpc",service_name:"VPC",category:"networking",scenario:"A subnet runs out of IPs mid-deploy. New instances fail with 'Insufficient IP addresses' at 2am.",issue:"Sparse subnets sized once, no IPAM, no capacity alerting.",fix:"Plan CIDR for 2-3x growth, use VPC IPAM, alert on free-IP threshold.",alerts:["Subnet free IPs < 10%","EC2-InsufficientIP-Address"],tags:["networking","capacity"]},
+  {service_id:"iam",service_name:"IAM",category:"security",scenario:"A leaked dev-laptop key spins up bitcoin miners in 20 minutes. The key had full admin.",issue:"Long-lived static keys with over-privileged policies; no rotation, no boundaries.",fix:"Prefer roles, least privilege + Access Analyzer, permission boundaries, auto-rotate, GuardDuty + CloudTrail.",alerts:["Root sign-in","GuardDuty CryptoCurrency finding"],tags:["security","identity"]},
+  {service_id:"dynamodb",service_name:"DynamoDB",category:"database",scenario:"A promo campaign makes one hot partition absorb all reads, throttling the whole table during checkout.",issue:"Low-cardinality partition key plus reactive capacity = hot-key throttle at peak.",fix:"High-cardinality keys or hot-key sharding, aggressive autoscaling, DAX for read bursts, backoff + jitter.",alerts:["ThrottledRequests > 0","DAX CPU > 70%"],tags:["database","scaling"]},
+  {service_id:"cloudwatch",service_name:"CloudWatch",category:"management",scenario:"On-call pages at 3am for a p99 spike. Team digs 90 min before finding a stale test-env metric.",issue:"No tagging, no structured logs, alerts without routing — noise kills the signal.",fix:"Tag everything, structured JSON logs, per-service SLO burn alerts, route by severity.",alerts:["SLO burn-rate windows","Alarm in ALARM > 30 min"],tags:["observability","sre"]}
+],categories:[
+  {category:"compute",pillar:"Reliability",issues:[{title:"Single-instance everything",detail:"One box, one AZ, no ASG — the #1 cause of preventable outages."},{title:"Scaling the box, not the code",detail:"Upsizing masks root cause and doubles the bill."}]},
+  {category:"database",pillar:"Performance",issues:[{title:"Missing indexes in prod",detail:"Slow queries hit exactly when traffic grows."},{title:"Hot partitions",detail:"Low-cardinality keys throttle at peak."}]},
+  {category:"security",pillar:"Security",issues:[{title:"Static keys with admin",detail:"Leaked key = full account compromise."},{title:"Secrets in git",detail:"Rotate immediately, scan history."}]},
+  {category:"storage",pillar:"Data Protection",issues:[{title:"No versioning",detail:"Accidental deletes are irreversible."},{title:"Single copy of truth",detail:"One bucket, one region, no replication."}]}
+]};
+function renderIndustry(){
+  const svcs=INDUSTRY.services||[];
+  const uniq=Array.from(new Set(svcs.map(function(s){return s.category;})));
+  const all=["all"].concat(uniq);
+  const filter=$("#indFilter");
+  filter.innerHTML=all.map(function(c){
+    const label=c==="all"?"All scenarios":(CATS[c]?CATS[c].label:c);
+    const n=c==="all"?svcs.length:svcs.filter(function(s){return s.category===c;}).length;
+    return '<button class="indchip'+(INDUSTRY_ACTIVE===c?" on":"")+'" data-indc="'+escAttr(c)+'">'+esc(label)+' <span style="opacity:.6">'+n+'</span></button>';}).join("");
+  $$("#indFilter .indchip").forEach(function(b){b.addEventListener("click",function(){INDUSTRY_ACTIVE=b.dataset.indc;renderIndustry();});});
+  const list=INDUSTRY_ACTIVE==="all"?svcs:svcs.filter(function(s){return s.category===INDUSTRY_ACTIVE;});
+  $("#indGrid").innerHTML=list.map(function(s){
+    const sv=svc(s.service_id),icon=sv?sv.i:"🧩",name=sv?sv.n:s.service_name;
+    const cat=CATS[s.category]?CATS[s.category].label:s.category;
+    return '<div class="ind-card"><div class="ind-head"><span class="em">'+icon+'</span><div class="ind-title"><b data-open="'+escAttr(s.service_id)+'">'+esc(name)+'</b><span class="ind-cat">'+esc(cat)+' · '+esc(s.service_id)+'</span></div></div>'
+      +'<div class="ind-sec scn"><span class="lb">📌 Scenario</span>'+esc(s.scenario)+'</div>'
+      +'<div class="ind-sec iss"><span class="lb">⚠️ The industry issue</span>'+esc(s.issue)+'</div>'
+      +'<div class="ind-sec fix"><span class="lb">✅ The standard fix</span>'+esc(s.fix)+'</div>'
+      +'<div class="ind-alerts">'+(s.alerts||[]).map(function(a){return '<span class="ind-alrt">🔔 '+esc(a)+'</span>';}).join("")+'</div>'
+      +'<div class="ind-tags">'+(s.tags||[]).map(function(t){return '<span class="ind-tag">'+esc(t)+'</span>';}).join("")+'</div></div>';}).join("");
+  $$("#indGrid [data-open]").forEach(function(el){el.addEventListener("click",function(){openService(el.dataset.open);});});
+  $("#indCats").innerHTML='<h3 style="font-family:var(--disp);font-size:17px;margin:6px 0 14px">🏗️ Per-pillar failure modes every team should know</h3>'
+    +'<div class="ind-cats">'+(INDUSTRY.categories||[]).map(function(c){
+      const cc=CATS[c.category]?CATS[c.category].c:"#53d1ec";
+      return '<div class="indcat" style="border-top:2px solid '+cc+'"><h4>'+esc(c.category)+'</h4><span class="pillar">'+esc(c.pillar)+'</span><ul>'
+        +(c.issues||[]).map(function(i){return '<li><b>'+esc(i.title)+'</b>'+esc(i.detail)+'</li>';}).join("")
+        +'</ul></div>';}).join("")+'</div>';
+}
+function loadIndustryFromAPI(){
+  fetch("/api/v1/industry-issues",{headers:{Accept:"application/json"},cache:"no-cache"})
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(j){if(!j||!j.services||!j.services.length)return;INDUSTRY=j;renderIndustry();})
+    .catch(function(){});}
+
 /* ===== industry & AI radar ===== */
 const INDUSTRIES=[
 {k:"fintech",name:"🏦 Fintech",rc:"#ff9d2e",items:[["organizations","Multi-account isolation; auditors ask for it first"],["kms","PCI-DSS encryption for card data"],["dynamodb","Ledger-style event streams at scale"],["waf","Fraud bots & account takeover defense"],["guardduty","Detect compromised trading infra"],["cloudtrail","Every API call = audit evidence"]],},
@@ -3873,14 +4366,18 @@ function startQuiz(){const pool=shuffle(SERVICES.slice());const qs=[];
   quiz={qs:qs,i:0,score:0,missed:[]};renderQuiz();}
 function renderQuiz(){const box=$("#quizBox");if(!quiz)return;
   if(quiz.i>=quiz.qs.length){const pct=Math.round(quiz.score/quiz.qs.length*100);
-    if(quiz.score>bestGet()){localStorage.setItem("awsAtlasBest",quiz.score);refreshBest();}
+    const isBest=quiz.score>bestGet();
+    if(isBest){localStorage.setItem("awsAtlasBest",quiz.score);refreshBest();syncPush();}
+    const saveCta=(isBest&&!authUser)?'<button class="btn gho" id="quizSave">🔐 Save progress →</button>':"";
     box.innerHTML='<div class="qmeta"><span>ROUND COMPLETE</span><span>SCORE</span></div>'
       +'<div style="margin:auto;text-align:center;width:100%"><div class="qscore-big">'+quiz.score+'<span style="font-size:24px;color:var(--dim)"> / '+quiz.qs.length+'</span></div>'
       +'<p style="color:var(--mut);margin:14px 0 22px">'+(pct===100?"Flawless. You clearly ship on AWS. 🔥":pct>=60?"Solid — review the ones you missed below.":"Good start — the catalog above is your gym. 💪")+'</p>'
       +'<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">'
       +'<button class="btn pri" id="quizAgain">Play another round →</button>'
+      +saveCta
       +(quiz.missed.length?'<button class="btn gho" id="quizStudy">Study first miss</button>':"")+'</div></div>';
     $("#quizAgain").addEventListener("click",startQuiz);
+    const sv=$("#quizSave");if(sv)sv.addEventListener("click",openAuth);
     const st=$("#quizStudy");if(st)st.addEventListener("click",function(){openService(quiz.missed[0]);});return;}
   const q=quiz.qs[quiz.i];
   box.innerHTML='<div class="qmeta"><span>QUESTION '+(quiz.i+1)+' / '+quiz.qs.length+'</span><span>SCORE '+quiz.score+'</span></div>'
@@ -4004,7 +4501,8 @@ function adaptService(s){
   return {id:s.id,n:s.name,f:s.full_name,c:s.category,i:s.icon,t:s.tagline,
     w:s.why_it_exists,u:s.use_cases,b:s.learn_first,
     tf:s.terraform,ck:s.cdk,sd:s.boto3,dl:s.delete,
-    x:s.expert_tips,r:s.real_world,nt:s.next_steps};
+    x:s.expert_tips,r:s.real_world,nt:s.next_steps,
+    env:s.env_model};
 }
 async function loadFromAPI(){
   try{
@@ -4019,9 +4517,206 @@ async function loadFromAPI(){
   }catch(e){/* keep embedded data as offline fallback */}
 }
 
+/* ===== auth (email+password, httpOnly cookie sessions) ===== */
+let authUser=null;               // {email, email_verified, progress} or null
+const authBtn=$("#authBtn");
+const API_HDR={"Accept":"application/json","Content-Type":"application/json","X-Requested-With":"XMLHttpRequest"};
+
+function openAuth(){renderAuth("login");$("#authOverlay").classList.add("open");document.body.style.overflow="hidden";}
+function closeAuth(){$("#authOverlay").classList.remove("open");document.body.style.overflow="";}
+function renderAuth(view,extra){
+  const v=view||"login";
+  const tabs=[["login","Login"],["register","Register"]].map(function(t){
+    return '<button class="'+(v===t[0]?"on":"")+'" data-aview="'+t[0]+'">'+t[1]+'</button>';}).join("");
+  let body="";
+  if(v==="login"){
+    body='<form id="af" data-view="login" autocomplete="on">'
+      +'<div class="auth-field"><label>EMAIL</label><input id="aEmail" type="email" required autocomplete="email" placeholder="you@example.com"></div>'
+      +'<div class="auth-field"><label>PASSWORD</label><input id="aPass" type="password" required autocomplete="current-password" placeholder="••••••••"></div>'
+      +'<div class="auth-err" id="aErr"></div><div class="auth-msg" id="aMsg"></div>'
+      +'<button class="btn pri" style="width:100%" type="submit">Sign in →</button>'
+      +'<button class="auth-sub" type="button" data-aview="forgot">Forgot password?</button></form>';
+  }else if(v==="register"){
+    body='<form id="af" data-view="register" autocomplete="on">'
+      +'<div class="auth-field"><label>EMAIL</label><input id="aEmail" type="email" required autocomplete="email" placeholder="you@example.com"></div>'
+      +'<div class="auth-field"><label>PASSWORD (8+ chars, letters + numbers)</label><input id="aPass" type="password" required minlength="8" autocomplete="new-password" placeholder="••••••••"></div>'
+      +'<div class="auth-err" id="aErr"></div><div class="auth-msg" id="aMsg"></div>'
+      +'<button class="btn pri" style="width:100%" type="submit">Create account →</button>'
+      +'<div class="auth-msg" style="margin-top:10px">Verification link sent to your email — click it once, then sign in.</div></form>';
+  }else{ // forgot
+    body='<form id="af" data-view="forgot" autocomplete="on">'
+      +'<div class="auth-field"><label>EMAIL</label><input id="aEmail" type="email" required autocomplete="email" placeholder="you@example.com"></div>'
+      +'<div class="auth-err" id="aErr"></div><div class="auth-msg" id="aMsg"></div>'
+      +'<button class="btn pri" style="width:100%" type="submit">Send reset link →</button>'
+      +'<button class="auth-sub" type="button" data-aview="login">← Back to login</button></form>';
+  }
+  const m=extra&&extra.heading?'<h3 style="margin:0 0 14px;font-family:var(--disp)">'+extra.heading+'</h3>':"";
+  $("#authModal").innerHTML=m+'<div class="auth-tabs">'+tabs+'</div>'+body;
+  $$("#authModal [data-aview]").forEach(function(b){b.addEventListener("click",function(){renderAuth(b.dataset.aview);});});
+  $("#authOverlay").addEventListener("click",function(e){if(e.target===$("#authOverlay"))closeAuth();});
+  const form=$("#af");
+  form.addEventListener("submit",function(ev){ev.preventDefault();submitAuth(form.dataset.view);});
+  if(extra&&extra.msg)$("#aMsg").textContent=extra.msg;
+}
+function renderAccount(){ /* logged-in state: progress + logout */
+  const p=authUser&&authUser.progress||{learned:[],quiz_best:0};
+  const total=SERVICES.length||100;
+  const pct=Math.round((p.learned||[]).length/total*100);
+  $("#authModal").innerHTML='<h3 style="margin:0 0 14px;font-family:var(--disp)">👤 '+esc(authUser.email)+'</h3>'
+    +'<div class="auth-progress"><h4>YOUR PROGRESS</h4>'
+    +'<div class="ap-row"><span>Services learned</span><b>'+(p.learned||[]).length+' / '+total+' ('+pct+'%)</b></div>'
+    +'<div class="ap-row"><span>Best quiz score</span><b>'+p.quiz_best+' / 8</b></div></div>'
+    +'<button class="btn pri" style="width:100%;margin-bottom:10px" id="aManage">View progress →</button>'
+    +'<button class="btn gho" style="width:100%" id="aLogout">Sign out</button>';
+  $("#aLogout").addEventListener("click",logout);
+  $("#aManage").addEventListener("click",function(){closeAuth();document.querySelector('a[href="#services"]').click();});
+}
+function submitAuth(view){
+  const email=$("#aEmail").value.trim();const pass=$("#aPass").value;
+  const err=$("#aErr"),msg=$("#aMsg");err.textContent="";msg.textContent="";
+  const url=view==="login"?"/api/v1/auth/login":view==="register"?"/api/v1/auth/register":"/api/v1/auth/reset-password";
+  const body=view==="forgot"?{email:email}:{email:email,password:pass};
+  fetch(url,{method:"POST",headers:API_HDR,body:JSON.stringify(body),credentials:"include",cache:"no-cache"})
+    .then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {ok:r.ok,status:r.status,j:j};});})
+    .then(function(res){
+      if(res.ok){
+        if(view==="register"){msg.textContent="Registered! Verify your email, then sign in.";return;}
+        if(view==="forgot"){msg.textContent=res.j.message||"If that email exists, a reset link was sent.";return;}
+        // login success
+        authUser=res.j;
+        refreshAuthUI();closeAuth();loadMyProgress();toast("✓ Signed in as "+res.j.email);
+      }else{
+        if(res.status===403&&res.j.detail==="email_not_verified"){err.textContent="Email not verified yet — check your inbox and click the link.";return;}
+        err.textContent=res.j.detail||"Request failed";
+      }
+    }).catch(function(){err.textContent="Network error";});
+}
+function logout(){
+  fetch("/api/v1/auth/logout",{method:"POST",headers:API_HDR,credentials:"include",cache:"no-cache"})
+    .then(function(){authUser=null;refreshAuthUI();toast("Signed out");}).catch(function(){authUser=null;refreshAuthUI();});
+}
+function refreshAuthUI(){
+  if(authUser){authBtn.innerHTML="<small>"+esc(authUser.email)+"</small>Account";authBtn.classList.add("logged");
+    authBtn.onclick=function(){renderAccount();$("#authOverlay").classList.add("open");document.body.style.overflow="hidden";};}
+  else{authBtn.textContent="Login";authBtn.classList.remove("logged");authBtn.onclick=openAuth;}
+}
+let _refreshing=null; /* single in-flight refresh (avoid stampede) */
+function refreshSession(){ /* rotate httpOnly refresh cookie on 401 */
+  if(_refreshing)return _refreshing;
+  _refreshing=fetch("/api/v1/auth/refresh",{method:"POST",headers:API_HDR,credentials:"include",cache:"no-cache"})
+    .then(function(r){return r.ok;}).catch(function(){return false;})
+    .then(function(ok){_refreshing=null;return ok;});
+  return _refreshing;
+}
+/* fetch wrapper: on 401, rotate the session once and retry. Access token is
+ * 15-min TTL; without this, long sessions silently stop saving progress. */
+function apiFetch(url,opts){
+  opts=opts||{};opts.credentials="include";
+  return fetch(url,opts).then(function(r){
+    if(r.status===401){
+      return refreshSession().then(function(ok){
+        if(ok){opts.cache="no-cache";return fetch(url,opts);} /* retry once */
+        return r;
+      });
+    }
+    return r;
+  });
+}
+function loadMyProgress(){ /* after login, merge server progress into the UI */
+  apiFetch("/api/v1/user-state",{headers:{Accept:"application/json"}})
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(st){
+      if(!st)return;
+      let changed=false;
+      const valid=new Set(SERVICES.map(function(s){return s.id;}));
+      (st.learned||[]).forEach(function(id){if(!learned.has(id)&&valid.has(id)){learned.add(id);changed=true;}});
+      if(st.quiz_best>bestGet()){localStorage.setItem("awsAtlasBest",st.quiz_best);refreshBest();changed=true;}
+      if(changed){store.set("awsAtlasLearned",Array.from(learned));updateProgress();if($("#overlay").classList.contains("open"))renderModal();}
+      syncPush(); /* persist any local-only progress to the account too */
+    }).catch(function(){});
+}
+function restoreSession(){ /* on load: silently restore an httpOnly session, if any */
+  return apiFetch("/api/v1/auth/me",{headers:{Accept:"application/json"}})
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(me){
+      if(me){authUser=me;refreshAuthUI();loadMyProgress();}
+    }).catch(function(){});
+}
+authBtn.addEventListener("click",openAuth);
+$("#authOverlay").addEventListener("click",function(e){if(e.target===$("#authOverlay"))closeAuth();});
+
+/* ===== private progress sync (backend SQLite via API) ===== */
+let uid=store.get("atlas_user_id","");
+if(!uid){uid="u_"+Math.random().toString(36).slice(2,10)+Date.now().toString(36);store.set("atlas_user_id",uid);}
+let syncTimer=null;
+function syncPush(){ /* debounced PUT of progress to the private backend store */
+  clearTimeout(syncTimer);
+  syncTimer=setTimeout(function(){
+    apiFetch("/api/v1/user-state",{method:"PUT",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({user_id:uid,learned:Array.from(learned),quiz_best:bestGet()})})
+      .then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {ok:r.ok,status:r.status,j:j};});})
+      .then(function(res){
+        if(res.ok){return;}
+        if(res.status===401){return;} /* signed out: keep local-only */
+        if(res.status===403&&res.j.detail==="email_not_verified"){toast("Verify your email to save progress");}
+      }).catch(function(){});
+  },700);
+}
+function syncPull(){ /* merge server progress in, then push the merged state back */
+  apiFetch("/api/v1/user-state",{headers:{Accept:"application/json"}})
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(st){
+      if(!st)return;
+      let changed=false;
+      const valid=new Set(SERVICES.map(function(s){return s.id;}));
+      (st.learned||[]).forEach(function(id){if(!learned.has(id)&&valid.has(id)){learned.add(id);changed=true;}});
+      if(st.quiz_best>bestGet()){localStorage.setItem("awsAtlasBest",st.quiz_best);refreshBest();changed=true;}
+      if(changed){store.set("awsAtlasLearned",Array.from(learned));updateProgress();if($("#overlay").classList.contains("open"))renderModal();}
+      syncPush();
+    }).catch(function(){});
+}
+
 /* ===== init ===== */
-renderChips();renderGrid();renderTracks();renderBlueprintTabs();renderBlueprints();renderProjects();renderEnterprise();renderModuleLab();renderConverter();renderPlaybooks();renderRadarTabs();renderRadarLists();renderPathChips();renderQA();renderSetup();refreshBest();updateProgress();checkPathCompletion();
+renderChips();renderGrid();renderTracks();renderBlueprintTabs();renderBlueprints();renderProjects();renderEnterprise();renderModuleLab();renderConverter();renderPlaybooks();renderIndustry();renderRadarTabs();renderRadarLists();renderPathChips();renderQA();renderSetup();refreshBest();updateProgress();checkPathCompletion();
 loadFromAPI(); /* fetch live services from backend; embedded stays as fallback */
+loadIndustryFromAPI(); /* fetch full 27-service industry set; embedded stays as fallback */
+restoreSession(); /* silently restore any httpOnly session (progress auto-merged) */
+handleAuthDeepLink(); /* /verify-email?token= or /reset-password?token= */
+
+/* verify/reset deep links (tokens ride in the URL from the emailed link) */
+function handleAuthDeepLink(){
+  if(typeof location==="undefined"||typeof URLSearchParams==="undefined")return; /* e.g. browser-sim harness */
+  const q=new URLSearchParams(location.search);
+  const vt=q.get("token");
+  if(!vt)return;
+  if(location.pathname.indexOf("verify-email")>=0||location.search.indexOf("verify-email")>=0||
+     (q.get("purpose")==="verify"&&vt)){
+    fetch("/api/v1/auth/verify-email",{method:"POST",headers:API_HDR,body:JSON.stringify({token:vt}),credentials:"include"})
+      .then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {ok:r.ok,j:j};});})
+      .then(function(res){toast(res.ok?"✓ Email verified — sign in!":("Verification failed: "+(res.j.detail||"bad token")));
+        if(typeof history!=="undefined")history.replaceState({},"",location.pathname);});
+    return;
+  }
+  if(location.pathname.indexOf("reset-password")>=0){
+    renderAuth("login",{msg:"Enter your new password to reset it."});
+    $("#authOverlay").classList.add("open");document.body.style.overflow="hidden";
+    $("#authModal").innerHTML='<h3 style="margin:0 0 14px;font-family:var(--disp)">Reset password</h3>'
+      +'<form id="af" data-view="reset-confirm">'
+      +'<div class="auth-field"><label>NEW PASSWORD (8+ chars, letters + numbers)</label><input id="aPass" type="password" required minlength="8"></div>'
+      +'<div class="auth-err" id="aErr"></div><div class="auth-msg" id="aMsg"></div>'
+      +'<button class="btn pri" style="width:100%" type="submit">Set new password →</button></form>';
+    const form=$("#af");
+    form.addEventListener("submit",function(ev){ev.preventDefault();
+      fetch("/api/v1/auth/reset-password/confirm",{method:"POST",headers:API_HDR,
+        body:JSON.stringify({token:vt,new_password:$("#aPass").value}),credentials:"include"})
+        .then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {ok:r.ok,j:j};});})
+        .then(function(res){if(res.ok){toast("✓ Password updated — sign in!");$("#aPass").value="";
+          history.replaceState({},"",location.pathname);setTimeout(function(){renderAuth("login");},400);}
+          else{$("#aErr").textContent=res.j.detail||"Request failed";}})
+        .catch(function(){$("#aErr").textContent="Network error";});
+    });
+  }
+}
 </script>
 </body>
 </html>

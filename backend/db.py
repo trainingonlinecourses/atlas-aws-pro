@@ -39,14 +39,54 @@ DEFAULT_DB_DIR = Path(__file__).resolve().parent.parent / "data"
 TURSO_URL_ENV = "ATLAS_DB_URL"
 TURSO_TOKEN_ENV = "ATLAS_DB_AUTH_TOKEN"
 
-_SCHEMA = """
-CREATE TABLE IF NOT EXISTS user_state (
-    user_id    TEXT PRIMARY KEY,
-    learned    TEXT NOT NULL DEFAULT '[]',
-    quiz_best  INTEGER NOT NULL DEFAULT 0,
-    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
-);
-"""
+# One statement per entry: both sqlite3 and the libsql client reject multiple
+# statements in a single execute(); executing them one by one works everywhere.
+_SCHEMA_STATEMENTS = [
+    """
+    CREATE TABLE IF NOT EXISTS user_state (
+        user_id    TEXT PRIMARY KEY,
+        learned    TEXT NOT NULL DEFAULT '[]',
+        quiz_best  INTEGER NOT NULL DEFAULT 0,
+        updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+    )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS users (
+        email          TEXT PRIMARY KEY,
+        password_hash  TEXT NOT NULL,
+        email_verified INTEGER NOT NULL DEFAULT 0,
+        created_at     TEXT NOT NULL DEFAULT (datetime('now'))
+    )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS refresh_tokens (
+        token_hash TEXT PRIMARY KEY,
+        email      TEXT NOT NULL,
+        family     TEXT NOT NULL,
+        expires_at TEXT NOT NULL,
+        revoked    INTEGER NOT NULL DEFAULT 0
+    )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS verify_tokens (
+        token_hash TEXT PRIMARY KEY,
+        email      TEXT NOT NULL,
+        purpose    TEXT NOT NULL,
+        expires_at TEXT NOT NULL,
+        used       INTEGER NOT NULL DEFAULT 0
+    )
+    """,
+]
+
+
+def _run_schema(conn) -> None:
+    """Apply the schema. Uses execute() not executescript(): the libsql client
+    swallows network failures inside executescript, so a dead/unauthorized
+    Turso must surface here or we'd report a 'persistent' store that is
+    silently local-only. Multi-statement executes are illegal, so run per row."""
+    for stmt in _SCHEMA_STATEMENTS:
+        conn.execute(stmt)
+    conn.commit()
 
 _lock = threading.Lock()
 _conn = None
@@ -126,12 +166,7 @@ def _connect() -> sqlite3.Connection:
             conn = sqlite3.connect(path, check_same_thread=False)
             conn.row_factory = sqlite3.Row
             conn.execute("PRAGMA busy_timeout = 5000")  # wait on locks, don't 500
-        # Note: use execute(), not executescript() — the official libsql client
-        # swallows network failures inside executescript, so a dead/unauthorized
-        # Turso must surface here or we'd report a "persistent" store that is
-        # silently local-only.
-        conn.execute(_SCHEMA)
-        conn.commit()
+        _run_schema(conn)
         _is_file = True
         _ephemeral = False
         _last_error = None
@@ -143,8 +178,7 @@ def _connect() -> sqlite3.Connection:
         logger.warning("db unavailable at %s (%r); falling back to in-memory", path, exc)
         conn = sqlite3.connect(":memory:", check_same_thread=False)
         conn.row_factory = sqlite3.Row
-        conn.executescript(_SCHEMA)
-        conn.commit()
+        _run_schema(conn)
         _is_file = False
         _ephemeral = True
     _conn = conn
@@ -207,3 +241,146 @@ def delete_user_state(user_id: str) -> bool:
         cur = conn.execute("DELETE FROM user_state WHERE user_id = ?", (user_id,))
         conn.commit()
     return cur.rowcount > 0
+
+
+# ---------------------------------------------------------------
+# Auth persistence (users, refresh tokens, verify tokens).
+# All secrets are stored hashed — a leaked DB exposes nothing usable.
+# ---------------------------------------------------------------
+
+def create_user(email: str, password_hash: str) -> dict:
+    """Insert a new user. Raises sqlite3.IntegrityError on duplicate email."""
+    conn = _connect()
+    with _lock:
+        conn.execute(
+            "INSERT INTO users (email, password_hash) VALUES (?, ?)",
+            (email, password_hash),
+        )
+        conn.commit()
+    return get_user(email)
+
+
+def get_user(email: str):
+    """Read a user row (dict) or None."""
+    conn = _connect()
+    with _lock:
+        cur = conn.execute(
+            "SELECT email, password_hash, email_verified, created_at "
+            "FROM users WHERE email = ?",
+            (email,),
+        )
+        return _row_to_dict(cur, cur.fetchone())
+
+
+def mark_email_verified(email: str) -> None:
+    conn = _connect()
+    with _lock:
+        conn.execute(
+            "UPDATE users SET email_verified = 1 WHERE email = ?", (email,)
+        )
+        conn.commit()
+
+
+def update_password(email: str, password_hash: str) -> None:
+    conn = _connect()
+    with _lock:
+        conn.execute(
+            "UPDATE users SET password_hash = ? WHERE email = ?",
+            (password_hash, email),
+        )
+        conn.commit()
+
+
+def create_verify_token(token_hash: str, email: str, purpose: str, expires_at: str) -> None:
+    conn = _connect()
+    with _lock:
+        conn.execute(
+            "INSERT INTO verify_tokens (token_hash, email, purpose, expires_at) "
+            "VALUES (?, ?, ?, ?)",
+            (token_hash, email, purpose, expires_at),
+        )
+        conn.commit()
+
+
+def get_verify_token(token_hash: str):
+    """Read a verify token row (dict) or None."""
+    conn = _connect()
+    with _lock:
+        cur = conn.execute(
+            "SELECT token_hash, email, purpose, expires_at, used "
+            "FROM verify_tokens WHERE token_hash = ?",
+            (token_hash,),
+        )
+        return _row_to_dict(cur, cur.fetchone())
+
+
+def mark_verify_token_used(token_hash: str) -> None:
+    conn = _connect()
+    with _lock:
+        conn.execute(
+            "UPDATE verify_tokens SET used = 1 WHERE token_hash = ?", (token_hash,)
+        )
+        conn.commit()
+
+
+def delete_user_verify_tokens(email: str, purpose: str) -> None:
+    """Invalidate outstanding tokens of one purpose for an email."""
+    conn = _connect()
+    with _lock:
+        conn.execute(
+            "DELETE FROM verify_tokens WHERE email = ? AND purpose = ?",
+            (email, purpose),
+        )
+        conn.commit()
+
+
+def create_refresh_token(token_hash: str, email: str, family: str, expires_at: str) -> None:
+    conn = _connect()
+    with _lock:
+        conn.execute(
+            "INSERT INTO refresh_tokens (token_hash, email, family, expires_at) "
+            "VALUES (?, ?, ?, ?)",
+            (token_hash, email, family, expires_at),
+        )
+        conn.commit()
+
+
+def get_refresh_token(token_hash: str):
+    """Read a refresh token row (dict) or None."""
+    conn = _connect()
+    with _lock:
+        cur = conn.execute(
+            "SELECT token_hash, email, family, expires_at, revoked "
+            "FROM refresh_tokens WHERE token_hash = ?",
+            (token_hash,),
+        )
+        return _row_to_dict(cur, cur.fetchone())
+
+
+def revoke_refresh_token(token_hash: str) -> None:
+    conn = _connect()
+    with _lock:
+        conn.execute(
+            "UPDATE refresh_tokens SET revoked = 1 WHERE token_hash = ?",
+            (token_hash,),
+        )
+        conn.commit()
+
+
+def revoke_refresh_family(family: str) -> None:
+    """Revoke every token sharing a session family (reuse detection)."""
+    conn = _connect()
+    with _lock:
+        conn.execute(
+            "UPDATE refresh_tokens SET revoked = 1 WHERE family = ?", (family,)
+        )
+        conn.commit()
+
+
+def revoke_all_user_sessions(email: str) -> None:
+    conn = _connect()
+    with _lock:
+        conn.execute(
+            "UPDATE refresh_tokens SET revoked = 1 WHERE email = ?", (email,)
+        )
+        conn.commit()
